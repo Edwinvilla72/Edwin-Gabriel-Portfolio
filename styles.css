@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'shinGo'; /* name of new font */
+    src: url('fonts/ShinGoBold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+
+body {
+    font-family: 'shinGo';
+    color:rgb(70, 188, 224);
+    height: 100vh;
+    margin: 0;
+    /* Gray background with very thin white stripes and strong border fade */
+    background-image:
+      radial-gradient(circle at center, transparent 50%, rgba(211, 211, 211, 0.9) 100%),
+      repeating-linear-gradient(
+        0deg,
+        #eeeeee,
+        #eeeeee 8px,
+        #ffffff 8px,
+        #ffffff 10px
+      );
+
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Ensure the canvas is on top */
+  }
+  
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    z-index: 10;
+    cursor: pointer;
+  }
+  
+  #leftButton {
+    left: 20px;
+  }
+  
+  #rightButton {
+    right: 20px;
+  }
