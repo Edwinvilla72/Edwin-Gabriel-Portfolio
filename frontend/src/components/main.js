@@ -118,7 +118,7 @@ function init() {
     const leftButton = document.createElement('button');
     leftButton.innerText = '-';
     leftButton.style.position = 'absolute';
-    leftButton.style.left = '350px';
+    leftButton.style.left = '200px';
     leftButton.style.top = '50%';
     leftButton.style.transform = 'translateY(-50%)';
     document.body.appendChild(leftButton);
@@ -126,7 +126,7 @@ function init() {
     const rightButton = document.createElement('button');
     rightButton.innerText = '+';
     rightButton.style.position = 'absolute';
-    rightButton.style.right = '350px';
+    rightButton.style.right = '200px';
     rightButton.style.top = '50%';
     rightButton.style.transform = 'translateY(-50%)';
     document.body.appendChild(rightButton);
