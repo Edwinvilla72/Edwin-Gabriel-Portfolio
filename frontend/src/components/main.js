@@ -1,5 +1,5 @@
 // Import Three.js core methods and classes
-
+import React from "react"
 import * as THREE from 'three'; // three is a free open soursce library used to create and display animated 3d graphics in a web browser
 // a 3d model format that is suitable for web applications because it only contains the model relevant data 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -89,7 +89,7 @@ function init() {
     const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 
     const urls = [
-        'https://example.com/page1',
+        'about',
         'https://example.com/page2',
         'https://example.com/page3',
         'https://example.com/page4',

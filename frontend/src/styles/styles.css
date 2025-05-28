@@ -1,9 +1,10 @@
 @font-face {
-    font-family: 'shinGo'; /* name of new font */
-    src: url('fonts/ShinGoBold.otf') format('opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: 'shinGo';
+  src: url('/fonts/ShinGoBold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 
 
 body {
@@ -51,3 +52,12 @@ body {
   #rightButton {
     right: 90px;
   }
+body::after {
+  content: "CSS is loaded!";
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  color: red;
+  font-size: 2rem;
+  z-index: 99999;
+}
