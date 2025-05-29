@@ -5,11 +5,9 @@
   font-style: normal;
 }
 
-
-
 body {
     font-family: 'shinGo';
-    color:rgb(70, 188, 224);
+    color:rgb(61, 196, 237);
     height: 100vh;
     margin: 0;
     /* Gray background with very thin white stripes and strong border fade */
@@ -17,8 +15,8 @@ body {
       radial-gradient(circle at center, transparent 50%, rgba(211, 211, 211, 0.9) 100%),
       repeating-linear-gradient(
         0deg,
-        #eeeeee,
-        #eeeeee 8px,
+        #e6e9f3,
+        #e6e9f3 8px,
         #ffffff 8px,
         #ffffff 10px
       );
@@ -26,7 +24,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-  }
+}
   
   canvas {
     position: absolute;
@@ -52,12 +50,5 @@ body {
   #rightButton {
     right: 90px;
   }
-body::after {
-  content: "CSS is loaded!";
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  color: red;
-  font-size: 2rem;
-  z-index: 99999;
-}
+
+
