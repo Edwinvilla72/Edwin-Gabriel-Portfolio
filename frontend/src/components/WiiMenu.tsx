@@ -6,7 +6,7 @@ import "../styles/styles.css";
 // ---- OPTIONAL: Update these with your actual channel info ----
 const urls = [
   "/about",
-  "https://example.com/page2",
+  "/blog",
   "https://example.com/page3",
   "https://example.com/page4",
   "https://example.com/page5"

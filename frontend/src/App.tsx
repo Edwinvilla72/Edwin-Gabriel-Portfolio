@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import './App.css';
 import WiiMenuPage from './pages/WiiMenuPage'
 import AboutMePage from './pages/AboutMePage';
+import BlogPage from './pages/BlogPage'
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -13,6 +14,7 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<WiiMenuPage/>}/>
         <Route path="/about" element={<AboutMePage />} />
+        <Route path="/blog" element={<BlogPage />} />
 
       </Routes>
     </AnimatePresence>
