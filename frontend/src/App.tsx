@@ -5,6 +5,8 @@ import './App.css';
 import WiiMenuPage from './pages/WiiMenuPage'
 import AboutMePage from './pages/AboutMePage';
 import BlogPage from './pages/BlogPage'
+import PersonalBlog from "./components/blog/PersonalBlog";
+import PersonalBlogPage from "./pages/PersonalBlog";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -15,6 +17,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<WiiMenuPage/>}/>
         <Route path="/about" element={<AboutMePage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/personal" element={<PersonalBlogPage/>} />
 
       </Routes>
     </AnimatePresence>
