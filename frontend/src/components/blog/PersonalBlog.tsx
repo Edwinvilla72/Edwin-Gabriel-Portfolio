@@ -4,79 +4,29 @@ import PersonalBlogPage from "../../pages/PersonalBlog";
 
 // Personal Blog Page
 
-function PersonalBlog() {
-  const navigate = useNavigate();
+const PersonalBlog: React.FC = () => (
+  <div>
 
-  // Create refs for each button sound if you want a separate instance per button.
-   const hoverSoundRef = useRef<HTMLAudioElement>(null);
+    {/* August 20, 2025 Entry */}
+    <h2>August 20, 2025</h2>
 
-  // Function to play sound from the ref
-  const playHoverSound = () => {
-    // Reset audio in case it's already playing
-    if (hoverSoundRef.current) {
-      hoverSoundRef.current.currentTime = 0;
-      hoverSoundRef.current.play();
-    }
-  };
+    <p> Since this is the first entry, I'll introduce myself <i>informally</i> now that the requirement didn't follow you to this page.</p>
+    <p>I'm Edwin Gabriel Villanueva. I grew up in Port Saint Lucie and I have always wanted to work with computers. As you may have been able to tell from the design of my website, I like Nintendo. I have since some of my first conscious memories. My ultimate personal goal is to eventually land a software engineering position for them in Redmond, Washington. Here's some context behind that decision. </p>
+    
+    <p>Since the day I learned how to search on Google, I've always kept up with news and updates from Nintendo, including Nintendo Direct streams. But for some reason, I always stayed away from the hope that, when I get older, I'd want to work for them, as it seemed entirely impossible (I was also only eleven, I didn't know what made something like this possible). </p>
+    <p>It stayed that way until Nintendo streamed their April 1st, 2015 direct (10 years - wow). I watched it and my curiosity could no longer be contained, so I dug around and found their careers page (remember, I was 11 at the time). Since finding this page, it's been the only thing on my mind. Even now.</p>
 
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: "30%",
-        width: "100%",
-        textAlign: "center",
-        zIndex: 2,
-      }}
-    >
-      <h1 style={{ fontWeight: 700, fontSize: "2.5rem", margin: "0 0 0.5rem 0" }}>
-        Blog
-      </h1>
-      <p style={{ fontSize: "1.3rem", margin: 0 }}>
-        Please select the blog you would like to explore...
-      </p>
+    <p></p>
 
-      {/* Hidden audio element */}
-      <audio ref={hoverSoundRef} src="../../sounds/hover1.wav" preload="auto" />
+    <p>Week 1 of my last year at UCF just started. It feels weird that I won't be going here after next spring.</p>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "2rem",
-          marginTop: "2.5rem",
-          height: "95px",
-        }}
-      >
-        <button
-          className="wii-btn"
-          onClick={() => navigate("/blog/professional")}
-          onMouseEnter={playHoverSound}
-        >
-          <img
-            src="/Images/Buttons/MenuButton1.png"
-            alt="Professional"
-            className="wii-btn-bg"
-          />
-          <span>Professional</span>
-        </button>
+    <p></p><p/><br/>
 
-        <button
-          className="wii-btn"
-          onClick={() => navigate("/blog/personal")}
-          onMouseEnter={playHoverSound}
-        >
-          <img
-            src="/Images/Buttons/MenuButton1.png"
-            alt="Personal"
-            className="wii-btn-bg"
-          />
-          <span>Personal</span>
-        </button>
-      </div>
-    </div>
-  );
-}
+    {/* December 20, 2025 Entry */}
+    <h2>December 20, 2025</h2>
+    <p>This semester has been so eventful. It ended a short while ago, but yesterday, I also just completed my last day at my internship with CPT for this semester. I feel like it's only been a little while since New Years going into 2024 even. Like life is moving so fast, but it's taking its time and showing me so much at the same time. </p>
+  
+  </div>
+);
 
 export default PersonalBlog;
