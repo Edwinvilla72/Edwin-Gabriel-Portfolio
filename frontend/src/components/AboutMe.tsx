@@ -9,26 +9,27 @@ const LEVELS: Array<{ id: LevelId; title: string; details: React.ReactNode }> = 
     details: (
       <div>
         <p>
-          I'm Edwin — UCF CS + AI software intern at Command Post Technologies. I
-          love playful UIs, AI red-teaming, and shipping MERN/Python tools that
-          feel like games.
+          I'm Edwin! I study computer science at UCF. I am an AI software engineering intern at Command Post Technologies.
+          
+          I  
         </p>
       </div>
     ),
   },
   { id: "projects", title: "W1-2  Projects", details: (
       <ul>
-        <li><b>AIR-SHADE:</b> AI red-teaming + blue-team VM sim</li>
-        <li><b>FitGame:</b> Fitness quests, XP, leaderboards</li>
-        <li><b>Wii Portfolio:</b> 3D carousel + map UI</li>
+        <li><b>SHADE:</b> Realistic, human-like network traffic generation.</li>
+        <li><b>FitGame:</b> Gamified fitness tracker including quests, XP, and leaderboards</li>
+        <li><b>Personal Portfolio:</b> 3D carousel + map UI (so far)</li>
+        <li><b>http://edwinvilla72.github.io (outdated):</b> Basic website displaying my professional, educational, and recreational sides.</li>
       </ul>
   )},
-  { id: "work", title: "W1-3  Work", details: <p><b>Command Post Technologies — AI Software Developer (Intern).</b></p> },
+  { id: "work", title: "W1-3  Work", details: <p><b>Command Post Technologies — AI Software Engineer (Intern).</b></p> },
   { id: "education", title: "W1-4  Education", details: <p>University of Central Florida — B.S. Computer Science</p> },
-  { id: "contact", title: "W1-Castle  Contact", details: (
+  { id: "contact", title: "W1-Contact Information", details: (
       <ul>
-        <li>Email: you@example.com</li>
-        <li>GitHub: github.com/your-handle</li>
+        <li>Email: edwin.villa2@icloud.com</li>
+        <li>GitHub: github.com/Edwinvilla72</li>
       </ul>
   )},
 ];
