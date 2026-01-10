@@ -266,7 +266,7 @@ const WiiMenu: React.FC = () => {
           Hi, I'm Edwin!
         </h1>
         <p style={{ fontSize: "1.3rem", margin: 0 }}>
-          This site is under construction but check it out and lmk if you have any ideas! :)
+          This site is under development while I learn to create new experiences and host on my own hardware. Stay tuned! :)
         </p>
       </div>
 
