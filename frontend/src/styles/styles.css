@@ -1,75 +1,1134 @@
 @font-face {
-  font-family: 'shinGo';
-  src: url('/fonts/ShinGoBold.otf') format('opentype');
+  font-family: "shinGo";
+  src: url("/fonts/ShinGoBold.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
 }
 
-body {
-    font-family: 'shinGo';
-    color:rgb(61, 196, 237);
-    height: 100vh;
-    margin: 0;
-    /* Gray background with very thin white stripes and strong border fade */
-    background-image:
-      radial-gradient(circle at center, transparent 50%, rgba(211, 211, 211, 0.9) 100%),
-      repeating-linear-gradient(
-        0deg,
-        #e6e9f3,
-        #e6e9f3 8px,
-        #ffffff 8px,
-        #ffffff 10px
-      );
-
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+:root {
+  --wii-text: #102844;
+  --wii-muted: #496984;
+  --wii-panel: rgba(255, 255, 255, 0.64);
+  --wii-panel-strong: rgba(255, 255, 255, 0.8);
+  --wii-border: rgba(255, 255, 255, 0.56);
+  --wii-shadow: 0 26px 80px rgba(46, 93, 131, 0.18);
+  --wii-deep-shadow: 0 28px 70px rgba(18, 49, 77, 0.2);
 }
-  
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1; /* Ensure the canvas is on top */
-  }
-  
-  button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 10px 15px;
-    font-size: 1.2rem;
-    z-index: 10;
-    cursor: pointer;
-  }
-  
-  #leftButton {
-    left: 90px;
-  }
-  
-  #rightButton {
-    right: 90px;
-  }
 
-/*=== Button attributes ===*/
-.wii-btn {
-  background: none;
-  border: none;
-  padding: 0;
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "shinGo", sans-serif;
+  color: var(--wii-text);
+  background:
+    radial-gradient(circle at top, rgba(130, 220, 255, 0.52), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(255, 218, 165, 0.3), transparent 24%),
+    linear-gradient(160deg, #f5fbff 0%, #e8f4fb 47%, #dfeaf3 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.wiiMenuShell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.wiiMenuBackdrop,
+.wiiMenuGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wiiMenuBackdrop {
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.42), transparent 45%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.22) 0,
+      rgba(255, 255, 255, 0.22) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+  opacity: 0.65;
+}
+
+.wiiMenuGlow {
+  filter: blur(96px);
+  opacity: 0.8;
+}
+
+.wiiMenuGlowLeft {
+  background: rgba(93, 226, 255, 0.36);
+  inset: 10% auto auto -12%;
+  width: 28rem;
+  height: 28rem;
+}
+
+.wiiMenuGlowRight {
+  background: rgba(255, 140, 161, 0.28);
+  inset: auto -10% 8% auto;
+  width: 24rem;
+  height: 24rem;
+}
+
+.wiiMenuMount,
+.wiiMenuMount canvas {
+  position: absolute;
+  inset: 0;
+}
+
+.wiiMenuMount canvas {
+  z-index: 1;
+}
+
+.wiiMenuOverlay {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.interactiveLayer {
+  pointer-events: auto;
+}
+
+.wiiHero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.wiiEyebrow {
+  margin: 0;
+  color: #2d8cb6;
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.wiiHero h1,
+.pageHeroCard h1 {
+  margin: 0.3rem 0 0.85rem;
+  max-width: 14ch;
+  font-size: clamp(2.6rem, 4vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.wiiHeroCopy,
+.pageLead,
+.pagePanel p,
+.timelineCard p,
+.projectCard p,
+.contactCard h2,
+.dashboardSidebarInner p,
+.dashboardHeroCard p,
+.dashboardMenuCard span,
+.dashboardMenuCard strong,
+.wiiFocusHeader p,
+.wiiFocusDescription,
+.wiiFocusActions span {
+  color: var(--wii-muted);
+  line-height: 1.65;
+}
+
+.wiiModeToggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.45rem;
+  border: 1px solid var(--wii-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--wii-shadow);
+}
+
+.wiiModeToggle button,
+.wiiFocusActions button,
+.wiiNavButton,
+.dashboardMenuCard,
+.pageBackButton {
+  border: 0;
   cursor: pointer;
+}
+
+.wiiModeToggle button {
+  padding: 0.75rem 1.1rem;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--wii-muted);
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.wiiModeToggle button.active {
+  background: linear-gradient(135deg, #1fa7e1 0%, #66d9ff 100%);
+  color: #f7fdff;
+}
+
+.channelHome,
+.wiiFocusCard,
+.pageHeroCard,
+.pagePanel,
+.timelineCard,
+.projectCard,
+.contactCard {
+  border: 1px solid var(--wii-border);
+  border-radius: 32px;
+  background: var(--wii-panel);
+  backdrop-filter: blur(22px);
+  box-shadow: var(--wii-shadow);
+}
+
+.channelHero h2,
+.channelDetailsIntro h3,
+.wiiFocusHeader h2,
+.pagePanel h2,
+.pageSectionHeader h2,
+.timelineCard h3,
+.projectCard h2,
+.contactCard h2 {
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.channelMenuToggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.32rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid var(--wii-border);
+  box-shadow: var(--wii-shadow);
+}
+
+.channelMenuToggle span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--wii-text);
+}
+
+.channelQuickMenu {
+  position: fixed;
+  top: 5.5rem;
+  right: 1.5rem;
+  z-index: 5;
+  display: grid;
+  gap: 0.55rem;
+  min-width: 11rem;
+  padding: 0.8rem;
+  border: 1px solid var(--wii-border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--wii-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.channelQuickMenu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.channelQuickMenu button {
+  padding: 0.72rem 0.85rem;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(241, 249, 255, 0.95);
+  color: var(--wii-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.channelHome {
+  align-self: start;
+  display: grid;
+  gap: 2rem;
+  max-width: 1040px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 3rem;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.channelHero {
+  display: grid;
+  justify-items: center;
+  gap: 0.45rem;
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.channelHero h2 {
+  font-size: clamp(2.8rem, 6vw, 5.1rem);
+  line-height: 0.94;
+}
+
+.channelHeroTitle {
+  margin: 0;
+  color: #2d8cb6;
+  font-size: 0.96rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.channelHeroCopy {
+  max-width: 42rem;
+  margin: 0.4rem 0 0;
+  color: var(--wii-muted);
+  line-height: 1.7;
+}
+
+.channelGridWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.channelGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+  width: min(920px, 100%);
+  padding: 1rem;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.channelCard {
+  display: flex;
+  min-height: 8.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1.05rem;
+  text-align: left;
+  border: 1px solid rgba(166, 178, 190, 0.5);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(236, 242, 247, 0.94)),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--portfolio-accent) 20%, white), transparent 60%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.95),
+    0 12px 24px rgba(70, 102, 128, 0.08);
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.channelCard:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--portfolio-accent) 55%, white);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.98),
+    0 18px 28px rgba(70, 102, 128, 0.12);
+}
+
+.channelCard p,
+.contactCard p {
+  margin: 0;
+  color: #2d8cb6;
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.channelCard h3 {
+  margin-top: 0.55rem;
+  font-size: 1.5rem;
+  color: var(--wii-text);
+}
+
+.channelCard span {
+  margin-top: 0.55rem;
+  color: var(--wii-muted);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.channelScrollHint {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  color: var(--wii-muted);
+}
+
+.channelScrollHint span {
+  width: 2px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(45, 140, 182, 0.45);
+}
+
+.channelScrollHint p {
+  margin: 0;
+  font-size: 0.86rem;
+}
+
+.channelDetails {
+  display: grid;
+  gap: 1rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 2rem;
+  padding: 0 0 2rem;
+}
+
+.channelDetailsIntro {
+  text-align: center;
+}
+
+.channelDetailsIntro h3 {
+  margin-top: 0.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.08;
+}
+
+.channelDetailsIntro p {
+  max-width: 42rem;
+  margin: 0.75rem auto 0;
+  color: var(--wii-muted);
+  line-height: 1.7;
+}
+
+.channelDetailList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.channelDetailPill {
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.52);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--wii-text);
+  box-shadow: var(--wii-shadow);
+}
+
+.wiiFocusCard {
+  width: min(31rem, 100%);
+  margin-top: auto;
+  padding: 1.5rem;
+  pointer-events: auto;
+}
+
+.wiiFocusHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wiiFocusHeader h2 {
+  font-size: 2.3rem;
+  line-height: 1;
+}
+
+.wiiFocusHeader p {
+  margin: 0.45rem 0 0;
+}
+
+.wiiAccentDot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.35);
+  flex: none;
+}
+
+.wiiFocusDescription {
+  margin: 1.15rem 0 0;
+}
+
+.wiiFocusActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.wiiFocusActions button,
+.wiiNavButton,
+.pageBackButton {
+  background: linear-gradient(135deg, #16304b 0%, #256392 100%);
+  color: #f5fcff;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.wiiFocusActions button {
+  padding: 0.95rem 1.2rem;
+  border-radius: 18px;
+}
+
+.wiiControlDock {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: auto;
+}
+
+.wiiControlHint {
+  color: var(--wii-muted);
+  font-size: 0.9rem;
+}
+
+.wiiNavButton {
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 999px;
+  box-shadow: var(--wii-deep-shadow);
+}
+
+.wiiNavButton span {
+  display: inline-block;
+  font-size: 1.4rem;
+  transform: translateY(1px);
+}
+
+.portfolioPageShell {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.portfolioPageBackdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(92, 224, 255, 0.26), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 166, 122, 0.2), transparent 22%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18) 0,
+      rgba(255, 255, 255, 0.18) 1px,
+      transparent 1px,
+      transparent 36px
+    );
+}
+
+.portfolioPage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.25rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.pageBackButton {
+  justify-self: start;
+  padding: 0.85rem 1.15rem;
+  border-radius: 999px;
+  box-shadow: var(--wii-deep-shadow);
+}
+
+.pageHeroCard,
+.pagePanel,
+.timelineCard,
+.projectCard,
+.contactCard {
+  padding: 1.45rem;
+}
+
+.pageLead {
+  max-width: 44rem;
+  margin: 0;
+}
+
+.aboutLayoutShell .portfolioPageBackdrop {
+  background:
+    radial-gradient(circle at top, rgba(92, 224, 255, 0.2), transparent 30%),
+    linear-gradient(180deg, rgba(247, 251, 255, 0.96), rgba(230, 239, 248, 0.94));
+}
+
+.aboutLayoutShell .portfolioPageBackdrop.aboutBackdrop {
+  background:
+    radial-gradient(circle at top, rgba(92, 224, 255, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(203, 214, 224, 0.96), rgba(177, 191, 202, 0.98));
+}
+
+.aboutLayoutShell .portfolioPageBackdrop.educationBaseBackdrop {
+  background: #000000;
+}
+
+.aboutLayoutShell .portfolioPageBackdrop.experienceBackdrop {
+  background:
+    radial-gradient(circle at top, rgba(92, 224, 255, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(203, 214, 224, 0.96), rgba(177, 191, 202, 0.98));
+}
+
+
+.education-title {
+  color: white;
+}
+
+.aboutEducationBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-position: center center;
+  background-size: cover;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.aboutPage {
+  position: relative;
+  z-index: 1;
+  gap: 1.5rem;
+  padding-top: 7.5rem;
+  max-width: 1280px;
+}
+
+.aboutTopBar {
+  position: fixed;
+  top: 1.1rem;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: min(1280px, calc(100vw - 3rem));
+  padding: 0.65rem 1rem;
+  border-radius: 18px;
+  background: rgba(247, 251, 255, 0.82);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--wii-shadow);
+  transform: translateX(-50%);
+}
+
+.aboutTopNavWrap {
+  grid-column: 2;
+}
+
+.aboutTopNav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.35rem 0;
+}
+
+.aboutTopNavItem {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: var(--wii-muted);
+  cursor: pointer;
+  padding: 0.35rem 0.1rem 0.6rem;
+  font-size: 1rem;
+}
+
+.aboutTopNavItem span {
+  display: block;
+}
+
+.aboutTopNavItem.active {
+  color: var(--wii-text);
+}
+
+.aboutTopNavUnderline {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1fa7e1 0%, #7be1ff 100%);
+}
+
+.aboutSectionStack {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.aboutSplitSection {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.74fr) minmax(0, 1fr);
+  min-height: 32rem;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.aboutSplitSection.reverse {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.74fr);
+}
+
+.aboutSplitSection.reverse .aboutSplitImage {
+  order: 2;
+}
+
+.aboutSplitSection.reverse .aboutSplitText {
+  order: 1;
+}
+
+.aboutSplitImage {
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.aboutSplitImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.aboutSplitText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.aboutSplitText h2,
+.aboutPlaceholderBlock h2 {
+  color: rgb(25, 163, 255);
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 3vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.aboutSplitText p,
+.aboutPlaceholderBlock p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--wii-muted);
+  font-size: 1.02rem;
+  line-height: 1.8;
+}
+
+.aboutPinnedPage {
+  position: relative;
+  display: grid;
+  align-content: start;
+  min-height: calc(100vh - 9.5rem);
+  overflow: hidden;
+}
+
+.aboutPinnedBackground {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+}
+
+.aboutPinnedTabs {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  padding: 0 0 1rem;
+}
+
+.aboutPinnedTabs button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  color: rgba(18, 40, 68, 0.72);
+  padding: 0.2rem 0 0.55rem;
+  cursor: pointer;
+}
+
+.aboutPinnedPage.educationPage .aboutPinnedTabs button {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.aboutPinnedPage.educationPage .aboutPinnedTabs button.active {
+  color: #ffffff;
+}
+
+.aboutPinnedPage.educationPage .aboutPinnedTabs button.active::after {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.aboutPinnedTabs button.active {
+  color: #102844;
+}
+
+.aboutPinnedTabs button.active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(16, 40, 68, 0.96);
+}
+
+.aboutPinnedGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1fr);
+  gap: 2rem;
+  min-height: calc(100vh - 14rem);
+  padding: 1.2rem 0 0;
+  align-items: stretch;
+}
+
+.aboutPinnedMedia {
+  min-height: 100%;
+}
+
+.aboutPinnedSticky {
+  position: sticky;
+  top: 7rem;
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  padding: 1rem 0;
+}
+
+.aboutPinnedSticky img {
+  width: min(100%, 20rem);
+  max-height: 18rem;
+  object-fit: contain;
+  display: block;
+}
+
+.aboutPinnedLogo {
+  margin-inline: auto;
+  transform: translateY(-0.85rem);
+}
+
+.aboutPinnedContent {
+  display: grid;
+  gap: 1rem;
+  align-content: center;
+}
+
+.aboutPlaceholderBlock {
+  padding: 0 0 1.6rem;
+  border-bottom: 1px solid rgba(16, 40, 68, 0.16);
+}
+
+.aboutPinnedPage .aboutPlaceholderBlock h2,
+.aboutPinnedPage .aboutPlaceholderBlock p {
+  color: #102844;
+}
+
+.aboutPinnedPage.educationPage .aboutPlaceholderBlock {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.aboutPinnedPage.educationPage .aboutPlaceholderBlock h2,
+.aboutPinnedPage.educationPage .aboutPlaceholderBlock p {
+  color: #ffffff;
+}
+
+.experiencePage {
+  border-radius: 0;
+  min-height: calc(100vh - 9.5rem);
+  overflow: hidden;
+}
+
+.experiencePage .aboutPinnedTabs {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.experienceContent .aboutPlaceholderBlock p {
+  max-width: none;
+}
+
+.experienceLogoPanel .aboutPinnedSticky {
+  place-items: center;
+}
+
+.experienceLogoPanel .aboutPinnedSticky img {
+  width: min(100%, 26rem);
+  max-height: 24rem;
+}
+
+.cptLogo {
+  width: min(100%, 30rem) !important;
+  max-height: 26rem !important;
+}
+
+.invertLogo {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.aboutPage .pageBackButton {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--wii-text);
+  box-shadow: none;
+  justify-self: start;
+  grid-column: 1;
+}
+
+.aboutTabsPage {
+  gap: 1rem;
+}
+
+.aboutTabsHeader,
+.aboutTabPanel,
+.aboutShowcaseCard {
+  border: 1px solid var(--wii-border);
+  border-radius: 32px;
+  background: var(--wii-panel);
+  backdrop-filter: blur(22px);
+  box-shadow: var(--wii-shadow);
+}
+
+.aboutTabsHeader {
+  display: grid;
+  gap: 1.1rem;
+  padding: 1.45rem;
+}
+
+.aboutTabRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.aboutTabRow button {
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--wii-muted);
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.aboutTabRow button.active {
+  background: linear-gradient(135deg, #1fa7e1 0%, #66d9ff 100%);
+  color: #f6fdff;
+}
+
+.aboutTabPanel {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.45rem;
+}
+
+.aboutTabIntro {
+  max-width: 50rem;
+}
+
+.aboutTabIntro h2 {
+  margin: 0.45rem 0 0.65rem;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.aboutTabIntro p:last-child,
+.aboutShowcaseBody p:last-child {
+  margin: 0;
+  color: var(--wii-muted);
+  line-height: 1.7;
+}
+
+.aboutShowcaseGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.aboutShowcaseCard {
+  overflow: hidden;
+}
+
+.aboutShowcaseMedia {
+  display: grid;
+  place-items: center;
+  min-height: 16rem;
+  padding: 1rem;
+  background:
+    radial-gradient(circle at top, rgba(93, 226, 255, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(233, 242, 248, 0.82));
+}
+
+.aboutShowcaseMedia img {
+  width: 100%;
+  height: 100%;
+  max-height: 18rem;
+  object-fit: cover;
+  border-radius: 22px;
+  box-shadow: 0 18px 32px rgba(47, 80, 107, 0.12);
+}
+
+.aboutShowcaseMedia.contain img {
+  object-fit: contain;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.aboutShowcaseBody {
+  padding: 1.2rem;
+}
+
+.aboutShowcaseBody h3 {
+  margin: 0.45rem 0 0.7rem;
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
+}
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 1rem;
+}
+
+.pagePanel h2,
+.pageSectionHeader h2,
+.projectCard h2,
+.contactCard h2 {
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+  line-height: 1.04;
+}
+
+.pagePanelAccent {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.58)),
+    radial-gradient(circle at top right, rgba(93, 226, 255, 0.22), transparent 54%);
+}
+
+.pageList {
+  margin: 1rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--wii-muted);
+  line-height: 1.8;
+}
+
+.pageSection {
+  display: grid;
+  gap: 1rem;
+}
+
+.pageSectionHeader {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.timelineGrid,
+.projectGrid,
+.contactGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.timelineGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.timelineCard span {
+  display: inline-flex;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  color: #2d8cb6;
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.timelineCard h3 {
+  margin-top: 1rem;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.projectGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.projectCard h2,
+.contactCard h2 {
+  margin-top: 0.55rem;
+}
+
+.projectCard p,
+.contactCard h2 {
+  margin-bottom: 0;
+}
+
+.contactGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contactCard {
+  display: block;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.wiiModeToggle button:hover,
+.wiiFocusActions button:hover,
+.wiiNavButton:hover,
+.pageBackButton:hover,
+.contactCard:hover {
+  transform: translateY(-2px);
+}
+
+/* Existing button styles used by the blog page */
+.wii-btn {
   position: relative;
   width: 210px;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.14s cubic-bezier(.55,1.3,.34,1);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: transform 0.14s cubic-bezier(0.55, 1.3, 0.34, 1);
   will-change: transform;
   transform-origin: center;
 }
 
 .wii-btn:hover {
-  transform: scale(1.15) translateY(-45.5%);;
+  transform: scale(1.1);
 }
 
 .wii-btn-bg {
@@ -83,14 +1142,141 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2rem;
-  font-weight: 400;
-  color: #656565;
-  pointer-events: none;
-  font-family: inherit;
-  white-space: nowrap;
   width: 80%;
+  transform: translate(-50%, -50%);
+  color: #656565;
+  font-size: 2rem;
+  font-family: inherit;
   text-align: center;
-  text-shadow: 0 2px 4px rgba(255,255,255,0.6);
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (max-width: 1100px) {
+  .aboutGrid,
+  .aboutShowcaseGrid,
+  .aboutSplitSection,
+  .aboutSplitSection.reverse,
+  .aboutPinnedGrid,
+  .experienceGrid,
+  .timelineGrid,
+  .projectGrid,
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .channelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .channelDetails {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .wiiMenuOverlay,
+  .portfolioPage {
+    padding: 1.25rem;
+  }
+
+  .wiiHero {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .channelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutTopNav {
+    gap: 1rem;
+  }
+
+  .aboutTopBar {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .aboutTopNavWrap,
+  .aboutPage .pageBackButton {
+    grid-column: auto;
+  }
+
+  .aboutSplitSection.reverse .aboutSplitImage,
+  .aboutSplitSection.reverse .aboutSplitText {
+    order: initial;
+  }
+
+  .aboutTabRow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .channelMenuToggle {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .channelQuickMenu {
+    top: 4.9rem;
+    right: 1rem;
+  }
+
+  .channelHome {
+    padding-top: 2rem;
+  }
+
+  .wiiControlDock {
+    position: static;
+    margin-top: 1rem;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .wiiHero h1,
+  .pageHeroCard h1 {
+    max-width: none;
+    font-size: 2.75rem;
+  }
+
+  .aboutPage {
+    padding-top: 5rem;
+  }
+
+  .aboutTopBar {
+    top: 0.8rem;
+    width: calc(100vw - 1.5rem);
+  }
+
+  .aboutTopNav {
+    width: 100%;
+    justify-content: space-around;
+    gap: 0.5rem;
+    padding-inline: 0.8rem;
+  }
+
+  .aboutTopNavItem {
+    font-size: 0.95rem;
+  }
+
+  .aboutTabRow {
+    grid-template-columns: 1fr;
+  }
+
+  .wiiModeToggle {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .wiiModeToggle button {
+    flex: 1;
+  }
+
+  .wiiFocusActions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
