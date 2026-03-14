@@ -22,7 +22,7 @@ const MENU_ITEMS: MenuItem[] = [
     id: "about",
     title: "About Me",
     eyebrow: "Profile",
-    subtitle: "Background, motivation, and current direction.",
+    subtitle: "Learn about who I am and my educational/professional experience.",
     description:
       "A more personal overview of my work, long-term goals, and how I think about building software.",
     accent: "#5de2ff",
@@ -32,7 +32,7 @@ const MENU_ITEMS: MenuItem[] = [
     id: "projects",
     title: "Projects",
     eyebrow: "Builds",
-    subtitle: "Selected technical work across AI, apps, and interfaces.",
+    subtitle: "An overview of my project experience so far.",
     description:
       "A tighter snapshot of the portfolio pieces that best represent how I solve problems and ship work.",
     accent: "#95ffbf",
@@ -538,15 +538,12 @@ const WiiMenu: React.FC = () => {
 
             <section className="channelHome interactiveLayer">
               <div className="channelHero">
-                <p className="wiiEyebrow">Portfolio</p>
+                {/* <p className="wiiEyebrow">Portfolio</p> */}
                 <h2>Edwin Gabriel Villanueva</h2>
                 <p className="channelHeroTitle">
-                  Computer Science Student and AI Software Engineering Intern
+                  Full Stack Software Developer and Computer Science Student
                 </p>
-                <p className="channelHeroCopy">
-                  A cleaner portfolio home inspired by the Wii menu: select a channel,
-                  or scroll for a little more context.
-                </p>
+
               </div>
 
               <section className="channelGridWrap" ref={channelSectionRef}>
@@ -567,30 +564,22 @@ const WiiMenu: React.FC = () => {
                 </div>
               </section>
 
-              <div className="channelScrollHint">
+              {/* <div className="channelScrollHint">
                 <span />
                 <p>Scroll for more</p>
-              </div>
+              </div> */}
             </section>
 
             <section className="channelDetails interactiveLayer" ref={detailsSectionRef}>
-              <div className="channelDetailsIntro">
-                <p className="wiiEyebrow">A Little More</p>
-                <h3>Focused on building software with a stronger point of view.</h3>
-                <p>
-                  I want this portfolio to feel simple on the surface and more personal
-                  as you move through it. The channel grid gets you in quickly, and the
-                  rest of the site can carry the depth.
-                </p>
-              </div>
 
-              <div className="channelDetailList">
+
+              {/* <div className="channelDetailList">
                 {DASHBOARD_SPOTLIGHT.map((line) => (
                   <div key={line} className="channelDetailPill">
                     {line}
                   </div>
                 ))}
-              </div>
+              </div> */}
             </section>
           </>
         ) : (

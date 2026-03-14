@@ -87,8 +87,10 @@ const schools: School[] = [
     logoAlt: "University of Central Florida logo",
 
     degree: "Bachelor of Science in Computer Science",
-    description: "",
-    relevant_coursework: "",
+    time_spent: "August 2022 - May 2026",
+    description: "UCF provided me experience in programming with regards to data structures, algorithmic thinking, and understanding team dynamics while learning to use tools like Git and Linux. ",
+    relevant_coursework: "Software Engineering (MS), Systems Software, Mobile Device Software Development, Object Oriented Programming, Security in Computing, Topics in Cloud Computing and Cybersecurity (AWS), AI Game Programming, Senior Design",
+    achievements: "GPA: 3.5, Foundation Exam (94%), Dean's List",
 
   },
   {
@@ -96,7 +98,13 @@ const schools: School[] = [
     label: "Indian River State College",
     background: irscBg,
     logo: irscLogo,
-    logoAlt: "Indian River State College logo"
+    logoAlt: "Indian River State College logo",
+
+    degree: "Associate of Arts - General Studies (Computer Science Track)",
+    time_spent: "May 2019 - April 2022",
+    description: "My time at IRSC was spent completing GEP requirements and introducing me to programming in an educational context using C++. ",
+    relevant_coursework: "Computer Programming in C++, College Computing",
+    achievements: "GPA: 3.5, Dean's List",
   }
 ];
 
@@ -109,6 +117,8 @@ const jobs: Job[] = [
 
     title: "AI Software Engineer (Intern)",
     time_spent: "June, 2025 - February 2026",
+
+    tech_stack: "Python, JavaScript, React, Docker (containerization), Local/Cloud Large Language Model API, FastAPI, Proxmox (virtualization)",
   },
   {
     id: "etp",
@@ -118,6 +128,8 @@ const jobs: Job[] = [
 
     title: "Full Stack Software Developer",
     time_spent: "February 2026 - Present",
+
+    tech_stack: "TypeScript, Python, Docker, AWS",
   }
 ];
 
@@ -264,22 +276,27 @@ const AboutMe: React.FC = () => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.22, ease: "easeOut" }}
                   >
+                    {/* SCHOOL INFORMATION */}
                     <div className="aboutPlaceholderBlock">
                       <h2 className="education-title">{selectedSchool.label}</h2>
-                      <p>[School name / degree / program here.]</p>
+                      <p>{selectedSchool.time_spent}</p>
+                      <br/>
+                      <p>{selectedSchool.degree}</p>
                     </div>
+
                     <div className="aboutPlaceholderBlock">
-                      <h2 className="education-title">Description of experience</h2>
-                      <p>[Write here about your overall experience at {selectedSchool.label}.]</p>
+                      <p>{selectedSchool.description}</p>
                     </div>
+
                     <div className="aboutPlaceholderBlock">
                       <h2 className="education-title">Relevant coursework</h2>
-                      <p>[List relevant courses here.]</p>
+                      <p>{selectedSchool.relevant_coursework}</p>
                     </div>
+
                     <div className="aboutPlaceholderBlock">
-                      <h2 className="education-title">Highlights</h2>
-                      <p>[Add achievements, organizations, exam scores, projects, or milestones here.]</p>
+                      <p>{selectedSchool.achievements}</p>
                     </div>
+
                   </motion.section>
                 </AnimatePresence>
               </div>
@@ -349,7 +366,7 @@ const AboutMe: React.FC = () => {
 
                     <div className="aboutPlaceholderBlock">
                       <h2>Tech stack / tools</h2>
-                      <p>[List technologies, platforms, or tools used here.]</p>
+                      <p>{selectedJob.tech_stack}</p>
                     </div>
                   </motion.section>
                 </AnimatePresence>
