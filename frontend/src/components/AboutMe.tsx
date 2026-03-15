@@ -1,23 +1,23 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 
 /* ===== images ===== */
 // my beautiful face (three times)
-import meHeadshot from "../../../assets/images/Me/Headshot.jpeg";
-import meCasual from "../../../assets/images/Me/Casual.jpeg"
-import meYoung from "../../../assets/images/Me/lilMe.jpeg";
+import meHeadshot from "../../assets/images/Me/Headshot.jpeg";
+import meCasual from "../../assets/images/Me/Casual.jpeg"
+import meYoung from "../../assets/images/Me/lilMe.jpeg";
 
 // Education
-import ucfLogo from "../../../assets/images/Education/ucf-logo.png";
-import ucfBg from "../../../assets/images/Education/UCF_BG.jpg";
-import irscLogo from "../../../assets/images/Education/IRSL_Logo.jpg";
-import irscBg from "../../../assets/images/Education/IRSC_BG.jpg";
+import ucfLogo from "../../assets/images/Education/ucf-logo.png";
+import ucfBg from "../../assets/images/Education/UCF_BG.jpg";
+import irscLogo from "../../assets/images/Education/IRSL_Logo.jpg";
+import irscBg from "../../assets/images/Education/IRSC_BG.jpg";
 
 // Work Experience (in the field)
-import cptLogo from "../../../assets/images/Experience/CPTLogo.svg";
-import etpLogo from "../../../assets/images/Experience/EtpLogo.webp";
+import cptLogo from "../../assets/images/Experience/CPTLogo.svg";
+import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
 
 
 type SectionId = "about" | "education" | "experience";
@@ -38,6 +38,11 @@ type School = {
   background: string;
   logo: string;
   logoAlt: string;
+  degree: string;
+  time_spent: string;
+  description: string;
+  relevant_coursework: string; 
+  achievements: string;
 };
 
 type Job = {
@@ -45,6 +50,11 @@ type Job = {
   label: string;
   logo: string;
   logoAlt: string;
+  title: string;
+  time_spent: string;
+  description: string;
+  projects_worked_on: string;
+  tech_stack: string;
 };
 
 
@@ -117,7 +127,8 @@ const jobs: Job[] = [
 
     title: "AI Software Engineer (Intern)",
     time_spent: "June, 2025 - February 2026",
-
+    description: "Example Description",
+    projects_worked_on: "Example project worked on.",
     tech_stack: "Python, JavaScript, React, Docker (containerization), Local/Cloud Large Language Model API, FastAPI, Proxmox (virtualization)",
   },
   {
@@ -128,7 +139,8 @@ const jobs: Job[] = [
 
     title: "Full Stack Software Developer",
     time_spent: "February 2026 - Present",
-
+    description: "Example Description",
+    projects_worked_on: "Example project worked on.",
     tech_stack: "TypeScript, Python, Docker, AWS",
   }
 ];
@@ -140,11 +152,36 @@ const sectionTransition = {
   transition: { duration: 0.26, ease: "easeOut" }
 } as const;
 
+const aboutRowTransition = {
+  initial: (direction: number) => ({ opacity: 0, y: direction > 0 ? 36 : -36 }),
+  animate: { opacity: 1, y: 0 },
+  exit: (direction: number) => ({ opacity: 0, y: direction > 0 ? -36 : 36 }),
+  transition: { duration: 0.3, ease: "easeOut" }
+} as const;
+
+const tabContentTransition = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -8 },
+  transition: { duration: 0.24, ease: "easeOut" }
+} as const;
+
+const underlineTransition = {
+  duration: 0.24,
+  ease: [0.33, 1, 0.68, 1]
+} as const;
+
 const AboutMe: React.FC = () => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<SectionId>("about");
+  const [activeAboutIndex, setActiveAboutIndex] = useState(0);
+  const [aboutDirection, setAboutDirection] = useState(1);
+  const [aboutIsTransitioning, setAboutIsTransitioning] = useState(false);
   const [activeSchool, setActiveSchool] = useState<SchoolId>("ucf");
   const [activeJob, setActiveJob] = useState<JobId>("cpt");
+  const aboutWheelLockRef = useRef(false);
+  const aboutWheelDeltaRef = useRef(0);
+  const aboutWheelResetTimeoutRef = useRef<number | null>(null);
 
   const selectedSchool = useMemo(
     () => schools.find((school) => school.id === activeSchool) ?? schools[0],
@@ -154,6 +191,84 @@ const AboutMe: React.FC = () => {
     () => jobs.find((job) => job.id === activeJob) ?? jobs[0],
     [activeJob]
   );
+  const activeAboutRow = aboutRows[activeAboutIndex] ?? aboutRows[0];
+
+  useEffect(() => {
+    if (activeSection !== "about") {
+      return;
+    }
+
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaY) < 10) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (aboutWheelLockRef.current || aboutIsTransitioning) {
+        return;
+      }
+
+      aboutWheelDeltaRef.current += event.deltaY;
+      const threshold = 220;
+      if (Math.abs(aboutWheelDeltaRef.current) < threshold) {
+        if (aboutWheelResetTimeoutRef.current) {
+          window.clearTimeout(aboutWheelResetTimeoutRef.current);
+        }
+        aboutWheelResetTimeoutRef.current = window.setTimeout(() => {
+          aboutWheelDeltaRef.current = 0;
+          aboutWheelResetTimeoutRef.current = null;
+        }, 220);
+        return;
+      }
+
+      const direction = aboutWheelDeltaRef.current > 0 ? 1 : -1;
+      aboutWheelDeltaRef.current = 0;
+      if (aboutWheelResetTimeoutRef.current) {
+        window.clearTimeout(aboutWheelResetTimeoutRef.current);
+        aboutWheelResetTimeoutRef.current = null;
+      }
+      const next = Math.min(
+        aboutRows.length - 1,
+        Math.max(0, activeAboutIndex + direction)
+      );
+
+      if (next === activeAboutIndex) {
+        return;
+      }
+
+      aboutWheelLockRef.current = true;
+      setAboutIsTransitioning(true);
+      setAboutDirection(direction);
+      setActiveAboutIndex(next);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      if (aboutWheelResetTimeoutRef.current) {
+        window.clearTimeout(aboutWheelResetTimeoutRef.current);
+      }
+      aboutWheelResetTimeoutRef.current = null;
+      aboutWheelDeltaRef.current = 0;
+      aboutWheelLockRef.current = false;
+    };
+  }, [aboutIsTransitioning, activeAboutIndex, activeSection]);
+
+  const jumpToAboutRow = (index: number) => {
+    if (index === activeAboutIndex || aboutIsTransitioning) {
+      return;
+    }
+    setAboutDirection(index > activeAboutIndex ? 1 : -1);
+    aboutWheelDeltaRef.current = 0;
+    if (aboutWheelResetTimeoutRef.current) {
+      window.clearTimeout(aboutWheelResetTimeoutRef.current);
+      aboutWheelResetTimeoutRef.current = null;
+    }
+    aboutWheelLockRef.current = true;
+    setAboutIsTransitioning(true);
+    setActiveAboutIndex(index);
+  };
 
   return (
     <div className="portfolioPageShell aboutLayoutShell">
@@ -199,36 +314,66 @@ const AboutMe: React.FC = () => {
                   onClick={() => setActiveSection(section.id)}
                 >
                   <span>{section.label}</span>
-                  {activeSection === section.id ? (
-                    <motion.span
-                      layoutId="about-nav-underline"
-                      className="aboutTopNavUnderline"
-                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                    />
-                  ) : null}
+                  <AnimatePresence initial={false}>
+                    {activeSection === section.id ? (
+                      <motion.span
+                        className="aboutTopNavUnderline"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        exit={{ scaleX: 0 }}
+                        transition={underlineTransition}
+                      />
+                    ) : null}
+                  </AnimatePresence>
                 </button>
               ))}
             </nav>
           </div>
         </div>
 
+        {activeSection === "about" ? (
+          <aside className="aboutRowNav" aria-label="About row navigation">
+            {aboutRows.map((row, index) => (
+              <button
+                key={row.id}
+                type="button"
+                className={`aboutRowNavButton ${index === activeAboutIndex ? "active" : ""}`}
+                onClick={() => jumpToAboutRow(index)}
+                aria-label={`Go to ${row.title}`}
+              >
+                <span className="aboutRowNavIndex">{index + 1}</span>
+              </button>
+            ))}
+          </aside>
+        ) : null}
+
         <AnimatePresence mode="wait">
           {activeSection === "about" ? (
-            <motion.section key="about" className="aboutSectionStack" {...sectionTransition}>
-              {aboutRows.map((row, index) => (
-                <section
-                  key={row.id}
-                  className={`aboutSplitSection ${index % 2 === 1 ? "reverse" : ""}`}
+            <motion.section key="about" className="aboutSectionStack aboutSectionViewport" {...sectionTransition}>
+              <AnimatePresence mode="wait" custom={aboutDirection}>
+                <motion.section
+                  key={activeAboutRow.id}
+                  className={`aboutSplitSection ${activeAboutIndex % 2 === 1 ? "reverse" : ""}`}
+                  variants={aboutRowTransition}
+                  custom={aboutDirection}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  onAnimationStart={() => setAboutIsTransitioning(true)}
+                  onAnimationComplete={() => {
+                    setAboutIsTransitioning(false);
+                    aboutWheelLockRef.current = false;
+                  }}
                 >
                   <div className="aboutSplitImage">
-                    <img src={row.image} alt={row.imageAlt} />
+                    <img src={activeAboutRow.image} alt={activeAboutRow.imageAlt} />
                   </div>
                   <div className="aboutSplitText">
-                    <h2>{row.title}</h2>
-                    <p>{row.placeholder}</p>
+                    <h2>{activeAboutRow.title}</h2>
+                    <p>{activeAboutRow.placeholder}</p>
                   </div>
-                </section>
-              ))}
+                </motion.section>
+              </AnimatePresence>
             </motion.section>
           ) : null}
 
@@ -243,6 +388,17 @@ const AboutMe: React.FC = () => {
                     onClick={() => setActiveSchool(school.id)}
                   >
                     {school.label}
+                    <AnimatePresence initial={false}>
+                      {activeSchool === school.id ? (
+                        <motion.span
+                          className="aboutPinnedTabUnderline"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          exit={{ scaleX: 0 }}
+                          transition={underlineTransition}
+                        />
+                      ) : null}
+                    </AnimatePresence>
                   </button>
                 ))}
               </div>
@@ -252,10 +408,7 @@ const AboutMe: React.FC = () => {
                   <motion.aside
                     key={`${selectedSchool.id}-logo`}
                     className="aboutPinnedMedia"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    {...tabContentTransition}
                   >
                     <div className="aboutPinnedSticky">
                       <img
@@ -271,10 +424,7 @@ const AboutMe: React.FC = () => {
                   <motion.section
                     key={`${selectedSchool.id}-content`}
                     className="aboutPinnedContent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    {...tabContentTransition}
                   >
                     {/* SCHOOL INFORMATION */}
                     <div className="aboutPlaceholderBlock">
@@ -314,6 +464,17 @@ const AboutMe: React.FC = () => {
                     onClick={() => setActiveJob(job.id)}
                   >
                     {job.label}
+                    <AnimatePresence initial={false}>
+                      {activeJob === job.id ? (
+                        <motion.span
+                          className="aboutPinnedTabUnderline"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          exit={{ scaleX: 0 }}
+                          transition={underlineTransition}
+                        />
+                      ) : null}
+                    </AnimatePresence>
                   </button>
                 ))}
               </div>
@@ -323,17 +484,14 @@ const AboutMe: React.FC = () => {
                   <motion.aside
                     key={`${selectedJob.id}-logo`}
                     className="aboutPinnedMedia experienceLogoPanel"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    {...tabContentTransition}
                   >
                     <div className="aboutPinnedSticky">
                     <img
                       src={selectedJob.logo}
                       alt={selectedJob.logoAlt}
                       className={`aboutPinnedLogo ${
-                        selectedJob.id === "etp" ? "invertLogo" : ""
+                        selectedJob.id === "etp" ? "" : ""
                       } ${selectedJob.id === "cpt" ? "cptLogo" : ""}`}
                     />
                   </div>
@@ -344,10 +502,7 @@ const AboutMe: React.FC = () => {
                   <motion.section
                     key={`${selectedJob.id}-content`}
                     className="aboutPinnedContent experienceContent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.22, ease: "easeOut" }}
+                    {...tabContentTransition}
                   >
                     <div className="aboutPlaceholderBlock">
                       <h2>{selectedJob.label}</h2>
@@ -356,12 +511,12 @@ const AboutMe: React.FC = () => {
 
                     <div className="aboutPlaceholderBlock">
                       <h2>Description</h2>
-                      <p>[Write here about what you did at {selectedJob.label}.]</p>
+                      <p>{selectedJob.description}</p>
                     </div>
 
                     <div className="aboutPlaceholderBlock">
                       <h2>Projects worked on</h2>
-                      <p>[List the relevant projects, responsibilities, or accomplishments here.]</p>
+                      <p>{selectedJob.projects_worked_on}</p>
                     </div>
 
                     <div className="aboutPlaceholderBlock">
@@ -380,3 +535,4 @@ const AboutMe: React.FC = () => {
 };
 
 export default AboutMe;
+ 

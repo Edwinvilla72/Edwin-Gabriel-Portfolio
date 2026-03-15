@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
@@ -80,90 +80,6 @@ const MENU_ITEMS: MenuItem[] = [
   }
 ];
 
-const DASHBOARD_SPOTLIGHT = [
-  "Full Stack Software Developer at Entertainment Technology Partners",
-  "Computer Science student at UCF",
-];
-
-function wrapText(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  maxWidth: number,
-  lineHeight: number
-) {
-  const words = text.split(" ");
-  let line = "";
-
-  words.forEach((word) => {
-    const trial = `${line}${word} `;
-    if (ctx.measureText(trial).width > maxWidth && line) {
-      ctx.fillText(line.trim(), x, y);
-      line = `${word} `;
-      y += lineHeight;
-      return;
-    }
-    line = trial;
-  });
-
-  if (line) {
-    ctx.fillText(line.trim(), x, y);
-  }
-}
-
-function createMenuTexture(item: MenuItem) {
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 640;
-
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    return new THREE.CanvasTexture(canvas);
-  }
-
-  const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-  gradient.addColorStop(0, `${item.accent}f0`);
-  gradient.addColorStop(0.55, "#fcfeff");
-  gradient.addColorStop(1, "#dbefff");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "rgba(255,255,255,0.68)";
-  ctx.beginPath();
-  ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 42);
-  ctx.fill();
-
-  ctx.fillStyle = "rgba(13, 33, 57, 0.44)";
-  ctx.beginPath();
-  ctx.roundRect(76, 76, 220, 56, 28);
-  ctx.fill();
-
-  ctx.fillStyle = "#f7fdff";
-  ctx.font = "600 28px sans-serif";
-  ctx.fillText(item.eyebrow.toUpperCase(), 108, 114);
-
-  ctx.fillStyle = "#122b45";
-  ctx.font = "700 88px sans-serif";
-  ctx.fillText(item.title, 78, 252);
-
-  ctx.fillStyle = "#325470";
-  ctx.font = "500 34px sans-serif";
-  wrapText(ctx, item.subtitle, 80, 324, 840, 44);
-
-  ctx.fillStyle = "rgba(18, 43, 69, 0.09)";
-  ctx.beginPath();
-  ctx.roundRect(80, 466, 320, 92, 30);
-  ctx.fill();
-
-  ctx.fillStyle = "#122b45";
-  ctx.font = "600 34px sans-serif";
-  ctx.fillText(item.mode ? "Switch Modes" : "Open Section", 116, 523);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.needsUpdate = true;
-  return texture;
-}
 
 const WiiMenu: React.FC = () => {
   const navigate = useNavigate();
@@ -177,11 +93,14 @@ const WiiMenu: React.FC = () => {
   const mountRef = useRef<HTMLDivElement | null>(null);
   const modelsRef = useRef<THREE.Mesh[]>([]);
   const animationRef = useRef<number>();
-  const currentRotationRef = useRef(0);
-  const targetRotationRef = useRef(0);
-  const hoverIdRef = useRef<string | null>(null);
+  const angleRef = useRef(0);
+  const targetAngleRef = useRef(0);
+  const timeRef = useRef(0);
+  const currentFrontModelRef = useRef<THREE.Mesh | null>(null);
+  const hoverModelRef = useRef<THREE.Mesh | null>(null);
 
-  const activeItem = MENU_ITEMS[activeIndex];
+  const carouselItems = useMemo(() => MENU_ITEMS.filter((item) => !item.mode), []);
+  const activeItem = carouselItems[activeIndex % carouselItems.length] ?? carouselItems[0];
   const heroMenu = MENU_ITEMS.filter((item) => item.id !== "mode-3d");
 
   useEffect(() => {
@@ -200,12 +119,14 @@ const WiiMenu: React.FC = () => {
   };
 
   const rotateCarousel = (direction: number) => {
-    setActiveIndex((previous) => {
-      const total = MENU_ITEMS.length;
-      const next = (previous + direction + total) % total;
-      targetRotationRef.current = -next * ((Math.PI * 2) / total);
-      return next;
-    });
+    const total = carouselItems.length;
+    targetAngleRef.current += (direction * Math.PI * 2) / total;
+    if (direction === -1) {
+      modelsRef.current.push(modelsRef.current.shift() as THREE.Mesh);
+    } else {
+      modelsRef.current.unshift(modelsRef.current.pop() as THREE.Mesh);
+    }
+    setActiveIndex((previous) => (previous + direction + total) % total);
   };
 
   useEffect(() => {
@@ -218,21 +139,23 @@ const WiiMenu: React.FC = () => {
       return;
     }
 
-    currentRotationRef.current = -activeIndex * ((Math.PI * 2) / MENU_ITEMS.length);
-    targetRotationRef.current = currentRotationRef.current;
-    hoverIdRef.current = null;
+    angleRef.current = 0;
+    targetAngleRef.current = 0;
+    timeRef.current = 0;
+    currentFrontModelRef.current = null;
+    hoverModelRef.current = null;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xd9eeff, 0.04);
 
     const camera = new THREE.PerspectiveCamera(
-      50,
+      75,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.set(0, 0.85, 9.2);
-    camera.lookAt(0, 0.2, 0);
+    camera.position.z = 8;
+    camera.position.y = 1.2;
+    camera.lookAt(0, 0, 0);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -240,65 +163,30 @@ const WiiMenu: React.FC = () => {
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.8));
+    scene.add(new THREE.AmbientLight(0xaaaaaa, 1.2));
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.4);
-    directionalLight.position.set(6, 8, 8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
-
-    const pointLight = new THREE.PointLight(0x90dfff, 26, 30);
-    pointLight.position.set(0, 2.8, 5);
-    scene.add(pointLight);
-
-    const base = new THREE.Mesh(
-      new THREE.CircleGeometry(5.9, 64),
-      new THREE.MeshBasicMaterial({
-        color: 0xaed7ef,
-        transparent: true,
-        opacity: 0.2
-      })
-    );
-    base.rotation.x = -Math.PI / 2;
-    base.position.y = -1.85;
-    scene.add(base);
 
     const hoverSound = new Audio("/assets/sounds/3DS-ui6.wav");
     const buttonSound = new Audio("/assets/sounds/+-click.wav");
     const homeMusic = new Audio("/assets/sounds/wiiMenu.wav");
     homeMusic.loop = true;
-    homeMusic.volume = 0.28;
+    homeMusic.volume = 0.5;
     homeMusic.play().catch(() => {});
-
-    const geometry = new THREE.BoxGeometry(2.8, 1.7, 0.24);
-    const meshes: THREE.Mesh[] = MENU_ITEMS.map((item) => {
-      const texture = createMenuTexture(item);
-      const edgeMaterial = new THREE.MeshPhysicalMaterial({
-        color: item.accent,
-        emissive: item.accent,
-        emissiveIntensity: 0.16,
-        roughness: 0.4,
-        metalness: 0.08
-      });
-      const frontMaterial = new THREE.MeshPhysicalMaterial({
-        map: texture,
-        roughness: 0.24,
-        clearcoat: 0.72,
-        clearcoatRoughness: 0.2
-      });
-
-      const mesh = new THREE.Mesh(geometry, [
-        edgeMaterial,
-        edgeMaterial,
-        edgeMaterial,
-        edgeMaterial,
-        frontMaterial,
-        edgeMaterial
-      ]);
-
+    const selectSounds = carouselItems.map(() => new Audio("/assets/sounds/select-sound5.mp3"));
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const meshes: THREE.Mesh[] = carouselItems.map((item, index) => {
+      const mesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide })
+      );
       mesh.userData.item = item;
-      mesh.userData.texture = texture;
-      mesh.userData.baseTilt = (Math.random() - 0.5) * 0.12;
-      mesh.userData.hoverSpin = Math.random() * Math.PI * 2;
+      mesh.userData.sound = selectSounds[index];
+      mesh.userData.baseRotationY = Math.random() * Math.PI * 2;
+      mesh.userData.targetRotationY = null;
+      mesh.userData.targetScale = new THREE.Vector3(1, 1, 1);
       scene.add(mesh);
       return mesh;
     });
@@ -310,32 +198,58 @@ const WiiMenu: React.FC = () => {
 
     const updatePointer = (event: MouseEvent) => {
       const rect = renderer.domElement.getBoundingClientRect();
+      const isInside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!isInside) {
+        return false;
+      }
       pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      return true;
     };
 
     const handlePointerMove = (event: MouseEvent) => {
-      updatePointer(event);
+      if (!updatePointer(event)) {
+        hoverModelRef.current = null;
+        renderer.domElement.style.cursor = "default";
+        meshes.forEach((mesh) => {
+          mesh.userData.targetScale.set(1, 1, 1);
+          mesh.userData.baseRotationY = mesh.rotation.y;
+          mesh.userData.targetRotationY = null;
+        });
+        return;
+      }
       raycaster.setFromCamera(pointer, camera);
       const hit = raycaster.intersectObjects(meshes)[0]?.object as THREE.Mesh | undefined;
-      const hitId = hit?.userData.item?.id ?? null;
 
-      if (hitId && hoverIdRef.current !== hitId) {
+      if (hit && hoverModelRef.current !== hit) {
         hoverSound.currentTime = 0;
         hoverSound.play().catch(() => {});
       }
 
-      hoverIdRef.current = hitId;
+      hoverModelRef.current = hit ?? null;
       renderer.domElement.style.cursor = hit ? "pointer" : "default";
-    };
-
-    const handlePointerLeave = () => {
-      hoverIdRef.current = null;
-      renderer.domElement.style.cursor = "default";
+      meshes.forEach((mesh) => {
+        if (mesh === hit) {
+          mesh.userData.targetScale.set(1.2, 1.2, 1.2);
+          if (mesh.userData.targetRotationY === null) {
+            mesh.userData.targetRotationY = camera.rotation.y;
+          }
+        } else {
+          mesh.userData.targetScale.set(1, 1, 1);
+          mesh.userData.baseRotationY = mesh.rotation.y;
+          mesh.userData.targetRotationY = null;
+        }
+      });
     };
 
     const handleClick = (event: MouseEvent) => {
-      updatePointer(event);
+      if (!updatePointer(event)) {
+        return;
+      }
       raycaster.setFromCamera(pointer, camera);
       const hit = raycaster.intersectObjects(meshes)[0]?.object as THREE.Mesh | undefined;
 
@@ -344,11 +258,6 @@ const WiiMenu: React.FC = () => {
       }
 
       const item = hit.userData.item as MenuItem;
-      const hitIndex = MENU_ITEMS.findIndex((candidate) => candidate.id === item.id);
-      if (hitIndex !== -1) {
-        setActiveIndex(hitIndex);
-        targetRotationRef.current = -hitIndex * ((Math.PI * 2) / MENU_ITEMS.length);
-      }
       handleSelection(item);
     };
 
@@ -356,16 +265,19 @@ const WiiMenu: React.FC = () => {
       if (event.key === "ArrowLeft") {
         buttonSound.currentTime = 0;
         buttonSound.play().catch(() => {});
-        rotateCarousel(-1);
+        rotateCarousel(1);
       }
       if (event.key === "ArrowRight") {
         buttonSound.currentTime = 0;
         buttonSound.play().catch(() => {});
-        rotateCarousel(1);
+        rotateCarousel(-1);
       }
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        handleSelection(MENU_ITEMS[activeIndexRef.current]);
+        const currentItem = carouselItems[activeIndexRef.current];
+        if (currentItem) {
+          handleSelection(currentItem);
+        }
       }
     };
 
@@ -377,37 +289,34 @@ const WiiMenu: React.FC = () => {
 
     const animate = () => {
       animationRef.current = requestAnimationFrame(animate);
-      currentRotationRef.current +=
-        (targetRotationRef.current - currentRotationRef.current) * 0.09;
-      const now = performance.now() * 0.001;
+      angleRef.current += (targetAngleRef.current - angleRef.current) * 0.05;
+      timeRef.current += 0.02;
 
-      meshes.forEach((mesh, index) => {
-        const theta = currentRotationRef.current + index * ((Math.PI * 2) / MENU_ITEMS.length);
-        const distanceFromFront = Math.abs(
-          ((((index - activeIndexRef.current) % MENU_ITEMS.length) + MENU_ITEMS.length) % MENU_ITEMS.length)
-        );
-        const isHovered = hoverIdRef.current === mesh.userData.item.id;
-        const isFront = index === activeIndexRef.current;
-        const radius = 4.95;
+      modelsRef.current.forEach((mesh, index) => {
+        const theta = angleRef.current + (index * (Math.PI * 2)) / modelsRef.current.length;
+        const floatingOffset = Math.sin(timeRef.current + index) * 0.1;
 
-        mesh.position.x = Math.sin(theta) * radius;
-        mesh.position.z = Math.cos(theta) * 4.7;
-        mesh.position.y = Math.sin(now * 1.5 + index * 0.85) * 0.12;
-        mesh.rotation.y = -theta * 0.45;
-        mesh.rotation.x = Math.sin(now * 0.9 + index) * 0.04 + mesh.userData.baseTilt;
+        mesh.position.x = Math.sin(theta) * 5;
+        mesh.position.z = Math.cos(theta) * 5;
+        mesh.position.y = floatingOffset;
+        mesh.scale.lerp(mesh.userData.targetScale, 0.1);
 
-        if (isHovered) {
-          mesh.userData.hoverSpin += 0.06;
-          mesh.rotation.y += mesh.userData.hoverSpin * 0.08;
+        mesh.userData.baseRotationY =
+          (mesh.userData.baseRotationY + 0.003) % (Math.PI * 2);
+
+        if (mesh.userData.targetRotationY !== null) {
+          mesh.rotation.y =
+            (mesh.rotation.y +
+              (mesh.userData.targetRotationY - mesh.rotation.y) * 0.1) %
+            (Math.PI * 2);
         } else {
-          mesh.userData.hoverSpin += (0 - mesh.userData.hoverSpin) * 0.08;
+          mesh.rotation.y = mesh.userData.baseRotationY;
         }
 
-        const targetScale = isHovered ? 1.12 : isFront ? 1.08 : 0.9;
-        const currentScale = mesh.scale.x + (targetScale - mesh.scale.x) * 0.14;
-        mesh.scale.setScalar(currentScale);
-
-        mesh.renderOrder = MENU_ITEMS.length - distanceFromFront;
+        if (index === 0 && currentFrontModelRef.current !== mesh) {
+          currentFrontModelRef.current = mesh;
+          (mesh.userData.sound as HTMLAudioElement | undefined)?.play().catch(() => {});
+        }
       });
 
       renderer.render(scene, camera);
@@ -417,16 +326,14 @@ const WiiMenu: React.FC = () => {
 
     window.addEventListener("resize", onResize);
     window.addEventListener("keydown", handleKeyDown);
-    renderer.domElement.addEventListener("mousemove", handlePointerMove);
-    renderer.domElement.addEventListener("mouseleave", handlePointerLeave);
-    renderer.domElement.addEventListener("click", handleClick);
+    window.addEventListener("mousemove", handlePointerMove);
+    window.addEventListener("click", handleClick);
 
     return () => {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("keydown", handleKeyDown);
-      renderer.domElement.removeEventListener("mousemove", handlePointerMove);
-      renderer.domElement.removeEventListener("mouseleave", handlePointerLeave);
-      renderer.domElement.removeEventListener("click", handleClick);
+      window.removeEventListener("mousemove", handlePointerMove);
+      window.removeEventListener("click", handleClick);
       renderer.domElement.style.cursor = "default";
 
       if (animationRef.current) {
@@ -436,12 +343,9 @@ const WiiMenu: React.FC = () => {
       meshes.forEach((mesh) => {
         const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         materials.forEach((material) => material.dispose());
-        (mesh.userData.texture as THREE.Texture | undefined)?.dispose();
       });
 
       geometry.dispose();
-      (base.geometry as THREE.BufferGeometry).dispose();
-      (base.material as THREE.Material).dispose();
       renderer.dispose();
       scene.clear();
       homeMusic.pause();
@@ -451,7 +355,7 @@ const WiiMenu: React.FC = () => {
         mount.removeChild(renderer.domElement);
       }
     };
-  }, [mode, navigate]);
+  }, [carouselItems, mode, navigate]);
 
   return (
     <div className={`wiiMenuShell ${mode === "3d" ? "mode3d" : "mode2d"}`}>
@@ -570,58 +474,49 @@ const WiiMenu: React.FC = () => {
               </div> */}
             </section>
 
-            <section className="channelDetails interactiveLayer" ref={detailsSectionRef}>
-
-
-              {/* <div className="channelDetailList">
-                {DASHBOARD_SPOTLIGHT.map((line) => (
-                  <div key={line} className="channelDetailPill">
-                    {line}
-                  </div>
-                ))}
-              </div> */}
-            </section>
+            <section className="channelDetails interactiveLayer" ref={detailsSectionRef} />
           </>
         ) : (
           <>
-            <section className="wiiFocusCard interactiveLayer">
-              <p className="wiiFocusLabel">{activeItem.eyebrow}</p>
-              <div className="wiiFocusHeader">
-                <div>
-                  <h2>{activeItem.title}</h2>
-                  <p>{activeItem.subtitle}</p>
-                </div>
-                <span
-                  className="wiiAccentDot"
-                  style={{ backgroundColor: activeItem.accent }}
-                />
-              </div>
-              <p className="wiiFocusDescription">{activeItem.description}</p>
-              <div className="wiiFocusActions">
-                <button type="button" onClick={() => handleSelection(activeItem)}>
-                  {activeItem.mode ? "Switch to 2D" : "Open section"}
-                </button>
-                <span>Click a channel directly or use the arrow controls.</span>
-              </div>
+            <section
+              className="interactiveLayer"
+              style={{
+                position: "absolute",
+                top: "8%",
+                width: "100%",
+                textAlign: "center",
+                zIndex: 2,
+                pointerEvents: "none"
+              }}
+            >
+              <h2 style={{ fontWeight: 700, fontSize: "2.5rem", margin: "0 0 0.5rem 0" }}>
+                Hi, I&apos;m Edwin!
+              </h2>
+              <p style={{ fontSize: "1.3rem", margin: 0 }}>
+                This site is under construction but check it out and lmk if you have any ideas! :)
+              </p>
             </section>
 
-            <div className="wiiControlDock interactiveLayer">
-              <button
-                type="button"
-                className="wiiNavButton"
-                onClick={() => rotateCarousel(-1)}
-                aria-label="Rotate left"
-              >
-                <span>←</span>
-              </button>
-              <div className="wiiControlHint">The 3D view is now secondary to the channel home.</div>
+            <div
+              className="wiiControlDock interactiveLayer"
+              style={{ background: "transparent", border: "none", boxShadow: "none" }}
+            >
               <button
                 type="button"
                 className="wiiNavButton"
                 onClick={() => rotateCarousel(1)}
+                aria-label="Rotate left"
+              >
+                <span>-</span>
+              </button>
+              <div className="wiiControlHint">{activeItem?.title ?? "Channel"}</div>
+              <button
+                type="button"
+                className="wiiNavButton"
+                onClick={() => rotateCarousel(-1)}
                 aria-label="Rotate right"
               >
-                <span>→</span>
+                <span>+</span>
               </button>
             </div>
           </>
