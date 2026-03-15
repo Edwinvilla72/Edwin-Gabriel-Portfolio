@@ -21,8 +21,9 @@ import irscBg from "../../assets/images/Education/IRSC_BG.jpg";
 
 // Work Experience (in the field)
 import cptLogo from "../../assets/images/Experience/CPTLogo.svg";
+import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
-
+import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 
 type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
@@ -56,6 +57,7 @@ type Job = {
   logoAlt: string;
   title: string;
   time_spent: string;
+  background: string;
   description: string;
   projects_worked_on: string;
   tech_stack: string;
@@ -126,6 +128,7 @@ const jobs: Job[] = [
   {
     id: "cpt",
     label: "Command Post Technologies",
+    background: cpt_bg,
     logo: cptLogo,
     logoAlt: "Command Post Technologies logo",
 
@@ -138,6 +141,7 @@ const jobs: Job[] = [
   {
     id: "etp",
     label: "Entertainment Technology Partners",
+    background: etp_bg,
     logo: etpLogo,
     logoAlt: "ETP logo",
 
@@ -459,7 +463,13 @@ const AboutMe: React.FC = () => {
           ) : null}
 
           {activeSection === "experience" ? (
-            <motion.section key="experience" className="aboutPinnedPage experiencePage" {...sectionTransition}>
+            <motion.section 
+            key="experience" 
+            className="aboutPinnedPage experiencePage" {...sectionTransition}
+            // style={{
+            //   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.72)), url(${selectedSchool.background})
+            // }}
+            >
               <div className="aboutPinnedTabs">
                 {jobs.map((job) => (
                   <button
