@@ -3,6 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 
+
+// TODO: ADD WORK-RELATED BACKGROUND WITH OPAQUE BLACK HUE TO EXPERIENCE SECTION (change text to white)
+
+
 /* ===== images ===== */
 // my beautiful face (three times)
 import meHeadshot from "../../assets/images/Me/Headshot.jpeg";
@@ -127,8 +131,8 @@ const jobs: Job[] = [
 
     title: "AI Software Engineer (Intern)",
     time_spent: "June, 2025 - February 2026",
-    description: "Example Description",
-    projects_worked_on: "Example project worked on.",
+    description: "At Command Post Technologies, I developed AI-driven cyber-defense simulation software, building multi-agent systems, reinforcement learning environments, and red-teaming tools to emulate adversarial behavior, automate testing, and strengthen cybersecurity systems used in defense-focused applications.",
+    projects_worked_on: "SHADE (simulated human-like agents for defense emulation), CPT Agents (AI-driven in-house Candidate Relationship Management tool), AI Red Team (testing suite for LLM security), Oltre Foundry (Cyber Range tool-suite) ",
     tech_stack: "Python, JavaScript, React, Docker (containerization), Local/Cloud Large Language Model API, FastAPI, Proxmox (virtualization)",
   },
   {
@@ -139,8 +143,8 @@ const jobs: Job[] = [
 
     title: "Full Stack Software Developer",
     time_spent: "February 2026 - Present",
-    description: "Example Description",
-    projects_worked_on: "Example project worked on.",
+    description: "At Entertainment Technology Partners, I developed features for the KNW platform, building dashboards, processing engagement analytics, and integrating AWS services to analyze audience emotion and attention data during live events.",
+    projects_worked_on: "knw. (AI-driven platform for analyzing audience reactions)",
     tech_stack: "TypeScript, Python, Docker, AWS",
   }
 ];
@@ -435,11 +439,12 @@ const AboutMe: React.FC = () => {
                     </div>
 
                     <div className="aboutPlaceholderBlock">
+                      {/* <h3>Description</h3> */}
                       <p>{selectedSchool.description}</p>
                     </div>
 
                     <div className="aboutPlaceholderBlock">
-                      <h2 className="education-title">Relevant coursework</h2>
+                      <h3 className="education-title">Relevant coursework</h3>
                       <p>{selectedSchool.relevant_coursework}</p>
                     </div>
 
@@ -510,17 +515,17 @@ const AboutMe: React.FC = () => {
                     </div>
 
                     <div className="aboutPlaceholderBlock">
-                      <h2>Description</h2>
+                      {/* <h3>Description</h3> */}
                       <p>{selectedJob.description}</p>
                     </div>
 
                     <div className="aboutPlaceholderBlock">
-                      <h2>Projects worked on</h2>
+                      <h3>Projects worked on</h3>
                       <p>{selectedJob.projects_worked_on}</p>
                     </div>
 
                     <div className="aboutPlaceholderBlock">
-                      <h2>Tech stack / tools</h2>
+                      <h3>Tech stack / tools</h3>
                       <p>{selectedJob.tech_stack}</p>
                     </div>
                   </motion.section>

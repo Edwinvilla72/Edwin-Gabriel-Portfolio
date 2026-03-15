@@ -17,6 +17,13 @@ type MenuItem = {
   mode?: MenuMode;
 };
 
+// TODO/IDEA: 
+// IDEA: COMBINE BOTH 3D AND 2D VIEWS TO MAKE THIS REMINISCENT OF THE 3DS HOME MENU
+//
+// top section: rotating floating 3d model of the element you have currently selected or hovered
+// bottom: single column of cards that can be selected and scrolled through like on the 3ds home menu
+
+// todo: play hover.wav for any menu item card that is hovered over
 const MENU_ITEMS: MenuItem[] = [
   {
     id: "about",
