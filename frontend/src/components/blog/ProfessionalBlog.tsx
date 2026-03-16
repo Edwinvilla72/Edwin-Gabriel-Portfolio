@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { personalEntries } from "./blogEntries";
+import { professionalEntries } from "./blogEntries";
 
-const PersonalBlog: React.FC = () => {
+const ProfessionalBlog: React.FC = () => {
   const navigate = useNavigate();
 
   return (
@@ -14,14 +14,14 @@ const PersonalBlog: React.FC = () => {
         </button>
 
         <section className="blogListShell">
-          <div className="blogListHeader">Personal Entries</div>
+          <div className="blogListHeader">Professional Entries</div>
           <div className="blogListScroller">
-            {personalEntries.map((entry, index) => (
+            {professionalEntries.map((entry, index) => (
               <button
                 key={entry.slug}
                 type="button"
                 className="blogListCard"
-                onClick={() => navigate(`/blog/personal/${entry.slug}`)}
+                onClick={() => navigate(`/blog/professional/${entry.slug}`)}
               >
                 <span className="blogListIndex">{index + 1}</span>
                 <div className="blogListText">
@@ -37,4 +37,4 @@ const PersonalBlog: React.FC = () => {
   );
 };
 
-export default PersonalBlog;
+export default ProfessionalBlog;

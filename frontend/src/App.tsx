@@ -7,6 +7,9 @@ import WiiMenuPage from './pages/WiiMenuPage'
 import AboutMePage from './pages/AboutMePage';
 import BlogPage from './pages/BlogPage'
 import PersonalBlogPage from "./pages/PersonalBlog";
+import ProfessionalBlogPage from "./pages/ProfessionalBlog";
+import PersonalBlogEntryPage from "./pages/PersonalBlogEntry";
+import ProfessionalBlogEntryPage from "./pages/ProfessionalBlogEntry";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 
@@ -20,7 +23,10 @@ function AnimatedRoutes() {
         <Route path="/about" element={<AboutMePage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/professional" element={<ProfessionalBlogPage />} />
+        <Route path="/blog/professional/:slug" element={<ProfessionalBlogEntryPage />} />
         <Route path="/blog/personal" element={<PersonalBlogPage/>} />
+        <Route path="/blog/personal/:slug" element={<PersonalBlogEntryPage />} />
         <Route path="/contact" element={<ContactPage />} />
 
       </Routes>

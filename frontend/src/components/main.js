@@ -30,11 +30,11 @@ homeMusic.onerror = () => console.error('Failed to load menu music');
 
 // Load sound effects for each model
 const selectSounds = [
-    //TODO new Audio('assets/sounds/aboutMe.wav'),
-    new Audio('select-sound2.mp3'),
-    new Audio('select-sound3.mp3'),
-    new Audio('select-sound4.mp3'),
-    new Audio('select-sound5.mp3')
+    // new Audio('assets/sounds/aboutMe.wav'),
+    // new Audio('select-sound2.mp3'),
+    // new Audio('select-sound3.mp3'),
+    // new Audio('select-sound4.mp3'),
+    // new Audio('select-sound5.mp3')
 ];
 
 // Initialize the scene

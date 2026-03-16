@@ -17,12 +17,6 @@ type MenuItem = {
   mode?: MenuMode;
 };
 
-// TODO/IDEA: 
-// IDEA: COMBINE BOTH 3D AND 2D VIEWS TO MAKE THIS REMINISCENT OF THE 3DS HOME MENU
-//
-// top section: rotating floating 3d model of the element you have currently selected or hovered
-// bottom: single column of cards that can be selected and scrolled through like on the 3ds home menu
-
 // todo: play hover.wav for any menu item card that is hovered over
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -56,16 +50,6 @@ const MENU_ITEMS: MenuItem[] = [
     route: "/blog"
   },
   {
-    id: "personal-blog",
-    title: "Personal",
-    eyebrow: "Notes",
-    subtitle: "Longer-form personal writing and reflections.",
-    description:
-      "A more personal side of the portfolio, focused on growth, timing, and the path I am on.",
-    accent: "#ffc17d",
-    route: "/blog/personal"
-  },
-  {
     id: "contact",
     title: "Contact",
     eyebrow: "Reach Out",
@@ -77,8 +61,8 @@ const MENU_ITEMS: MenuItem[] = [
   },
   {
     id: "mode-3d",
-    title: "3D Mode",
-    eyebrow: "Experimental",
+    title: "Prototype",
+    eyebrow: "Reference",
     subtitle: "The original Wii-inspired carousel, kept as a secondary experience.",
     description:
       "A stylized 3D channel view that is now simplified so the interaction model stays predictable.",
@@ -105,6 +89,7 @@ const WiiMenu: React.FC = () => {
   const timeRef = useRef(0);
   const currentFrontModelRef = useRef<THREE.Mesh | null>(null);
   const hoverModelRef = useRef<THREE.Mesh | null>(null);
+  const channelHoverSoundRef = useRef<HTMLAudioElement | null>(null);
 
   const carouselItems = useMemo(() => MENU_ITEMS.filter((item) => !item.mode), []);
   const activeItem = carouselItems[activeIndex % carouselItems.length] ?? carouselItems[0];
@@ -113,6 +98,18 @@ const WiiMenu: React.FC = () => {
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
+
+  useEffect(() => {
+    const hoverSound = new Audio("/assets/sounds/hover.wav");
+    hoverSound.volume = 0.6;
+    channelHoverSoundRef.current = hoverSound;
+
+    return () => {
+      hoverSound.pause();
+      hoverSound.currentTime = 0;
+      channelHoverSoundRef.current = null;
+    };
+  }, []);
 
   const handleSelection = (item: MenuItem) => {
     if (item.mode) {
@@ -123,6 +120,15 @@ const WiiMenu: React.FC = () => {
     if (item.route) {
       navigate(item.route);
     }
+  };
+
+  const playChannelHoverSound = () => {
+    const sound = channelHoverSoundRef.current;
+    if (!sound) {
+      return;
+    }
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
   };
 
   const rotateCarousel = (direction: number) => {
@@ -389,7 +395,7 @@ const WiiMenu: React.FC = () => {
               className={mode === "3d" ? "active" : ""}
               onClick={() => setMode("3d")}
             >
-              3D Experiment
+              Prototype
             </button>
           </div>
         </header>
@@ -443,18 +449,16 @@ const WiiMenu: React.FC = () => {
                   setMode("3d");
                 }}
               >
-                3D Mode
+                Prototype
               </button>
             </aside>
 
             <section className="channelHome interactiveLayer">
               <div className="channelHero">
-                {/* <p className="wiiEyebrow">Portfolio</p> */}
                 <h2>Edwin Gabriel Villanueva</h2>
                 <p className="channelHeroTitle">
                   Full Stack Software Developer and Computer Science Student
                 </p>
-
               </div>
 
               <section className="channelGridWrap" ref={channelSectionRef}>
@@ -464,6 +468,8 @@ const WiiMenu: React.FC = () => {
                       key={item.id}
                       type="button"
                       className="channelCard"
+                      onMouseEnter={playChannelHoverSound}
+                      onFocus={playChannelHoverSound}
                       onClick={() => handleSelection(item)}
                       style={{ "--portfolio-accent": item.accent } as React.CSSProperties}
                     >
@@ -474,14 +480,8 @@ const WiiMenu: React.FC = () => {
                   ))}
                 </div>
               </section>
-
-              {/* <div className="channelScrollHint">
-                <span />
-                <p>Scroll for more</p>
-              </div> */}
             </section>
 
-            <section className="channelDetails interactiveLayer" ref={detailsSectionRef} />
           </>
         ) : (
           <>

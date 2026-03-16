@@ -14,9 +14,9 @@ import meCasual from "../../assets/images/Me/Casual.jpeg"
 import meYoung from "../../assets/images/Me/lilMe.jpeg";
 
 // Education
-import ucfLogo from "../../assets/images/Education/ucf-logo.png";
-import ucfBg from "../../assets/images/Education/UCF_BG.jpg";
-import irscLogo from "../../assets/images/Education/IRSL_Logo.jpg";
+import ucfLogo from "../../assets/images/Education/ucf-logo1.png";
+import ucfBg from "../../assets/images/Education/ucf-bg.jpg";
+import irscLogo from "../../assets/images/Education/IRSC_transparent_logo.webp";
 import irscBg from "../../assets/images/Education/IRSC_BG.jpg";
 
 // Work Experience (in the field)
@@ -67,7 +67,7 @@ type Job = {
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "about", label: "About Me" },
   { id: "education", label: "Education" },
-  { id: "experience", label: "Experience" }
+  { id: "experience", label: "Work Experience" }
 ];
 
 const aboutRows: AboutRow[] = [
@@ -125,6 +125,19 @@ const schools: School[] = [
 ];
 
 const jobs: Job[] = [
+    {
+    id: "etp",
+    label: "Entertainment Technology Partners",
+    background: etp_bg,
+    logo: etpLogo,
+    logoAlt: "ETP logo",
+
+    title: "Full Stack Software Developer",
+    time_spent: "February 2026 - Present",
+    description: "At Entertainment Technology Partners, I developed features for the KNW platform, building dashboards, processing engagement analytics, and integrating AWS services to analyze audience emotion and attention data during live events.",
+    projects_worked_on: "knw. (AI-driven platform for analyzing audience reactions)",
+    tech_stack: "TypeScript, Python, Docker, AWS",
+  },
   {
     id: "cpt",
     label: "Command Post Technologies",
@@ -138,19 +151,7 @@ const jobs: Job[] = [
     projects_worked_on: "SHADE (simulated human-like agents for defense emulation), CPT Agents (AI-driven in-house Candidate Relationship Management tool), AI Red Team (testing suite for LLM security), Oltre Foundry (Cyber Range tool-suite) ",
     tech_stack: "Python, JavaScript, React, Docker (containerization), Local/Cloud Large Language Model API, FastAPI, Proxmox (virtualization)",
   },
-  {
-    id: "etp",
-    label: "Entertainment Technology Partners",
-    background: etp_bg,
-    logo: etpLogo,
-    logoAlt: "ETP logo",
 
-    title: "Full Stack Software Developer",
-    time_spent: "February 2026 - Present",
-    description: "At Entertainment Technology Partners, I developed features for the KNW platform, building dashboards, processing engagement analytics, and integrating AWS services to analyze audience emotion and attention data during live events.",
-    projects_worked_on: "knw. (AI-driven platform for analyzing audience reactions)",
-    tech_stack: "TypeScript, Python, Docker, AWS",
-  }
 ];
 
 const sectionTransition = {
@@ -186,7 +187,7 @@ const AboutMe: React.FC = () => {
   const [aboutDirection, setAboutDirection] = useState(1);
   const [aboutIsTransitioning, setAboutIsTransitioning] = useState(false);
   const [activeSchool, setActiveSchool] = useState<SchoolId>("ucf");
-  const [activeJob, setActiveJob] = useState<JobId>("cpt");
+  const [activeJob, setActiveJob] = useState<JobId>("etp");
   const aboutWheelLockRef = useRef(false);
   const aboutWheelDeltaRef = useRef(0);
   const aboutWheelResetTimeoutRef = useRef<number | null>(null);
@@ -302,6 +303,21 @@ const AboutMe: React.FC = () => {
             transition={{ duration: 0.35, ease: "easeOut" }}
             style={{
               backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.72)), url(${selectedSchool.background})`
+            }}
+          />
+        ) : null}
+      </AnimatePresence>
+      <AnimatePresence mode="wait">
+        {activeSection === "experience" ? (
+          <motion.div
+            key={selectedJob.id}
+            className="aboutEducationBackdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            style={{
+              backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.83), rgba(210, 210, 210, 0.72)), url(${selectedJob.background})`
             }}
           />
         ) : null}
