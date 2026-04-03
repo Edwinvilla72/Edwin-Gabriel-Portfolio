@@ -52,7 +52,7 @@ export const professionalEntries: BlogEntry[] = [
   },
   {
     slug: "internship-to-full-time",
-    date: "January 8, 2026",
+    date: "Febrary 10, 2026",
     title: "From Internship Pace to Full-Time Execution",
     excerpt:
       "Workflow changes, ownership expectations, and engineering habits that mattered most during the transition.",

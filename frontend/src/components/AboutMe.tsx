@@ -17,7 +17,7 @@ import meYoung from "../../assets/images/Me/lilMe.jpeg";
 import ucfLogo from "../../assets/images/Education/ucf-logo1.png";
 import ucfBg from "../../assets/images/Education/ucf-bg.jpg";
 import irscLogo from "../../assets/images/Education/IRSC_transparent_logo.webp";
-import irscBg from "../../assets/images/Education/IRSC_BG.jpg";
+import irscBg from "../../assets/images/Education/IRSC_BG.png";
 
 // Work Experience (in the field)
 import cptLogo from "../../assets/images/Experience/CPTLogo.svg";
@@ -25,7 +25,20 @@ import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
 import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 
-type SectionId = "about" | "education" | "experience";
+// Skills images
+// import =_logo from "../../assets/images/Skills/languages/=_Logo.png"
+import c_logo from "../../assets/images/Skills/languages/C_Logo.png"
+import python_logo from "../../assets/images/Skills/languages/Python_Logo.png"
+import ts_logo from "../../assets/images/Skills/languages/Typescript_Logo.png"
+import js_logo from "../../assets/images/Skills/languages/Javascript_Logo.png"
+import java_logo from "../../assets/images/Skills/languages/Java_Logo.png"
+import cpp_logo from "../../assets/images/Skills/languages/C++_Logo.png"
+import sql_logo from "../../assets/images/Skills/languages/Sql_Logo.png"
+import php_logo from "../../assets/images/Skills/languages/Php_Logo.png"
+import html_css_logo from "../../assets/images/Skills/languages/HTML_CSS_Logo.png"
+
+
+type SectionId = "about" | "education" | "experience" | "skills";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
 
@@ -63,11 +76,18 @@ type Job = {
   tech_stack: string;
 };
 
+type SkillItem = {
+  name: string;
+  image?: string;
+  imageAlt?: string;
+};
+
 
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "about", label: "About Me" },
   { id: "education", label: "Education" },
-  { id: "experience", label: "Work Experience" }
+  { id: "experience", label: "Work Experience" },
+  { id: "skills", label: "Skills" }
 ];
 
 const aboutRows: AboutRow[] = [
@@ -154,6 +174,40 @@ const jobs: Job[] = [
 
 ];
 
+const skillLanes: SkillItem[][] = [
+  [
+    { name: "C", image: c_logo },
+    { name: "Python", image: python_logo},
+    { name: "TypeScript", image: ts_logo },
+    { name: "JavaScript", image: js_logo },
+    { name: "Java", image: java_logo },
+    { name: "C++", image: cpp_logo },
+    { name: "SQL", image: sql_logo },
+    { name: "PHP", image: php_logo },
+    { name: "HTML/CSS", image: html_css_logo}
+  ],
+  [
+    { name: "React" },
+    { name: "Vite" },
+    { name: "HTML" },
+    { name: "CSS" },
+    { name: "FastAPI" },
+    { name: "Node" },
+    { name: "REST APIs" },
+    { name: "Auth" }
+  ],
+  [
+    { name: "AWS" },
+    { name: "Docker" },
+    { name: "Git" },
+    { name: "Linux" },
+    { name: "CI/CD" },
+    { name: "LLM APIs" },
+    { name: "RAG" },
+    { name: "Analytics" }
+  ]
+];
+
 const sectionTransition = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -191,6 +245,7 @@ const AboutMe: React.FC = () => {
   const aboutWheelLockRef = useRef(false);
   const aboutWheelDeltaRef = useRef(0);
   const aboutWheelResetTimeoutRef = useRef<number | null>(null);
+  const aboutTouchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const selectedSchool = useMemo(
     () => schools.find((school) => school.id === activeSchool) ?? schools[0],
@@ -201,6 +256,36 @@ const AboutMe: React.FC = () => {
     [activeJob]
   );
   const activeAboutRow = aboutRows[activeAboutIndex] ?? aboutRows[0];
+
+  const clearAboutGestureState = () => {
+    aboutWheelDeltaRef.current = 0;
+
+    if (aboutWheelResetTimeoutRef.current) {
+      window.clearTimeout(aboutWheelResetTimeoutRef.current);
+      aboutWheelResetTimeoutRef.current = null;
+    }
+  };
+
+  const transitionAboutRow = (direction: number) => {
+    if (aboutWheelLockRef.current || aboutIsTransitioning) {
+      return;
+    }
+
+    const next = Math.min(
+      aboutRows.length - 1,
+      Math.max(0, activeAboutIndex + direction)
+    );
+
+    if (next === activeAboutIndex) {
+      return;
+    }
+
+    clearAboutGestureState();
+    aboutWheelLockRef.current = true;
+    setAboutIsTransitioning(true);
+    setAboutDirection(direction);
+    setActiveAboutIndex(next);
+  };
 
   useEffect(() => {
     if (activeSection !== "about") {
@@ -232,35 +317,15 @@ const AboutMe: React.FC = () => {
       }
 
       const direction = aboutWheelDeltaRef.current > 0 ? 1 : -1;
-      aboutWheelDeltaRef.current = 0;
-      if (aboutWheelResetTimeoutRef.current) {
-        window.clearTimeout(aboutWheelResetTimeoutRef.current);
-        aboutWheelResetTimeoutRef.current = null;
-      }
-      const next = Math.min(
-        aboutRows.length - 1,
-        Math.max(0, activeAboutIndex + direction)
-      );
-
-      if (next === activeAboutIndex) {
-        return;
-      }
-
-      aboutWheelLockRef.current = true;
-      setAboutIsTransitioning(true);
-      setAboutDirection(direction);
-      setActiveAboutIndex(next);
+      transitionAboutRow(direction);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       window.removeEventListener("wheel", onWheel);
-      if (aboutWheelResetTimeoutRef.current) {
-        window.clearTimeout(aboutWheelResetTimeoutRef.current);
-      }
-      aboutWheelResetTimeoutRef.current = null;
-      aboutWheelDeltaRef.current = 0;
+      clearAboutGestureState();
       aboutWheelLockRef.current = false;
+      aboutTouchStartRef.current = null;
     };
   }, [aboutIsTransitioning, activeAboutIndex, activeSection]);
 
@@ -269,14 +334,47 @@ const AboutMe: React.FC = () => {
       return;
     }
     setAboutDirection(index > activeAboutIndex ? 1 : -1);
-    aboutWheelDeltaRef.current = 0;
-    if (aboutWheelResetTimeoutRef.current) {
-      window.clearTimeout(aboutWheelResetTimeoutRef.current);
-      aboutWheelResetTimeoutRef.current = null;
-    }
+    clearAboutGestureState();
     aboutWheelLockRef.current = true;
     setAboutIsTransitioning(true);
     setActiveAboutIndex(index);
+  };
+
+  const handleAboutTouchStart = (event: React.TouchEvent<HTMLElement>) => {
+    const touch = event.touches[0];
+    if (!touch) {
+      return;
+    }
+
+    aboutTouchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleAboutTouchMove = (event: React.TouchEvent<HTMLElement>) => {
+    const start = aboutTouchStartRef.current;
+    const touch = event.touches[0];
+
+    if (!start || !touch || aboutWheelLockRef.current || aboutIsTransitioning) {
+      return;
+    }
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaY) <= Math.abs(deltaX)) {
+      return;
+    }
+
+    if (Math.abs(deltaY) < 70) {
+      return;
+    }
+
+    event.preventDefault();
+    transitionAboutRow(deltaY < 0 ? 1 : -1);
+    aboutTouchStartRef.current = null;
+  };
+
+  const handleAboutTouchEnd = () => {
+    aboutTouchStartRef.current = null;
   };
 
   return (
@@ -355,22 +453,6 @@ const AboutMe: React.FC = () => {
           </div>
         </div>
 
-        {activeSection === "about" ? (
-          <aside className="aboutRowNav" aria-label="About row navigation">
-            {aboutRows.map((row, index) => (
-              <button
-                key={row.id}
-                type="button"
-                className={`aboutRowNavButton ${index === activeAboutIndex ? "active" : ""}`}
-                onClick={() => jumpToAboutRow(index)}
-                aria-label={`Go to ${row.title}`}
-              >
-                <span className="aboutRowNavIndex">{index + 1}</span>
-              </button>
-            ))}
-          </aside>
-        ) : null}
-
         <AnimatePresence mode="wait">
           {activeSection === "about" ? (
             <motion.section key="about" className="aboutSectionStack aboutSectionViewport" {...sectionTransition}>
@@ -378,6 +460,10 @@ const AboutMe: React.FC = () => {
                 <motion.section
                   key={activeAboutRow.id}
                   className={`aboutSplitSection ${activeAboutIndex % 2 === 1 ? "reverse" : ""}`}
+                  onTouchStart={handleAboutTouchStart}
+                  onTouchMove={handleAboutTouchMove}
+                  onTouchEnd={handleAboutTouchEnd}
+                  onTouchCancel={handleAboutTouchEnd}
                   variants={aboutRowTransition}
                   custom={aboutDirection}
                   initial="initial"
@@ -559,7 +645,68 @@ const AboutMe: React.FC = () => {
               </div>
             </motion.section>
           ) : null}
+
+          {activeSection === "skills" ? (
+            <motion.section key="skills" className="aboutSkillsPage" {...sectionTransition}>
+              <div className="aboutSkillsIntro">
+                {/* <p className="wiiEyebrow">Skills</p> */}
+                <h1>Skills</h1>
+                {/* <p>
+                  Each skill item can take an image later by adding `image` and `imageAlt` in the skills data.
+                </p> */}
+              </div>
+
+              <div className="aboutSkillsBelt" aria-label="Skills conveyor belt">
+                {skillLanes.map((lane, laneIndex) => (
+                  <div
+                    key={`lane-${laneIndex}`}
+                    className={`aboutSkillsLane aboutSkillsLane${laneIndex + 1}`}
+                  >
+                    {[0, 1].map((copyIndex) => (
+                      <div
+                        key={`lane-${laneIndex}-copy-${copyIndex}`}
+                        className="aboutSkillsTrack"
+                        aria-hidden={copyIndex === 1}
+                      >
+                        {lane.map((item) => (
+                          <article
+                            key={`${laneIndex}-${copyIndex}-${item.name}`}
+                            className="aboutSkillBadge"
+                          >
+                            {item.image ? (
+                              <img
+                                src={item.image}
+                                alt={item.imageAlt ?? `${item.name} logo`}
+                                className="aboutSkillBadgeImage"
+                              />
+                            ) : null}
+                            <span>{item.name}</span>
+                          </article>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </motion.section>
+          ) : null}
         </AnimatePresence>
+
+        {activeSection === "about" ? (
+          <aside className="aboutRowNav" aria-label="About row navigation">
+            {aboutRows.map((row, index) => (
+              <button
+                key={row.id}
+                type="button"
+                className={`aboutRowNavButton ${index === activeAboutIndex ? "active" : ""}`}
+                onClick={() => jumpToAboutRow(index)}
+                aria-label={`Go to ${row.title}`}
+              >
+                <span className="aboutRowNavIndex">{index + 1}</span>
+              </button>
+            ))}
+          </aside>
+        ) : null}
       </main>
     </div>
   );

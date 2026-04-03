@@ -40,6 +40,16 @@ const MENU_ITEMS: MenuItem[] = [
     route: "/projects"
   },
   {
+    id: "internship-portfolio",
+    title: "Internship",
+    eyebrow: "Portfolio Project",
+    subtitle: "Rubric-aligned internship documentation, project evidence, and reflection.",
+    description:
+      "A dedicated final portfolio project page organized around internship details, project work, and learnings.",
+    accent: "#7cc7ff",
+    route: "/internship-portfolio"
+  },
+  {
     id: "blog",
     title: "Blog",
     eyebrow: "Writing",
