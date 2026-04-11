@@ -598,7 +598,7 @@ const WiiMenu: React.FC = () => {
                     <ul className="dashboardHeroFacts">
                       <li>Full Stack Software Developer at Entertainment Technology Partners</li>
                       <li>Computer Science student at UCF</li>
-                      <li>Interested in backend systems, AI-enabled products, and user experience</li>
+                      <li>Interested in backend systems, AI-enabled products, and user experiences</li>
                     </ul>
                   </div>
                 </aside>
