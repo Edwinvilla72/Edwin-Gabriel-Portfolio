@@ -13,6 +13,9 @@ import ProfessionalBlogEntryPage from "./pages/ProfessionalBlogEntry";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import InternshipPortfolioPage from "./pages/InternshipPortfolioPage";
+import Footer from "./components/Footer";
+import ProjectDetailPage from "./pages/ProjectDetailPage";
+import ChannelNavbar from "./components/ChannelNavbar";
 
 const routeTransition = {
   initial: { opacity: 0, y: 18, scale: 0.992 },
@@ -47,6 +50,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<PageTransition><WiiMenuPage /></PageTransition>}/>
         <Route path="/about" element={<PageTransition><AboutMePage /></PageTransition>} />
         <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
+        <Route path="/projects/:slug" element={<PageTransition><ProjectDetailPage /></PageTransition>} />
         <Route
           path="/internship-portfolio"
           element={<PageTransition><InternshipPortfolioPage /></PageTransition>}
@@ -75,10 +79,24 @@ function AnimatedRoutes() {
   );
 }
 
+function AppShell() {
+  const location = useLocation();
+  const hideFooter =
+    location.pathname.startsWith("/blog") || location.pathname === "/about";
+
+  return (
+    <>
+      <ChannelNavbar />
+      <AnimatedRoutes />
+      {hideFooter ? null : <Footer />}
+    </>
+  );
+}
+
 function App() {
   return (
     <Router>
-      <AnimatedRoutes />
+      <AppShell />
     </Router>
   );
 }

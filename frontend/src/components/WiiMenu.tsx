@@ -2,6 +2,16 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
+import meCasual from "../../assets/images/Me/Casual.jpeg";
+import c_logo from "../../assets/images/Skills/languages/C_Logo.png";
+import python_logo from "../../assets/images/Skills/languages/Python_Logo.png";
+import ts_logo from "../../assets/images/Skills/languages/Typescript_Logo.png";
+import js_logo from "../../assets/images/Skills/languages/Javascript_Logo.png";
+import java_logo from "../../assets/images/Skills/languages/Java_Logo.png";
+import cpp_logo from "../../assets/images/Skills/languages/C++_Logo.png";
+import sql_logo from "../../assets/images/Skills/languages/Sql_Logo.png";
+import php_logo from "../../assets/images/Skills/languages/Php_Logo.png";
+import html_css_logo from "../../assets/images/Skills/languages/HTML_CSS_Logo.png";
 
 
 type MenuMode = "2d" | "3d";
@@ -15,6 +25,21 @@ type MenuItem = {
   accent: string;
   route?: string;
   mode?: MenuMode;
+};
+
+type DashboardProject = {
+  name: string;
+  type: string;
+  summary: string;
+  route?: string;
+  githubUrl: string;
+  accent: string;
+};
+
+type SkillItem = {
+  name: string;
+  image?: string;
+  imageAlt?: string;
 };
 
 // todo: play hover.wav for any menu item card that is hovered over
@@ -81,6 +106,71 @@ const MENU_ITEMS: MenuItem[] = [
   }
 ];
 
+const emailAddress = "edwin.villa2@icloud.com";
+const githubUrl = "https://github.com/Edwinvilla72";
+const knwURL = "https://knw.net/en"
+
+const skillLanes: SkillItem[][] = [
+  [
+    { name: "C", image: c_logo },
+    { name: "Python", image: python_logo },
+    { name: "TypeScript", image: ts_logo },
+    { name: "JavaScript", image: js_logo },
+    { name: "Java", image: java_logo },
+    { name: "C++", image: cpp_logo },
+    { name: "SQL", image: sql_logo },
+    { name: "PHP", image: php_logo },
+    { name: "HTML/CSS", image: html_css_logo }
+  ],
+  [
+    { name: "React" },
+    { name: "Vite" },
+    { name: "HTML" },
+    { name: "CSS" },
+    { name: "FastAPI" },
+    { name: "Node" },
+    { name: "REST APIs" },
+    { name: "Auth" }
+  ],
+  [
+    { name: "AWS" },
+    { name: "Docker" },
+    { name: "Git" },
+    { name: "Linux" },
+    { name: "CI/CD" },
+    { name: "LLM APIs" },
+    { name: "RAG" },
+    { name: "Analytics" }
+  ]
+];
+
+const featuredProjects: DashboardProject[] = [
+  {
+    name: "Wii Portfolio",
+    type: "Personal build",
+    summary: "A Nintendo-leaning portfolio that blends channel UI, motion, and a cleaner editorial homepage.",
+    route: "/projects/wii-portfolio",
+    githubUrl,
+    accent: "#E60012"
+  },
+  {
+    name: "knw.",
+    type: "Professional product",
+    summary: "Dashboard and analytics work for a live-event platform focused on audience attention and emotion signals.",
+    route: "/projects/knw",
+    githubUrl: knwURL,
+    accent: "#E60012"
+  },
+  {
+    name: "SHADE",
+    type: "AI / security",
+    summary: "Human-like cyber-defense simulation work built to make defensive testing more believable and useful.",
+    route: "/projects/shade",
+    githubUrl,
+    accent: "#E60012"
+  }
+] as const;
+
 
 const WiiMenu: React.FC = () => {
   const navigate = useNavigate();
@@ -89,7 +179,10 @@ const WiiMenu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const activeIndexRef = useRef(0);
   const channelSectionRef = useRef<HTMLElement | null>(null);
-  const detailsSectionRef = useRef<HTMLElement | null>(null);
+  const aboutSectionRef = useRef<HTMLElement | null>(null);
+  const skillsSectionRef = useRef<HTMLElement | null>(null);
+  const projectsSectionRef = useRef<HTMLElement | null>(null);
+  const contactSectionRef = useRef<HTMLElement | null>(null);
 
   const mountRef = useRef<HTMLDivElement | null>(null);
   const modelsRef = useRef<THREE.Mesh[]>([]);
@@ -104,6 +197,11 @@ const WiiMenu: React.FC = () => {
   const carouselItems = useMemo(() => MENU_ITEMS.filter((item) => !item.mode), []);
   const activeItem = carouselItems[activeIndex % carouselItems.length] ?? carouselItems[0];
   const heroMenu = MENU_ITEMS.filter((item) => item.id !== "mode-3d");
+
+  const scrollToSection = (section: React.RefObject<HTMLElement | null>) => {
+    setMenuOpen(false);
+    section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => {
     activeIndexRef.current = activeIndex;
@@ -389,27 +487,6 @@ const WiiMenu: React.FC = () => {
       {mode === "3d" && <div className="wiiMenuMount" ref={mountRef} />}
 
       <div className="wiiMenuOverlay">
-        <header className="wiiHero interactiveLayer">
-
-
-          <div className="wiiModeToggle" role="tablist" aria-label="Portfolio mode">
-            <button
-              type="button"
-              className={mode === "2d" ? "active" : ""}
-              onClick={() => setMode("2d")}
-            >
-              2D Dashboard
-            </button>
-            <button
-              type="button"
-              className={mode === "3d" ? "active" : ""}
-              onClick={() => setMode("3d")}
-            >
-              Prototype
-            </button>
-          </div>
-        </header>
-
         {mode === "2d" ? (
           <>
             <button
@@ -446,11 +523,34 @@ const WiiMenu: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setMenuOpen(false);
-                  detailsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  scrollToSection(aboutSectionRef);
                 }}
               >
-                Details
+                About
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  scrollToSection(skillsSectionRef);
+                }}
+              >
+                Skills
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  scrollToSection(projectsSectionRef);
+                }}
+              >
+                Projects
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  scrollToSection(contactSectionRef);
+                }}
+              >
+                Contact
               </button>
               <button
                 type="button"
@@ -464,10 +564,50 @@ const WiiMenu: React.FC = () => {
             </aside>
 
             <section className="channelHome interactiveLayer">
+              <div className="dashboardHeroBand">
+                <div className="dashboardHeroMain">
+                  <p className="wiiEyebrow">Home Menu</p>
+                  <h1>Edwin Gabriel Villanueva</h1>
+                  <p className="channelHeroCopy">
+                    Full-stack developer focused on product UI, cloud-backed software, and
+                    practical AI systems. The first screen keeps the Wii channel feel, and the
+                    rest of the page scrolls like a condensed Nintendo-style homepage.
+                  </p>
+
+                  <div className="dashboardHeroActions">
+                    <button type="button" onClick={() => scrollToSection(projectsSectionRef)}>
+                      View projects
+                    </button>
+                    <button type="button" onClick={() => scrollToSection(contactSectionRef)}>
+                      Contact
+                    </button>
+                  </div>
+                </div>
+
+                <aside className="dashboardHeroAside dashboardHeroProfileCard">
+                  <div className="dashboardHeroPhotoFrame">
+                    <img
+                      src={meCasual}
+                      alt="Portrait of Edwin Gabriel Villanueva"
+                      className="dashboardHeroPhoto"
+                    />
+                  </div>
+
+                  <div className="dashboardHeroProfileMeta">
+                    <p className="dashboardHeroAsideLabel">At a glance</p>
+                    <ul className="dashboardHeroFacts">
+                      <li>Full Stack Software Developer at Entertainment Technology Partners</li>
+                      <li>Computer Science student at UCF</li>
+                      <li>Interested in dashboards, AI-enabled products, and polished frontend systems</li>
+                    </ul>
+                  </div>
+                </aside>
+              </div>
+
               <div className="channelHero">
-                <h2>Edwin Gabriel Villanueva</h2>
+                <h2>Open a channel.</h2>
                 <p className="channelHeroTitle">
-                  Full Stack Software Developer and Computer Science Student
+                  Wii-inspired menu first, full portfolio summary underneath
                 </p>
               </div>
 
@@ -490,6 +630,164 @@ const WiiMenu: React.FC = () => {
                   ))}
                 </div>
               </section>
+
+              <div className="channelScrollHint">
+                <span />
+                <p>Scroll for the full portfolio summary</p>
+              </div>
+            </section>
+
+            <section className="dashboardSection interactiveLayer" ref={aboutSectionRef}>
+              <div className="dashboardSectionIntro">
+                <p className="wiiEyebrow">About</p>
+                <h2>Short version first.</h2>
+                <p>
+                  I build software with a product mindset: clear interfaces, useful data, and
+                  systems that feel intentional rather than improvised. Most of my recent work sits
+                  at the intersection of frontend dashboards, backend services, and AI-assisted
+                  tooling.
+                </p>
+              </div>
+
+              <div className="dashboardAboutGrid">
+                <article className="dashboardFeatureCard dashboardFeaturePrimary">
+                  <span className="dashboardFeatureTag">Current focus</span>
+                  <h3>Shipping software that translates complex behavior into readable interfaces.</h3>
+                  <p>
+                    That means analytics surfaces, platform workflows, and portfolio builds that put
+                    clarity ahead of noise.
+                  </p>
+                </article>
+
+                <article className="dashboardFeatureCard">
+                  <span className="dashboardFeatureTag">Working style</span>
+                  <h3>Structured, visual, and pragmatic.</h3>
+                  <p>
+                    I like products that are easy to navigate, pleasant to use, and grounded in real
+                    implementation constraints.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <section className="dashboardSection interactiveLayer" ref={skillsSectionRef}>
+              <div className="dashboardSectionIntro">
+                <p className="wiiEyebrow">Skills</p>
+                <h2>Core lanes.</h2>
+                <p>
+                  The portfolio is strongest where interface work, backend logic, and deployment
+                  realities meet.
+                </p>
+              </div>
+
+              <div className="dashboardSkillsShell">
+                <div className="aboutSkillsBelt dashboardSkillsBelt" aria-label="Skills conveyor belt">
+                  {skillLanes.map((lane, laneIndex) => (
+                    <div
+                      key={`dashboard-lane-${laneIndex}`}
+                      className={`aboutSkillsLane aboutSkillsLane${laneIndex + 1}`}
+                    >
+                      {[0, 1].map((copyIndex) => (
+                        <div
+                          key={`dashboard-lane-${laneIndex}-copy-${copyIndex}`}
+                          className="aboutSkillsTrack"
+                          aria-hidden={copyIndex === 1}
+                        >
+                          {[0, 1].map((laneRepeat) =>
+                            lane.map((item) => (
+                              <article
+                                key={`${laneIndex}-${copyIndex}-${laneRepeat}-${item.name}`}
+                                className="aboutSkillBadge dashboardSkillBadge"
+                              >
+                                {item.image ? (
+                                  <img
+                                    src={item.image}
+                                    alt={item.imageAlt ?? `${item.name} logo`}
+                                    className="aboutSkillBadgeImage"
+                                  />
+                                ) : null}
+                                <span>{item.name}</span>
+                              </article>
+                            ))
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="dashboardSection interactiveLayer" ref={projectsSectionRef}>
+              <div className="dashboardSectionHeaderRow">
+                <div className="dashboardSectionIntro">
+                  <p className="wiiEyebrow">Featured Projects</p>
+                  <h2>Selected work.</h2>
+                  <p>
+                    A quick row of projects for visitors who want the portfolio summary before
+                    diving into dedicated pages.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  className="dashboardSectionRouteButton"
+                  onClick={() => navigate("/projects")}
+                >
+                  Open projects page
+                </button>
+              </div>
+
+              <div className="dashboardProjectRow">
+                {featuredProjects.map((project) => (
+                  <article
+                    key={project.name}
+                    className="dashboardProjectCard"
+                    style={{ "--portfolio-accent": project.accent } as React.CSSProperties}
+                  >
+                    <p>{project.type}</p>
+                    <h3>{project.name}</h3>
+                    <span>{project.summary}</span>
+                    <div className="dashboardProjectActions">
+                      {project.route ? (
+                        <button type="button" onClick={() => navigate(project.route ?? "/projects")}>
+                          Learn more
+                        </button>
+                      ) : null}
+                      <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                        GitHub
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="dashboardSection dashboardContactSection interactiveLayer" ref={contactSectionRef}>
+              <div className="dashboardSectionIntro">
+                <p className="wiiEyebrow">Contact</p>
+                <h2>Let&apos;s talk.</h2>
+                <p>
+                  If you want to discuss a role, a product, or a build direction, these are the
+                  fastest ways to reach me.
+                </p>
+              </div>
+
+              <div className="dashboardContactCard">
+                <div>
+                  <p className="dashboardContactLabel">Email</p>
+                  <a href={`mailto:${emailAddress}`}>{emailAddress}</a>
+                </div>
+                <div>
+                  <p className="dashboardContactLabel">GitHub</p>
+                  <a href={githubUrl} target="_blank" rel="noreferrer">
+                    github.com/Edwinvilla72
+                  </a>
+                </div>
+                <button type="button" onClick={() => navigate("/contact")}>
+                  Open full contact page
+                </button>
+              </div>
             </section>
 
           </>

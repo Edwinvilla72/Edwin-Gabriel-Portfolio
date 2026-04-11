@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 
 
@@ -25,20 +24,7 @@ import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
 import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 
-// Skills images
-// import =_logo from "../../assets/images/Skills/languages/=_Logo.png"
-import c_logo from "../../assets/images/Skills/languages/C_Logo.png"
-import python_logo from "../../assets/images/Skills/languages/Python_Logo.png"
-import ts_logo from "../../assets/images/Skills/languages/Typescript_Logo.png"
-import js_logo from "../../assets/images/Skills/languages/Javascript_Logo.png"
-import java_logo from "../../assets/images/Skills/languages/Java_Logo.png"
-import cpp_logo from "../../assets/images/Skills/languages/C++_Logo.png"
-import sql_logo from "../../assets/images/Skills/languages/Sql_Logo.png"
-import php_logo from "../../assets/images/Skills/languages/Php_Logo.png"
-import html_css_logo from "../../assets/images/Skills/languages/HTML_CSS_Logo.png"
-
-
-type SectionId = "about" | "education" | "experience" | "skills";
+type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
 
@@ -76,18 +62,10 @@ type Job = {
   tech_stack: string;
 };
 
-type SkillItem = {
-  name: string;
-  image?: string;
-  imageAlt?: string;
-};
-
-
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "about", label: "About Me" },
   { id: "education", label: "Education" },
-  { id: "experience", label: "Work Experience" },
-  { id: "skills", label: "Skills" }
+  { id: "experience", label: "Work Experience" }
 ];
 
 const aboutRows: AboutRow[] = [
@@ -174,40 +152,6 @@ const jobs: Job[] = [
 
 ];
 
-const skillLanes: SkillItem[][] = [
-  [
-    { name: "C", image: c_logo },
-    { name: "Python", image: python_logo},
-    { name: "TypeScript", image: ts_logo },
-    { name: "JavaScript", image: js_logo },
-    { name: "Java", image: java_logo },
-    { name: "C++", image: cpp_logo },
-    { name: "SQL", image: sql_logo },
-    { name: "PHP", image: php_logo },
-    { name: "HTML/CSS", image: html_css_logo}
-  ],
-  [
-    { name: "React" },
-    { name: "Vite" },
-    { name: "HTML" },
-    { name: "CSS" },
-    { name: "FastAPI" },
-    { name: "Node" },
-    { name: "REST APIs" },
-    { name: "Auth" }
-  ],
-  [
-    { name: "AWS" },
-    { name: "Docker" },
-    { name: "Git" },
-    { name: "Linux" },
-    { name: "CI/CD" },
-    { name: "LLM APIs" },
-    { name: "RAG" },
-    { name: "Analytics" }
-  ]
-];
-
 const sectionTransition = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -235,7 +179,6 @@ const underlineTransition = {
 } as const;
 
 const AboutMe: React.FC = () => {
-  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState<SectionId>("about");
   const [activeAboutIndex, setActiveAboutIndex] = useState(0);
   const [aboutDirection, setAboutDirection] = useState(1);
@@ -422,10 +365,6 @@ const AboutMe: React.FC = () => {
       </AnimatePresence>
       <main className="portfolioPage aboutPage">
         <div className="aboutTopBar">
-          <button type="button" className="pageBackButton" onClick={() => navigate("/")}>
-            Back to dashboard
-          </button>
-
           <div className="aboutTopNavWrap">
             <nav className="aboutTopNav" aria-label="About page sections">
               {sections.map((section) => (
@@ -475,12 +414,19 @@ const AboutMe: React.FC = () => {
                     aboutWheelLockRef.current = false;
                   }}
                 >
-                  <div className="aboutSplitImage">
-                    <img src={activeAboutRow.image} alt={activeAboutRow.imageAlt} />
+                  <div className="aboutSplitImage aboutHomePhotoCard">
+                    <div className="aboutHomePhotoFrame">
+                      <img src={activeAboutRow.image} alt={activeAboutRow.imageAlt} />
+                    </div>
                   </div>
-                  <div className="aboutSplitText">
+                  <div className="aboutSplitText aboutHomeCopyCard">
+                    <p className="wiiEyebrow">Profile {activeAboutIndex + 1}</p>
                     <h2>{activeAboutRow.title}</h2>
-                    <p>{activeAboutRow.placeholder}</p>
+                    <p className="aboutHomeLead">{activeAboutRow.placeholder}</p>
+                    <div className="aboutHomeMeta">
+                      <span>Home Menu Bio</span>
+                      <span>{`${activeAboutIndex + 1} / ${aboutRows.length}`}</span>
+                    </div>
                   </div>
                 </motion.section>
               </AnimatePresence>
@@ -646,50 +592,6 @@ const AboutMe: React.FC = () => {
             </motion.section>
           ) : null}
 
-          {activeSection === "skills" ? (
-            <motion.section key="skills" className="aboutSkillsPage" {...sectionTransition}>
-              <div className="aboutSkillsIntro">
-                {/* <p className="wiiEyebrow">Skills</p> */}
-                <h1>Skills</h1>
-                {/* <p>
-                  Each skill item can take an image later by adding `image` and `imageAlt` in the skills data.
-                </p> */}
-              </div>
-
-              <div className="aboutSkillsBelt" aria-label="Skills conveyor belt">
-                {skillLanes.map((lane, laneIndex) => (
-                  <div
-                    key={`lane-${laneIndex}`}
-                    className={`aboutSkillsLane aboutSkillsLane${laneIndex + 1}`}
-                  >
-                    {[0, 1].map((copyIndex) => (
-                      <div
-                        key={`lane-${laneIndex}-copy-${copyIndex}`}
-                        className="aboutSkillsTrack"
-                        aria-hidden={copyIndex === 1}
-                      >
-                        {lane.map((item) => (
-                          <article
-                            key={`${laneIndex}-${copyIndex}-${item.name}`}
-                            className="aboutSkillBadge"
-                          >
-                            {item.image ? (
-                              <img
-                                src={item.image}
-                                alt={item.imageAlt ?? `${item.name} logo`}
-                                className="aboutSkillBadgeImage"
-                              />
-                            ) : null}
-                            <span>{item.name}</span>
-                          </article>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </motion.section>
-          ) : null}
         </AnimatePresence>
 
         {activeSection === "about" ? (
