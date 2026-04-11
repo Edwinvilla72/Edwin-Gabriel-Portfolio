@@ -8,7 +8,7 @@
   z-index: 50;
   overflow: hidden;
   color: var(--about-ink);
-}
+} 
 
 .about-bg {
   position: absolute;
