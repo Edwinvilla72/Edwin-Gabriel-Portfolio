@@ -1,0 +1,14 @@
+name: Test Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: self-hosted
+
+    steps:
+      - name: Print a message
+        run: echo "Hello from peeroys-watch"
