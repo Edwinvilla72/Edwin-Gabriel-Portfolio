@@ -1,4 +1,4 @@
-name: Test Self-Hosted Runner
+name: Deployment Runner
 
 on:
   push:
@@ -10,5 +10,5 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Print a message
+      - name: Run Deploy Bash Script
         run: /home/peeroy/deploy.sh
