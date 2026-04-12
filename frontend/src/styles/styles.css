@@ -35,6 +35,12 @@
   --nintendo-surface: #ffffff;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -4145,6 +4151,39 @@ textarea {
     padding-top: calc(var(--app-nav-offset) + 1.2rem);
   }
 
+  .channelHome,
+  .dashboardSection,
+  .portfolioPage,
+  .aboutSplitSection,
+  .aboutSplitText,
+  .aboutHomeCopyCard,
+  .aboutHomePhotoCard,
+  .aboutPinnedContent,
+  .wiiSportsFrame,
+  .projectsCatalogueHero,
+  .catalogueCard,
+  .projectDetailCopy,
+  .projectDetailMedia,
+  .projectDetailPanel,
+  .projectDetailMissing,
+  .internshipMasthead,
+  .internshipBand,
+  .blogListShell,
+  .blogEntryArticle,
+  .contactMinimalLayout,
+  .contactCard {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .dashboardSkillsShell {
+    width: auto;
+    margin-left: 0;
+    padding: 0.6rem 0 1.2rem;
+    border-top: 0;
+  }
+
   .dashboardHeroMain {
     padding: 2.4rem 1.5rem 1.5rem;
   }
@@ -4190,6 +4229,44 @@ textarea {
   .contactMinimalLayout {
     gap: 1.5rem;
     padding-top: 1rem;
+  }
+
+  .dashboardHeroActions,
+  .dashboardProjectActions,
+  .contactMinimalActions {
+    width: 100%;
+  }
+
+  .dashboardHeroActions button,
+  .dashboardProjectActions a,
+  .dashboardProjectActions button,
+  .contactPrimaryButton,
+  .contactSecondaryButton {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboardHeroMain,
+  .dashboardHeroAside,
+  .dashboardFeatureCard,
+  .dashboardProjectCard,
+  .dashboardContactCard,
+  .pageHeroCard,
+  .pagePanel,
+  .timelineCard,
+  .projectCard,
+  .contactCard,
+  .aboutHomeCopyCard,
+  .internshipMasthead,
+  .internshipBand,
+  .projectsCatalogueHero,
+  .projectDetailCopy,
+  .projectDetailPanel,
+  .projectDetailMissing,
+  .catalogueCardBody,
+  .wiiSportsFrameBody,
+  .wiiSportsFrameFooter {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -4269,6 +4346,53 @@ textarea {
 
   .aboutSplitText {
     padding: 0.95rem 0.9rem 0;
+  }
+
+  .portfolioPage,
+  .wiiMenuOverlay {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .channelGrid,
+  .wiiSportsFrameBody,
+  .wiiSportsFrameFooter,
+  .projectsCatalogueHero,
+  .catalogueCardBody,
+  .projectDetailCopy,
+  .projectDetailPanel,
+  .projectDetailMissing,
+  .internshipMasthead,
+  .internshipBand,
+  .dashboardHeroMain,
+  .dashboardHeroAside,
+  .dashboardFeatureCard,
+  .dashboardProjectCard,
+  .dashboardContactCard,
+  .blogEntryArticle {
+    padding-left: 0.95rem;
+    padding-right: 0.95rem;
+  }
+
+  .wiiSportsFrame,
+  .catalogueCard,
+  .projectDetailCopy,
+  .projectDetailPanel,
+  .projectDetailMissing,
+  .internshipMasthead,
+  .internshipBand,
+  .blogListShell,
+  .blogEntryArticle,
+  .dashboardHeroMain,
+  .dashboardHeroAside,
+  .dashboardFeatureCard,
+  .dashboardProjectCard,
+  .dashboardContactCard {
+    border-radius: 22px;
+  }
+
+  .dashboardSkillsShell {
+    padding-bottom: 1rem;
   }
 
   .aboutSplitText h2,
