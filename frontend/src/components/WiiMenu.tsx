@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 import meCasual from "../../assets/images/Me/Casual.jpeg";
+
+// -- skills --
+// languages
 import c_logo from "../../assets/images/Skills/languages/C_Logo.png";
 import python_logo from "../../assets/images/Skills/languages/Python_Logo.png";
 import ts_logo from "../../assets/images/Skills/languages/Typescript_Logo.png";
@@ -13,6 +16,27 @@ import sql_logo from "../../assets/images/Skills/languages/Sql_Logo.png";
 import php_logo from "../../assets/images/Skills/languages/Php_Logo.png";
 import html_css_logo from "../../assets/images/Skills/languages/HTML_CSS_Logo.png";
 
+// frameworks
+import react_logo from "../../assets/images/Skills/frameworks/React_logo.png";
+import vite_logo from "../../assets/images/Skills/frameworks/Vite_Logo.png";
+import fastapi_logo from "../../assets/images/Skills/frameworks/fastapi_logo.png";
+import nodejs_logo from "../../assets/images/Skills/frameworks/nodejs_logo.webp";
+import nextjs_logo from "../../assets/images/Skills/frameworks/nextjs_logo.png";
+import tailwind_logo from "../../assets/images/Skills/frameworks/Tailwind_logo.png";
+import rest_api_logo from "../../assets/images/Skills/frameworks/rest-api.png";
+
+// tools
+import aws_logo from "../../assets/images/Skills/tools/aws.png";
+import docker_logo from "../../assets/images/Skills/tools/docker.png";
+import git_logo from "../../assets/images/Skills/tools/git.png";
+import github_logo from "../../assets/images/Skills/tools/github.svg";
+import linux_logo from "../../assets/images/Skills/tools/linux.gif";
+import mongodb_logo from "../../assets/images/Skills/tools/mongodb.png";
+import dynamodb_logo from "../../assets/images/Skills/tools/DynamoDB.png";
+import cicd_logo from "../../assets/images/Skills/tools/CICD.webp";
+import openai_logo from "../../assets/images/Skills/tools/openai.png";
+import sam_logo from "../../assets/images/Skills/tools/sam.svg";
+import manager_logo from "../../assets/images/Skills/tools/manager.png";
 
 type MenuMode = "2d" | "3d";
 
@@ -123,31 +147,33 @@ const skillLanes: SkillItem[][] = [
     { name: "HTML/CSS", image: html_css_logo }
   ],
   [
-    { name: "React" },
-    { name: "Vite" },
-    { name: "HTML" },
-    { name: "CSS" },
-    { name: "FastAPI" },
-    { name: "Node" },
-    { name: "REST APIs" },
-    { name: "Auth" }
+    { name: "React", image: react_logo },
+    { name: "Vite", image: vite_logo },
+    { name: "FastAPI", image: fastapi_logo },
+    { name: "Node.js/Express", image: nodejs_logo },
+    { name: "Next.js", image: nextjs_logo },
+    { name: "Tailwind", image: tailwind_logo },
+    { name: "REST APIs", image: rest_api_logo },
   ],
   [
-    { name: "AWS" },
-    { name: "Docker" },
-    { name: "Git" },
-    { name: "Linux" },
-    { name: "CI/CD" },
-    { name: "LLM APIs" },
-    { name: "RAG" },
-    { name: "Analytics" }
+    { name: "AWS", image: aws_logo },
+    { name: "Docker", image: docker_logo },
+    { name: "Git", image: git_logo },
+    { name: "GitHub", image: github_logo },
+    { name: "Linux", image: linux_logo },
+    { name: "MongoDB", image: mongodb_logo },
+    { name: "DynamoDB", image: dynamodb_logo },
+    { name: "CI/CD", image: cicd_logo },
+    { name: "LLM APIs", image: openai_logo },
+    { name: "SAM CLI", image: sam_logo },
+    { name: "Project Management", image: manager_logo },
   ]
 ];
 
 const featuredProjects: DashboardProject[] = [
   {
-    name: "Wii Portfolio",
-    type: "Personal build",
+    name: "Personal Portfolio",
+    type: "Personal",
     summary: "A Nintendo-leaning portfolio that blends channel UI, motion, and a cleaner editorial homepage.",
     route: "/projects/wii-portfolio",
     githubUrl,
@@ -155,7 +181,7 @@ const featuredProjects: DashboardProject[] = [
   },
   {
     name: "knw.",
-    type: "Professional product",
+    type: "Professional",
     summary: "Dashboard and analytics work for a live-event platform focused on audience attention and emotion signals.",
     route: "/projects/knw",
     githubUrl: knwURL,
@@ -163,7 +189,7 @@ const featuredProjects: DashboardProject[] = [
   },
   {
     name: "SHADE",
-    type: "AI / security",
+    type: "Professional",
     summary: "Human-like cyber-defense simulation work built to make defensive testing more believable and useful.",
     route: "/projects/shade",
     githubUrl,
@@ -566,12 +592,11 @@ const WiiMenu: React.FC = () => {
             <section className="channelHome interactiveLayer">
               <div className="dashboardHeroBand">
                 <div className="dashboardHeroMain">
-                  <p className="wiiEyebrow">Home Menu</p>
+                  <p className="wiiEyebrow">Hello, World! My name is</p>
                   <h1>Edwin Gabriel Villanueva</h1>
                   <p className="channelHeroCopy">
-                    Full-stack developer focused on product UI, cloud-backed software, and
-                    practical AI systems. The first screen keeps the Wii channel feel, and the
-                    rest of the page scrolls like a condensed Nintendo-style homepage.
+                    I am a full-stack developer focused on backend developement, intuitive user experiences, and
+                    agentic AI systems. 
                   </p>
 
                   <div className="dashboardHeroActions">
@@ -581,6 +606,9 @@ const WiiMenu: React.FC = () => {
                     <button type="button" onClick={() => scrollToSection(contactSectionRef)}>
                       Contact
                     </button>
+                    <p>
+                      (Fun fact: Somehwere on this website is a hidden 3D prototype of what I plan for this site to become - have fun looking for it!)
+                    </p>
                   </div>
                 </div>
 
@@ -605,9 +633,9 @@ const WiiMenu: React.FC = () => {
               </div>
 
               <div className="channelHero">
-                <h2>Open a channel.</h2>
+                {/* <h2>Open a channel.</h2> */}
                 <p className="channelHeroTitle">
-                  Wii-inspired menu first, full portfolio summary underneath
+                  Have a look around! 
                 </p>
               </div>
 
@@ -633,11 +661,11 @@ const WiiMenu: React.FC = () => {
 
               <div className="channelScrollHint">
                 <span />
-                <p>Scroll for the full portfolio summary</p>
+                {/* <p>Scroll for the full portfolio summary</p> */}
               </div>
             </section>
 
-            <section className="dashboardSection interactiveLayer" ref={aboutSectionRef}>
+            {/* <section className="dashboardSection interactiveLayer" ref={aboutSectionRef}>
               <div className="dashboardSectionIntro">
                 <p className="wiiEyebrow">About</p>
                 <h2>Short version first.</h2>
@@ -668,15 +696,14 @@ const WiiMenu: React.FC = () => {
                   </p>
                 </article>
               </div>
-            </section>
+            </section> */}
 
             <section className="dashboardSection interactiveLayer" ref={skillsSectionRef}>
               <div className="dashboardSectionIntro">
-                <p className="wiiEyebrow">Skills</p>
-                <h2>Core lanes.</h2>
+                {/* <p className="wiiEyebrow">Skills</p> */}
+                <h2>Skills</h2>
                 <p>
-                  The portfolio is strongest where interface work, backend logic, and deployment
-                  realities meet.
+                  Languages, tools, and frameworks that I have experience working with from my various experiences.
                 </p>
               </div>
 
@@ -721,11 +748,10 @@ const WiiMenu: React.FC = () => {
             <section className="dashboardSection interactiveLayer" ref={projectsSectionRef}>
               <div className="dashboardSectionHeaderRow">
                 <div className="dashboardSectionIntro">
-                  <p className="wiiEyebrow">Featured Projects</p>
-                  <h2>Selected work.</h2>
+                  {/* <p className="wiiEyebrow">Featured Projects</p> */}
+                  <h2>Featured Projects</h2>
                   <p>
-                    A quick row of projects for visitors who want the portfolio summary before
-                    diving into dedicated pages.
+                    Some of my favorite projects to have worked on. Click "Open projects page" for a more comprehensive list.
                   </p>
                 </div>
 
@@ -765,8 +791,8 @@ const WiiMenu: React.FC = () => {
 
             <section className="dashboardSection dashboardContactSection interactiveLayer" ref={contactSectionRef}>
               <div className="dashboardSectionIntro">
-                <p className="wiiEyebrow">Contact</p>
-                <h2>Let&apos;s talk.</h2>
+                {/* <p className="wiiEyebrow">Contact</p> */}
+                <h2>Let&apos;s connect!</h2>
                 <p>
                   If you want to discuss a role, a product, or a build direction, these are the
                   fastest ways to reach me.

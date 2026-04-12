@@ -181,6 +181,8 @@ const finalChecklist = [
   "Redact or remove any confidential company information before final upload."
 ];
 
+const internshipHighlights = ["CPT -> ETP", "3 featured projects", "AI to full stack"];
+
 const InternshipPortfolio: React.FC = () => {
   const navigate = useNavigate();
 
@@ -192,17 +194,32 @@ const InternshipPortfolio: React.FC = () => {
           Back to dashboard
         </button>
 
-        {/* title */}
         <section className="internshipMasthead">
-            <div className="internshipCaseHeader">
-              <h3>Internship Portfolio Project</h3>
-            </div>
+          <div className="internshipMastheadCopy">
+            <p className="wiiEyebrow">Internship Portfolio</p>
+            <h1>Internship portfolio project.</h1>
+            <p className="internshipMastheadLead">
+              A record of my internship work across Command Post Technologies and Entertainment
+              Technology Partners, covering AI systems, product design decisions, and full stack
+              engineering work completed during the course period.
+            </p>
+          </div>
+
+          <div className="internshipMastheadMeta" aria-label="Internship highlights">
+            {internshipHighlights.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
         </section>
 
         <section className="internshipBand">
-          <div>
+          <div className="internshipBandLabel">
             <p className="wiiEyebrow">Part A</p>
             <h2>Internship details</h2>
+            <p className="internshipBandLead">
+              The course context, employers, and transition path that frame the rest of the
+              portfolio.
+            </p>
           </div>
 
           <div className="internshipFacts">
@@ -230,9 +247,13 @@ const InternshipPortfolio: React.FC = () => {
         </section>
 
         <section className="internshipBand">
-          <div >
+          <div className="internshipBandLabel">
             <p className="wiiEyebrow">Part B</p>
             <h2>Projects and applied academic knowledge</h2>
+            <p className="internshipBandLead">
+              Three representative projects showing how coursework translated into production work,
+              simulation thinking, and user-facing product execution.
+            </p>
           </div>
 
           <div className="internshipCaseStudyStack">
@@ -299,6 +320,10 @@ const InternshipPortfolio: React.FC = () => {
           <div className="internshipBandLabel">
             <p className="wiiEyebrow">Part C</p>
             <h2>Reflection and learnings</h2>
+            <p className="internshipBandLead">
+              The main lessons from each project, what I would refine next time, and how the work
+              shapes what I want to build going forward.
+            </p>
           </div>
 
           <div className="internshipReflectionStream">
@@ -328,6 +353,9 @@ const InternshipPortfolio: React.FC = () => {
           <div className="internshipBandLabel">
             <p className="wiiEyebrow">Submission Notes</p>
             <h2>Final checklist</h2>
+            <p className="internshipBandLead">
+              A final pass to keep the portfolio accurate, reviewable, and safe to present.
+            </p>
           </div>
 
           <ul className="pageList internshipChecklist">

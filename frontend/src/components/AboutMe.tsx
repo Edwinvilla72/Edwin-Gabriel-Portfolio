@@ -420,12 +420,12 @@ const AboutMe: React.FC = () => {
                     </div>
                   </div>
                   <div className="aboutSplitText aboutHomeCopyCard">
-                    <p className="wiiEyebrow">Profile {activeAboutIndex + 1}</p>
+                    {/* <p className="aboutHomeKicker">{`Profile ${activeAboutIndex + 1}`}</p> */}
                     <h2>{activeAboutRow.title}</h2>
                     <p className="aboutHomeLead">{activeAboutRow.placeholder}</p>
                     <div className="aboutHomeMeta">
-                      <span>Home Menu Bio</span>
-                      <span>{`${activeAboutIndex + 1} / ${aboutRows.length}`}</span>
+                      {/* <span>Home Menu Bio</span> */}
+                      {/* <span>{`${activeAboutIndex + 1} / ${aboutRows.length}`}</span> */}
                     </div>
                   </div>
                 </motion.section>
