@@ -183,6 +183,9 @@ const AboutMe: React.FC = () => {
   const [activeAboutIndex, setActiveAboutIndex] = useState(0);
   const [aboutDirection, setAboutDirection] = useState(1);
   const [aboutIsTransitioning, setAboutIsTransitioning] = useState(false);
+  const [isMobileAboutNav, setIsMobileAboutNav] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth <= 900 : false
+  );
   const [activeSchool, setActiveSchool] = useState<SchoolId>("ucf");
   const [activeJob, setActiveJob] = useState<JobId>("etp");
   const aboutWheelLockRef = useRef(false);
@@ -199,6 +202,21 @@ const AboutMe: React.FC = () => {
     [activeJob]
   );
   const activeAboutRow = aboutRows[activeAboutIndex] ?? aboutRows[0];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 900px)");
+
+    const syncMobileAboutNav = (event?: MediaQueryListEvent) => {
+      setIsMobileAboutNav(event?.matches ?? mediaQuery.matches);
+    };
+
+    syncMobileAboutNav();
+    mediaQuery.addEventListener("change", syncMobileAboutNav);
+
+    return () => {
+      mediaQuery.removeEventListener("change", syncMobileAboutNav);
+    };
+  }, []);
 
   const clearAboutGestureState = () => {
     aboutWheelDeltaRef.current = 0;
@@ -231,7 +249,7 @@ const AboutMe: React.FC = () => {
   };
 
   useEffect(() => {
-    if (activeSection !== "about") {
+    if (activeSection !== "about" || isMobileAboutNav) {
       return;
     }
 
@@ -270,7 +288,7 @@ const AboutMe: React.FC = () => {
       aboutWheelLockRef.current = false;
       aboutTouchStartRef.current = null;
     };
-  }, [aboutIsTransitioning, activeAboutIndex, activeSection]);
+  }, [aboutIsTransitioning, activeAboutIndex, activeSection, isMobileAboutNav]);
 
   const jumpToAboutRow = (index: number) => {
     if (index === activeAboutIndex || aboutIsTransitioning) {
@@ -293,6 +311,10 @@ const AboutMe: React.FC = () => {
   };
 
   const handleAboutTouchMove = (event: React.TouchEvent<HTMLElement>) => {
+    if (isMobileAboutNav) {
+      return;
+    }
+
     const start = aboutTouchStartRef.current;
     const touch = event.touches[0];
 
@@ -430,6 +452,32 @@ const AboutMe: React.FC = () => {
                   </div>
                 </motion.section>
               </AnimatePresence>
+
+              {isMobileAboutNav ? (
+                <div className="aboutRowPager" aria-label="About section page controls">
+                  <p className="aboutRowPagerStatus">
+                    {activeAboutIndex + 1} / {aboutRows.length}
+                  </p>
+                  <div className="aboutRowPagerButtons">
+                    <button
+                      type="button"
+                      className="aboutRowPagerButton"
+                      onClick={() => transitionAboutRow(-1)}
+                      disabled={activeAboutIndex === 0 || aboutIsTransitioning}
+                    >
+                      Previous
+                    </button>
+                    <button
+                      type="button"
+                      className="aboutRowPagerButton"
+                      onClick={() => transitionAboutRow(1)}
+                      disabled={activeAboutIndex === aboutRows.length - 1 || aboutIsTransitioning}
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </motion.section>
           ) : null}
 
@@ -594,7 +642,7 @@ const AboutMe: React.FC = () => {
 
         </AnimatePresence>
 
-        {activeSection === "about" ? (
+        {activeSection === "about" && !isMobileAboutNav ? (
           <aside className="aboutRowNav" aria-label="About row navigation">
             {aboutRows.map((row, index) => (
               <button

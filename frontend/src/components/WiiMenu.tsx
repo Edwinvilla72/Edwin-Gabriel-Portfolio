@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 import meCasual from "../../assets/images/Me/Casual.jpeg";
+import edwinSmashUi from "../../assets/images/Me/Edwin_Smash_ui.png";
 
 // -- skills --
 // languages
@@ -197,12 +198,26 @@ const featuredProjects: DashboardProject[] = [
   }
 ] as const;
 
+const SMASH_DAMAGE_STEP = 17;
+const SMASH_UNLOCK_THRESHOLD = 100;
+const SMASH_COLOR_CAP = 300;
+
+const getSmashDamageColor = (damage: number) => {
+  const clampedProgress = Math.min(Math.max(damage / SMASH_COLOR_CAP, 0), 1);
+  const redChannel = Math.round(255 - clampedProgress * 95);
+  const greenChannel = Math.round(255 * (1 - clampedProgress));
+  const blueChannel = Math.round(255 * (1 - clampedProgress));
+  return `rgb(${redChannel} ${greenChannel} ${blueChannel})`;
+};
 
 const WiiMenu: React.FC = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<MenuMode>("2d");
   const [activeIndex, setActiveIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [smashDamage, setSmashDamage] = useState(0);
+  const [smashEasterEggOpen, setSmashEasterEggOpen] = useState(false);
+  const [smashHitCount, setSmashHitCount] = useState(0);
   const activeIndexRef = useRef(0);
   const channelSectionRef = useRef<HTMLElement | null>(null);
   const aboutSectionRef = useRef<HTMLElement | null>(null);
@@ -227,6 +242,26 @@ const WiiMenu: React.FC = () => {
   const scrollToSection = (section: React.RefObject<HTMLElement | null>) => {
     setMenuOpen(false);
     section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleSmashDamage = () => {
+    setSmashHitCount((previous) => previous + 1);
+    setSmashDamage((previous) => Math.min(previous + SMASH_DAMAGE_STEP, 999));
+  };
+
+  const handleSmashReset = () => {
+    setSmashDamage(0);
+    setSmashEasterEggOpen(false);
+  };
+
+  const handlePrototypeUnlock = () => {
+    setSmashEasterEggOpen((open) => !open);
+  };
+
+  const openPrototypeMode = () => {
+    setMenuOpen(false);
+    setMode("3d");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -610,16 +645,76 @@ const WiiMenu: React.FC = () => {
                       (Fun fact: Somehwere on this website is a hidden 3D prototype of what I plan for this site to become - have fun looking for it!)
                     </p>
                   </div>
+
+                  <div className="dashboardSmashHud">
+                    {smashEasterEggOpen ? (
+                      <div className="dashboardSmashSecret">
+                        <p className="dashboardSmashSecretLabel">Easter Egg Unlocked</p>
+                        <p className="dashboardSmashSecretCopy">
+                          You charged the meter. The hidden 3D prototype is the closest thing on
+                          this site to a secret stage.
+                        </p>
+                        <button type="button" className="dashboardSmashSecretAction" onClick={openPrototypeMode}>
+                          Open prototype
+                        </button>
+                      </div>
+                    ) : null}
+
+                    <div className="dashboardSmashHitZone">
+                      <div className="dashboardSmashHudPlate">
+                        <img
+                          src={edwinSmashUi}
+                          alt=""
+                          aria-hidden="true"
+                          className="dashboardSmashHudImage"
+                        />
+                        <div
+                          key={smashHitCount}
+                          className="dashboardSmashDamage"
+                          style={{ "--smash-damage-color": getSmashDamageColor(smashDamage) } as React.CSSProperties}
+                        >
+                          <span className="dashboardSmashDamageValue">{smashDamage}</span>
+                          <span className="dashboardSmashDamageSymbol">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="dashboardSmashControls">
+                      {smashDamage >= SMASH_UNLOCK_THRESHOLD ? (
+                        <button
+                          type="button"
+                          className="dashboardSmashUnlockButton"
+                          onClick={handlePrototypeUnlock}
+                        >
+                          {smashEasterEggOpen ? "Hide Easter Egg" : "Unlock Easter Egg"}
+                        </button>
+                      ) : null}
+
+                      <button
+                        type="button"
+                        className="dashboardSmashResetButton"
+                        onClick={handleSmashReset}
+                        disabled={smashDamage === 0 && !smashEasterEggOpen}
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
                 <aside className="dashboardHeroAside dashboardHeroProfileCard">
-                  <div className="dashboardHeroPhotoFrame">
+                  <button
+                    type="button"
+                    className="dashboardHeroPhotoFrame dashboardHeroPhotoButton"
+                    onClick={handleSmashDamage}
+                    aria-label="Increase Smash-style damage meter"
+                  >
                     <img
                       src={meCasual}
                       alt="Portrait of Edwin Gabriel Villanueva"
                       className="dashboardHeroPhoto"
                     />
-                  </div>
+                  </button>
 
                   <div className="dashboardHeroProfileMeta">
                     <p className="dashboardHeroAsideLabel">At a glance</p>
