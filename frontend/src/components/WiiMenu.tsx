@@ -133,6 +133,10 @@ const MENU_ITEMS: MenuItem[] = [
 
 const emailAddress = "edwin.villa2@icloud.com";
 const githubUrl = "https://github.com/Edwinvilla72";
+const portfolioRepo = "https://github.com/Edwinvilla72/Edwin-Gabriel-Portfolio";
+
+// great example of recursion
+const portfolioURL = "https://edwingabriel.com";
 const knwURL = "https://knw.net/en"
 
 const skillLanes: SkillItem[][] = [
@@ -175,9 +179,9 @@ const featuredProjects: DashboardProject[] = [
   {
     name: "Personal Portfolio",
     type: "Personal",
-    summary: "A Nintendo-leaning portfolio that blends channel UI, motion, and a cleaner editorial homepage.",
+    summary: "My personal portfolio, showcasing myself and my experiences. This could make for a great recursion joke....",
     route: "/projects/wii-portfolio",
-    githubUrl,
+    githubUrl: portfolioRepo,
     accent: "#E60012"
   },
   {
