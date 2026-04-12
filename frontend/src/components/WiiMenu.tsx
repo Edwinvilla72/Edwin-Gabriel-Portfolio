@@ -649,10 +649,9 @@ const WiiMenu: React.FC = () => {
                   <div className="dashboardSmashHud">
                     {smashEasterEggOpen ? (
                       <div className="dashboardSmashSecret">
-                        <p className="dashboardSmashSecretLabel">Easter Egg Unlocked</p>
+                        <p className="dashboardSmashSecretLabel">Prototype Unlocked</p>
                         <p className="dashboardSmashSecretCopy">
-                          You charged the meter. The hidden 3D prototype is the closest thing on
-                          this site to a secret stage.
+                          Huh... guess I didn't hide that very well :/
                         </p>
                         <button type="button" className="dashboardSmashSecretAction" onClick={openPrototypeMode}>
                           Open prototype
@@ -660,44 +659,46 @@ const WiiMenu: React.FC = () => {
                       </div>
                     ) : null}
 
-                    <div className="dashboardSmashHitZone">
-                      <div className="dashboardSmashHudPlate">
-                        <img
-                          src={edwinSmashUi}
-                          alt=""
-                          aria-hidden="true"
-                          className="dashboardSmashHudImage"
-                        />
-                        <div
-                          key={smashHitCount}
-                          className="dashboardSmashDamage"
-                          style={{ "--smash-damage-color": getSmashDamageColor(smashDamage) } as React.CSSProperties}
-                        >
-                          <span className="dashboardSmashDamageValue">{smashDamage}</span>
-                          <span className="dashboardSmashDamageSymbol">%</span>
+                    <div className="dashboardSmashFooter">
+                      <div className="dashboardSmashHitZone">
+                        <div className="dashboardSmashHudPlate">
+                          <img
+                            src={edwinSmashUi}
+                            alt=""
+                            aria-hidden="true"
+                            className="dashboardSmashHudImage"
+                          />
+                          <div
+                            key={smashHitCount}
+                            className="dashboardSmashDamage"
+                            style={{ "--smash-damage-color": getSmashDamageColor(smashDamage) } as React.CSSProperties}
+                          >
+                            <span className="dashboardSmashDamageValue">{smashDamage}</span>
+                            <span className="dashboardSmashDamageSymbol">%</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="dashboardSmashControls">
-                      {smashDamage >= SMASH_UNLOCK_THRESHOLD ? (
+                      <div className="dashboardSmashControls">
+                        {smashDamage >= SMASH_UNLOCK_THRESHOLD ? (
+                          <button
+                            type="button"
+                            className="dashboardSmashUnlockButton"
+                            onClick={handlePrototypeUnlock}
+                          >
+                            {smashEasterEggOpen ? "Hide Easter Egg" : "Unlock Easter Egg"}
+                          </button>
+                        ) : null}
+
                         <button
                           type="button"
-                          className="dashboardSmashUnlockButton"
-                          onClick={handlePrototypeUnlock}
+                          className="dashboardSmashResetButton"
+                          onClick={handleSmashReset}
+                          disabled={smashDamage === 0 && !smashEasterEggOpen}
                         >
-                          {smashEasterEggOpen ? "Hide Easter Egg" : "Unlock Easter Egg"}
+                          Reset
                         </button>
-                      ) : null}
-
-                      <button
-                        type="button"
-                        className="dashboardSmashResetButton"
-                        onClick={handleSmashReset}
-                        disabled={smashDamage === 0 && !smashEasterEggOpen}
-                      >
-                        Reset
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>

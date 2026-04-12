@@ -991,26 +991,37 @@ textarea {
 
 .dashboardSmashHud {
   position: absolute;
+  left: 1.35rem;
   right: 1.35rem;
-  bottom: 1.1rem;
+  bottom: 0.75rem;
   z-index: 3;
   display: grid;
   gap: 0.65rem;
-  width: fit-content;
-  max-width: calc(100% - 2.7rem);
-  justify-items: end;
+  width: auto;
+  max-width: none;
+}
+
+.dashboardSmashFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .dashboardSmashHitZone {
   display: flex;
   align-items: flex-end;
   gap: 0.2rem;
+  flex: 0 0 auto;
 }
 
 .dashboardSmashHudPlate {
   --smash-hud-scale: 1;
   position: relative;
+  left: 0.5rem;
+  top: 4rem;
   width: 16rem;
+  overflow: visible;
   transform: scale(var(--smash-hud-scale));
   transform-origin: left bottom;
   filter: drop-shadow(0 12px 20px rgba(18, 49, 77, 0.18));
@@ -1035,8 +1046,9 @@ textarea {
 
 .dashboardSmashDamage {
   position: absolute;
-  right: 1rem;
-  bottom: 0.9rem;
+  right: -2rem;
+  bottom: 7rem;
+  z-index: 1;
   display: inline-flex;
   align-items: flex-end;
   color: var(--smash-damage-color, #ffffff);
@@ -1064,6 +1076,8 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: flex-end;
+  margin-left: auto;
   gap: 0.55rem;
 }
 
@@ -4492,10 +4506,11 @@ textarea {
   }
 
   .dashboardSmashHud {
+    left: 1rem;
     right: 1rem;
-    bottom: 1rem;
-    width: fit-content;
-    max-width: calc(100% - 2rem);
+    bottom: 0.7rem;
+    width: auto;
+    max-width: none;
   }
 
   .dashboardSmashHudPlate {
@@ -4628,10 +4643,15 @@ textarea {
   .dashboardSmashHud {
     left: 0.95rem;
     right: 0.95rem;
-    bottom: 0.85rem;
+    bottom: 0.25rem;
     width: auto;
     max-width: none;
-    justify-items: start;
+  }
+
+  .dashboardSmashFooter {
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.8rem;
   }
 
   .dashboardSmashHitZone {
@@ -4642,16 +4662,31 @@ textarea {
     --smash-hud-scale: 0.72;
   }
 
+  .dashboardSmashDamage {
+    right: 0rem;
+    bottom: 7.05rem;
+  }
+
+  .dashboardSmashDamageValue {
+    font-size: clamp(2.7rem, 12vw, 3.95rem);
+  }
+
+  .dashboardSmashDamageSymbol {
+    font-size: clamp(1.55rem, 5vw, 2.45rem);
+  }
+
   .dashboardSmashControls {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    justify-content: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin-left: auto;
   }
 
   .dashboardSmashUnlockButton,
   .dashboardSmashResetButton,
   .dashboardSmashSecretAction {
-    width: 100%;
+    width: auto;
     min-width: 0;
     padding-left: 0.85rem;
     padding-right: 0.85rem;
