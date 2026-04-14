@@ -634,7 +634,7 @@ const WiiMenu: React.FC = () => {
                   <p className="wiiEyebrow">Hello, World! My name is</p>
                   <h1>Edwin Gabriel Villanueva</h1>
                   <p className="channelHeroCopy">
-                    I am a full-stack developer focused on backend developement, intuitive user experiences, and
+                    I am a full-stack developer based in Orlando, Florida. My focus is on backend developement, intuitive user experiences, and
                     agentic AI systems. 
                   </p>
 

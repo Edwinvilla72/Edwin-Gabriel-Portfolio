@@ -28,18 +28,10 @@ const Projects: React.FC = () => {
         </button>
 
         <section className="wiiSportsFrame">
-          <header className="wiiSportsFrameHeader">
-            <div className="wiiSportsHeaderTab">Project Menu</div>
-            <div className="wiiSportsHeaderBrand">
-              <span className="wiiSportsWordAccent">Projects</span>
-            </div>
-          </header>
-
           <section className="wiiSportsFrameBody">
             <section className="projectsCatalogueHero">
               <div className="projectsHeadline">
-                <p className="wiiEyebrow">Projects</p>
-                <h1>Project catalogue.</h1>
+                <h1>Projects</h1>
                 <p className="projectsCatalogueLead">
                   Browse the work like a library shelf. Each project now has its own highlight
                   page with a clearer summary instead of being folded into one rotating screen.
@@ -131,17 +123,6 @@ const Projects: React.FC = () => {
               ))}
             </section>
           </section>
-
-          <footer className="wiiSportsFrameFooter">
-            <div className="wiiSportsFooterTile">
-              <span className="wiiSportsFooterLabel">Category</span>
-              <strong>{activeTab === "personal" ? "Personal" : "Professional"}</strong>
-            </div>
-            <div className="wiiSportsFooterTile">
-              <span className="wiiSportsFooterLabel">Entries</span>
-              <strong>{filteredProjects.length}</strong>
-            </div>
-          </footer>
         </section>
       </main>
     </div>
