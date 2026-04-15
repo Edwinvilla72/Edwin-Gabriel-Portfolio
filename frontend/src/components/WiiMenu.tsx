@@ -134,6 +134,8 @@ const MENU_ITEMS: MenuItem[] = [
 const emailAddress = "edwin.villa2@icloud.com";
 const githubUrl = "https://github.com/Edwinvilla72";
 const portfolioRepo = "https://github.com/Edwinvilla72/Edwin-Gabriel-Portfolio";
+const intelligentBrowserAgentsRepo =
+  "https://github.com/Intelligent-Browser-Agents/Intelligent-Browser-Agents";
 
 // great example of recursion
 const portfolioURL = "https://edwingabriel.com";
@@ -177,10 +179,19 @@ const skillLanes: SkillItem[][] = [
 
 const featuredProjects: DashboardProject[] = [
   {
-    name: "Personal Portfolio",
+    name: "Intelligent Browser Agents",
+    type: "Academic / Project Manager",
+    summary:
+      "Senior design project where I was the project manager, full stack developer, UI/UX designer, and execution agent developer.",
+    route: "/projects?project=intelligent-browser-agents",
+    githubUrl: intelligentBrowserAgentsRepo,
+    accent: "#E60012"
+  },
+  {
+    name: "My Portfolio Website",
     type: "Personal",
     summary: "My personal portfolio, showcasing myself and my experiences. This could make for a great recursion joke....",
-    route: "/projects/wii-portfolio",
+    route: "/projects?project=wii-portfolio",
     githubUrl: portfolioRepo,
     accent: "#E60012"
   },
@@ -188,7 +199,7 @@ const featuredProjects: DashboardProject[] = [
     name: "knw.",
     type: "Professional",
     summary: "Dashboard and analytics work for a live-event platform focused on audience attention and emotion signals.",
-    route: "/projects/knw",
+    route: "/projects?project=knw",
     githubUrl: knwURL,
     accent: "#E60012"
   },
@@ -196,7 +207,7 @@ const featuredProjects: DashboardProject[] = [
     name: "SHADE",
     type: "Professional",
     summary: "Human-like cyber-defense simulation work built to make defensive testing more believable and useful.",
-    route: "/projects/shade",
+    route: "/projects?project=shade",
     githubUrl,
     accent: "#E60012"
   }

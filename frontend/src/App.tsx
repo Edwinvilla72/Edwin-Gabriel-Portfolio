@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import './App.css';
 import './styles/styles.css';
@@ -14,7 +14,6 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import InternshipPortfolioPage from "./pages/InternshipPortfolioPage";
 import Footer from "./components/Footer";
-import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ChannelNavbar from "./components/ChannelNavbar";
 
 const routeTransition = {
@@ -41,6 +40,12 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   );
 }
 
+function ProjectModalRedirect() {
+  const { slug } = useParams();
+
+  return <Navigate to={slug ? `/projects?project=${slug}` : "/projects"} replace />;
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -50,7 +55,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<PageTransition><WiiMenuPage /></PageTransition>}/>
         <Route path="/about" element={<PageTransition><AboutMePage /></PageTransition>} />
         <Route path="/projects" element={<PageTransition><ProjectsPage /></PageTransition>} />
-        <Route path="/projects/:slug" element={<PageTransition><ProjectDetailPage /></PageTransition>} />
+        <Route path="/projects/:slug" element={<ProjectModalRedirect />} />
         <Route
           path="/internship-portfolio"
           element={<PageTransition><InternshipPortfolioPage /></PageTransition>}

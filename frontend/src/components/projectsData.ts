@@ -1,28 +1,75 @@
+import fitgame_dashboard from "../../assets/images/Projects/Fitgame_Dashboard.png";
 import fitgame_login from "../../assets/images/Projects/Fitgame_Login.png";
+import fitgame_weekly from "../../assets/images/Projects/Fitgame_Weekly.png";
 import wii_menu from "../../assets/images/Nintendo/wii menu.jpg";
 
-export type ProjectCategory = "personal" | "professional";
+export type ProjectCategory = "academic" | "personal" | "professional";
 export type ProjectVisual = "abstract" | "image";
+
+export type ProjectMedia = {
+  src: string;
+  alt: string;
+};
+
+export type ProjectLink = {
+  href: string;
+  label: string;
+};
 
 export type ProjectEntry = {
   slug: string;
   name: string;
   category: ProjectCategory;
   visual: ProjectVisual;
-  image?: string;
-  imageAlt?: string;
   accent: string;
   visualLabel: string;
   type: string;
   timeline: string;
-  summary: string;
-  overview: string;
-  challenge: string;
-  outcome: string;
+  role?: string;
+  responsibilities?: string[];
+  description: string;
   stack: string[];
+  gallery?: ProjectMedia[];
+  projectLinks?: ProjectLink[];
+};
+
+export const categoryLabels: Record<ProjectCategory, string> = {
+  academic: "Academic",
+  personal: "Personal",
+  professional: "Professional"
 };
 
 export const projects: ProjectEntry[] = [
+  {
+    slug: "intelligent-browser-agents",
+    name: "Intelligent Browser Agents",
+    category: "academic",
+    visual: "abstract",
+    accent: "#6fd0ff",
+    visualLabel: "Browser automation",
+    type: "Senior Design / Full Stack",
+    timeline: "2025 - 2026",
+    role: "Project Manager",
+    responsibilities: [
+      "Project Manager",
+      "Full Stack Developer",
+      "UI/UX Designer",
+      "Execution Agent Developer"
+    ],
+    description:
+      "Multi-agent browser automation platform that turns natural-language requests into guided web execution.",
+    stack: ["React", "FastAPI", "Playwright", "LangGraph"],
+    projectLinks: [
+      {
+        href: "https://browseragents.net",
+        label: "browseragents.net"
+      },
+      {
+        href: "https://github.com/Intelligent-Browser-Agents/Intelligent-Browser-Agents",
+        label: "GitHub"
+      }
+    ]
+  },
   {
     slug: "shade",
     name: "SHADE",
@@ -32,13 +79,8 @@ export const projects: ProjectEntry[] = [
     visualLabel: "Synthetic traffic",
     type: "AI / Security",
     timeline: "2025 - 2026",
-    summary: "Human-like network traffic for sharper cyber testing.",
-    overview:
-      "SHADE focused on making cyber-defense evaluation more realistic by generating human-like activity patterns that defenders could test against.",
-    challenge:
-      "The work had to feel believable enough to be useful, not just technically correct. That meant treating simulation quality and system behavior as product problems, not only engineering tasks.",
-    outcome:
-      "The result was a stronger testing concept for adversarial simulation, with clearer emphasis on realism, repeatability, and evaluation value.",
+    description:
+      "Cyber-defense simulation platform focused on generating more realistic human-like activity for security testing.",
     stack: ["Python", "Agents", "Simulation"]
   },
   {
@@ -50,60 +92,115 @@ export const projects: ProjectEntry[] = [
     visualLabel: "Audience signals",
     type: "Analytics / Full Stack",
     timeline: "2026 - Present",
-    summary: "Live audience analytics built for event operators.",
-    overview:
-      "knw. is an AI-driven platform for analyzing audience attention and emotion data during live events through dashboards and reporting workflows.",
-    challenge:
-      "The product had to turn complex event data into something operators could understand quickly while still supporting backend processing and cloud integrations.",
-    outcome:
-      "The work pushed toward clearer dashboards, stronger data flows, and a more useful analytics surface for real event environments.",
-    stack: ["TypeScript", "AWS", "Dashboards"]
+    description:
+      "Live-event analytics platform that turns audience attention and emotion signals into usable operator dashboards.",
+    stack: ["TypeScript", "AWS", "Dashboards"],
+    projectLinks: [
+      {
+        href: "https://knw.net/en",
+        label: "Website"
+      }
+    ]
   },
   {
     slug: "fitgame",
     name: "FitGame",
     category: "personal",
     visual: "image",
-    image: fitgame_login,
-    imageAlt: "FitGame login screen",
     accent: "#62c3ff",
     visualLabel: "Gamified health",
     type: "Product / Mobile-style concept",
     timeline: "2024",
-    summary: "Fitness tracking framed like a progression system.",
-    overview:
-      "FitGame explored how health tracking could feel more motivating by borrowing progression cues from games instead of relying on dry utility-only patterns.",
-    challenge:
-      "The main challenge was balancing playful interaction with enough structure that the product still felt credible as a daily-use tool.",
-    outcome:
-      "The concept became a strong personal design exercise in game loops, UX framing, and visual motivation systems.",
-    stack: ["Product Design", "UX", "Game Loops"]
+    description:
+      "Fitness tracking concept that uses game-inspired progress loops to make consistency easier to maintain.",
+    stack: ["Product Design", "UX", "Game Loops"],
+    gallery: [
+      { src: fitgame_login, alt: "FitGame login screen" },
+      { src: fitgame_dashboard, alt: "FitGame dashboard screen" },
+      { src: fitgame_weekly, alt: "FitGame weekly progress screen" }
+    ]
+  },
+  {
+    slug: "icloud-file-downloader",
+    name: "iCloud File Downloader",
+    category: "personal",
+    visual: "abstract",
+    accent: "#8ea8ff",
+    visualLabel: "File transfer",
+    type: "Utility / Personal",
+    timeline: "Recent build",
+    description:
+      "Utility for downloading iCloud files directly to a chosen local directory through a simplified workflow.",
+    stack: ["Automation", "File Management", "iCloud"],
+    projectLinks: [
+      {
+        href: "https://github.com/Edwinvilla72/iCloud-File-Downloader",
+        label: "GitHub"
+      }
+    ]
+  },
+  {
+    slug: "finance-tracker",
+    name: "Personal Finance Tracker",
+    category: "personal",
+    visual: "abstract",
+    accent: "#78d59b",
+    visualLabel: "Financial planning",
+    type: "Full Stack / Personal",
+    timeline: "Recent build",
+    description:
+      "Personal finance planning app for tracking balances, scheduled transactions, debts, paychecks, and savings goals.",
+    stack: ["React", "TypeScript", "Supabase", "Postgres"],
+    projectLinks: [
+      {
+        href: "https://famfinapp.vercel.app",
+        label: "Website"
+      },
+      {
+        href: "https://github.com/Edwinvilla72/Finance-Tracker",
+        label: "GitHub"
+      }
+    ]
+  },
+  {
+    slug: "first-portfolio-website",
+    name: "My First Portfolio Website",
+    category: "personal",
+    visual: "abstract",
+    accent: "#ff9a87",
+    visualLabel: "Early portfolio",
+    type: "Frontend / Personal",
+    timeline: "Earlier build",
+    description:
+      "My first portfolio site, built as an earlier version of how I presented my work online.",
+    stack: ["HTML", "CSS", "JavaScript"],
+    projectLinks: [
+      {
+        href: "https://edwinvilla72.github.io",
+        label: "Website"
+      }
+    ]
   },
   {
     slug: "wii-portfolio",
-    name: "Wii Portfolio",
+    name: "My Portfolio Website",
     category: "personal",
     visual: "image",
-    image: wii_menu,
-    imageAlt: "Wii-inspired menu interface",
     accent: "#83dbff",
     visualLabel: "Nintendo-inspired UI",
     type: "Frontend / Personal",
     timeline: "2025 - Present",
-    summary: "A Nintendo-leaning portfolio with stronger 2D structure.",
-    overview:
-      "This site started as an experimental Wii-inspired interface and evolved into a more structured portfolio that mixes playful references with cleaner frontend design.",
-    challenge:
-      "The key constraint was preserving personality without letting nostalgia overpower usability, readability, or the actual portfolio content.",
-    outcome:
-      "The project now serves as both a portfolio and a frontend design exercise in adapting a recognizable reference into a more modern browsing experience.",
-    stack: ["React", "Motion", "UI Systems"]
+    description:
+      "Wii-inspired portfolio experience that balances playful interaction with a cleaner, more structured frontend.",
+    stack: ["React", "Motion", "UI Systems"],
+    gallery: [{ src: wii_menu, alt: "Wii-inspired menu interface" }],
+    projectLinks: [
+      {
+        href: "https://edwingabriel.com",
+        label: "Website"
+      }
+    ]
   }
-];
-
-export const projectTabs: Array<{ id: ProjectCategory; label: string }> = [
-  { id: "personal", label: "Personal" },
-  { id: "professional", label: "Professional" }
 ];
 
 export const getProjectBySlug = (slug: string) =>
