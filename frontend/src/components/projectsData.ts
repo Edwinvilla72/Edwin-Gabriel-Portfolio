@@ -6,7 +6,7 @@ import fitgame_weekly from "../../assets/images/Projects/Fitgame_Weekly.png";
 import personalPortfolio_projects from "../../assets/images/Projects/Personal-Portfolio_projects.png";
 import personalPortfolio_menu from "../../assets/images/Projects/Personal-Portfolio_menu.png";
 // Intelligent Browser Agent images
-import intelligentBrowserAgents_dashboard from "../../assets/images/Projects/intelligent-Browser-Agents_dashboard.png";
+import intelligentBrowserAgents_dashboard from "../../assets/images/Projects/Intelligent-Browser-Agents_dashboard.png";
 // SHADE images
 import shade_dashboard from "../../assets/images/Projects/SHADE_Dashboard.jpg";
 // Oltre Foundry images
