@@ -1,7 +1,18 @@
+// fitgame images
 import fitgame_dashboard from "../../assets/images/Projects/Fitgame_Dashboard.png";
 import fitgame_login from "../../assets/images/Projects/Fitgame_Login.png";
 import fitgame_weekly from "../../assets/images/Projects/Fitgame_Weekly.png";
-import wii_menu from "../../assets/images/Nintendo/wii menu.jpg";
+// personal portfolio images
+import personalPortfolio_projects from "../../assets/images/Projects/Personal-Portfolio_projects.png";
+import personalPortfolio_menu from "../../assets/images/Projects/Personal-Portfolio_menu.png";
+// Intelligent Browser Agent images
+import intelligentBrowserAgents_dashboard from "../../assets/images/Projects/intelligent-Browser-Agents_dashboard.png";
+// SHADE images
+import shade_dashboard from "../../assets/images/Projects/SHADE_Dashboard.jpg";
+// Oltre Foundry images
+import oltre_dashboard from "../../assets/images/Projects/Oltre-Foundry.jpg"
+// knw images
+import knw_logo from "../../assets/images/Projects/knw_logo.png"
 
 export type ProjectCategory = "academic" | "personal" | "professional";
 export type ProjectVisual = "abstract" | "image";
@@ -59,10 +70,13 @@ export const projects: ProjectEntry[] = [
     description:
       "Multi-agent browser automation platform that turns natural-language requests into guided web execution.",
     stack: ["React", "FastAPI", "Playwright", "LangGraph"],
+    gallery: [
+      { src: intelligentBrowserAgents_dashboard, alt: "Intelligent Browser Agents Dashboard Page" },
+    ],
     projectLinks: [
       {
         href: "https://browseragents.net",
-        label: "browseragents.net"
+        label: "Check it out!"
       },
       {
         href: "https://github.com/Intelligent-Browser-Agents/Intelligent-Browser-Agents",
@@ -80,8 +94,27 @@ export const projects: ProjectEntry[] = [
     type: "AI / Security",
     timeline: "2025 - 2026",
     description:
-      "Cyber-defense simulation platform focused on generating more realistic human-like activity for security testing.",
-    stack: ["Python", "Agents", "Simulation"]
+      "Simulated Human Agents for Defense Emulation. Cyber-defense simulation platform focused on generating more realistic human-like activity for security testing.",
+    stack: ["Python", "Agents", "Simulation"],
+    gallery: [
+      { src: shade_dashboard, alt: "Dashboard screen for project SHADE" },
+    ]
+  },
+  {
+    slug: "oltrefoundry",
+    name: "Oltre Foundry",
+    category: "professional",
+    visual: "abstract",
+    accent: "#5e1657",
+    visualLabel: "Cyber Range Toolsuite",
+    type: "Security and Simulation",
+    timeline: "2026",
+    description:
+      "A toolsuite made with cyber range organizations in mind. Includes tools like SHADE and others.",
+    stack: ["Python", "Agents", "Simulation"],
+    gallery: [
+      { src: oltre_dashboard, alt: "Dashboard screen for Oltre Foundry" },
+    ]
   },
   {
     slug: "knw",
@@ -95,6 +128,9 @@ export const projects: ProjectEntry[] = [
     description:
       "Live-event analytics platform that turns audience attention and emotion signals into usable operator dashboards.",
     stack: ["TypeScript", "AWS", "Dashboards"],
+    gallery: [
+      { src: knw_logo, alt: "knw. Logo" },
+    ],
     projectLinks: [
       {
         href: "https://knw.net/en",
@@ -172,7 +208,7 @@ export const projects: ProjectEntry[] = [
     type: "Frontend / Personal",
     timeline: "Earlier build",
     description:
-      "My first portfolio site, built as an earlier version of how I presented my work online.",
+      "My first portfolio site, built as an earlier version of how I presented my work online (outdated but still up if you'd like to visit).",
     stack: ["HTML", "CSS", "JavaScript"],
     projectLinks: [
       {
@@ -191,13 +227,16 @@ export const projects: ProjectEntry[] = [
     type: "Frontend / Personal",
     timeline: "2025 - Present",
     description:
-      "Wii-inspired portfolio experience that balances playful interaction with a cleaner, more structured frontend.",
+      "Oooh, this project looks cool, you should probably check it out!",
     stack: ["React", "Motion", "UI Systems"],
-    gallery: [{ src: wii_menu, alt: "Wii-inspired menu interface" }],
+    gallery: [
+      { src: personalPortfolio_projects, alt: "This projects page lol" },
+      { src: personalPortfolio_menu, alt: "This project's menu page." },
+    ],
     projectLinks: [
       {
         href: "https://edwingabriel.com",
-        label: "Website"
+        label: "Recursion!"
       }
     ]
   }
