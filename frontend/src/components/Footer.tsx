@@ -4,7 +4,7 @@ import "../styles/styles.css";
 
 const emailAddress = "edwin.villa2@icloud.com";
 const githubUrl = "https://github.com/Edwinvilla72";
-const linkedinUrl = "https://www.linkedin.com/in/your-linkedin-here";
+const linkedinUrl = "https://www.linkedin.com/in/edwin-villanueva/";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
