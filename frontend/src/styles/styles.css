@@ -1246,7 +1246,7 @@ textarea {
 .dashboardSkillsShell {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  padding: 1.35rem 0 1.75rem;
+  padding: 2rem 0 1.75rem;
   border-top: 1px solid var(--wii-border);
 }
 
@@ -3099,6 +3099,7 @@ textarea {
   overflow-x: hidden;
   overflow-y: visible;
   width: 100%;
+  padding-top: 0.35rem;
   padding-bottom: 1.5rem;
   padding-inline: 0;
 }
@@ -3123,6 +3124,10 @@ textarea {
   animation: skillsBeltLeft 38s linear infinite;
 }
 
+.aboutSkillsLane:hover {
+  animation-play-state: paused;
+}
+
 .aboutSkillsTrack {
   display: flex;
   flex: 0 0 auto;
@@ -3145,6 +3150,18 @@ textarea {
   line-height: 1;
   box-shadow: 0 12px 22px rgba(46, 93, 131, 0.08);
   white-space: nowrap;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.aboutSkillBadge:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(24, 50, 79, 0.2);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 16px 28px rgba(46, 93, 131, 0.14);
 }
 
 .aboutSkillBadgeImage {
@@ -3363,6 +3380,7 @@ textarea {
 }
 
 .internshipPortfolioShell {
+  min-height: auto;
   background:
     linear-gradient(180deg, rgba(248, 249, 251, 0.98), rgba(236, 240, 245, 0.94));
 }
@@ -3390,9 +3408,9 @@ textarea {
 
 .internshipMasthead {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) auto;
+  grid-template-columns: minmax(320px, 0.95fr) minmax(340px, 0.9fr);
   gap: 2rem 1.4rem;
-  align-items: stretch;
+  align-items: start;
   padding: 1.8rem 1.9rem;
   border: 1px solid rgba(16, 40, 68, 0.14);
   border-radius: 30px;
@@ -3418,6 +3436,7 @@ textarea {
 
 .internshipMastheadCopy h1 {
   margin: 0;
+  padding-bottom: 0.45rem;
   font-family: var(--font-smash);
   font-size: clamp(3.1rem, 6vw, 5.7rem);
   line-height: 0.9;
@@ -3427,10 +3446,11 @@ textarea {
 
 .internshipMastheadLead {
   margin: 0;
-  max-width: 42rem;
+  max-width: 34rem;
   color: rgba(16, 40, 68, 0.72);
   font-size: 1.06rem;
   line-height: 1.8;
+  padding-top: 1.65rem;
 }
 
 .internshipMastheadMeta {
@@ -3489,6 +3509,46 @@ textarea {
   max-width: 15rem;
 }
 
+.internshipExitCallout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid rgba(16, 40, 68, 0.12);
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(230, 0, 18, 0.04) 0 14%, transparent 14% 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(241, 246, 250, 0.96));
+  box-shadow: 0 18px 34px rgba(18, 49, 77, 0.08);
+}
+
+.internshipExitCalloutCopy {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 44rem;
+}
+
+.internshipExitCalloutCopy h2 {
+  margin: 0;
+  font-family: var(--font-smash);
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: #102844;
+}
+
+.internshipExitCalloutCopy p:last-child {
+  margin: 0;
+  color: rgba(16, 40, 68, 0.72);
+  line-height: 1.75;
+}
+
+.internshipExitCalloutButton {
+  flex: 0 0 auto;
+  min-width: 12.5rem;
+}
+
 .internshipBand {
   position: relative;
   display: grid;
@@ -3535,80 +3595,93 @@ textarea {
 
 .internshipContextLayout {
   display: grid;
-  gap: 1.2rem;
+  gap: 0.8rem;
 }
 
-.internshipContextCards {
+.internshipAtAGlance {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.internshipContextCard {
-  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.7rem;
-  align-content: start;
-  min-height: 9.5rem;
-  padding: 1.15rem 1.2rem;
+}
+
+.internshipHighlightCard {
+  display: grid;
+  gap: 0.32rem;
+  padding: 0.82rem 0.88rem;
   border: 1px solid rgba(16, 40, 68, 0.1);
-  border-radius: 24px;
+  border-radius: 18px;
   background:
-    linear-gradient(135deg, rgba(230, 0, 18, 0.05) 0 16%, transparent 16% 100%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 250, 0.96));
+    linear-gradient(135deg, rgba(230, 0, 18, 0.04) 0 14%, transparent 14% 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 247, 251, 0.95));
   box-shadow: 0 14px 24px rgba(18, 49, 77, 0.07);
 }
 
-.internshipContextCard.wide {
-  grid-column: span 2;
-  min-height: auto;
-}
-
-.internshipContextCard > span,
-.internshipContextCard strong,
-.internshipContextCard p {
+.internshipHighlightCard span,
+.internshipHighlightCard strong,
+.internshipHighlightCard p {
   margin: 0;
 }
 
-.internshipContextCard > span {
+.internshipHighlightCard span {
   color: var(--nintendo-red);
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-.internshipContextCard div {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.internshipContextCard strong {
+.internshipHighlightCard strong {
   color: #102844;
-  font-size: 1.06rem;
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.28;
 }
 
-.internshipContextCard p {
+.internshipHighlightCard p {
   color: rgba(16, 40, 68, 0.64);
-  line-height: 1.7;
+  font-size: 0.92rem;
+  line-height: 1.38;
 }
 
 .internshipContextTimelineShell {
   position: relative;
   display: grid;
-  gap: 1rem;
-  padding: 1.15rem;
+  gap: 0.65rem;
+  padding: 0.85rem;
   border: 1px solid rgba(16, 40, 68, 0.1);
-  border-radius: 26px;
+  border-radius: 22px;
   background:
     radial-gradient(circle at top right, rgba(16, 40, 68, 0.05), transparent 30%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 246, 250, 0.96));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
 }
 
+.internshipEmployerFlowHeader {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.internshipEmployerFlowHeader span,
+.internshipEmployerFlowHeader p {
+  margin: 0;
+}
+
+.internshipEmployerFlowHeader span {
+  color: var(--nintendo-red);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.internshipEmployerFlowHeader p {
+  max-width: 42rem;
+  color: rgba(16, 40, 68, 0.66);
+  line-height: 1.55;
+}
+
 .internshipEmployerFlowContext {
   position: relative;
-  gap: 1.3rem;
+  gap: 0.8rem;
   padding-top: 0;
 }
 
@@ -3622,19 +3695,21 @@ textarea {
 
 .internshipFacts {
   display: grid;
-  gap: 0.9rem;
+  gap: 0.55rem;
+}
+
+.internshipFactsCompact {
+  gap: 0.5rem;
 }
 
 .internshipFactRow {
   display: grid;
   grid-template-columns: minmax(180px, 0.28fr) minmax(0, 1fr);
-  gap: 1rem;
-  padding: 1.1rem 1.2rem;
-  border: 1px solid rgba(16, 40, 68, 0.1);
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 247, 250, 0.96));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  gap: 0.65rem;
+  padding: 0.68rem 0.8rem;
+  border: 1px solid rgba(16, 40, 68, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .internshipFactRow > span,
@@ -3653,35 +3728,37 @@ textarea {
 
 .internshipFactRow div {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.22rem;
 }
 
 .internshipFactRow strong {
   color: #102844;
-  font-size: 1.06rem;
-  line-height: 1.5;
+  font-size: 0.96rem;
+  line-height: 1.3;
 }
 
 .internshipFactRow p {
   color: rgba(16, 40, 68, 0.62);
-  line-height: 1.7;
+  font-size: 0.92rem;
+  line-height: 1.38;
 }
 
 .internshipEmployerFlow {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem;
-  padding-top: 0.35rem;
+  gap: 0.8rem;
+  padding-top: 0;
 }
 
 .internshipEmployerStop {
   position: relative;
   display: grid;
-  gap: 0.55rem;
+  gap: 0.4rem;
   align-content: start;
-  padding: 1.35rem;
+  padding: 1rem;
   border: 1px solid rgba(16, 40, 68, 0.12);
-  border-radius: 24px;
+  border-radius: 18px;
+  overflow: hidden;
   background:
     linear-gradient(135deg, rgba(16, 40, 68, 0.03) 0 14%, transparent 14% 100%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(242, 246, 250, 0.95));
@@ -3695,6 +3772,7 @@ textarea {
   width: 5rem;
   height: 0.3rem;
   background: linear-gradient(90deg, var(--nintendo-red), #111111);
+  border-radius: 18px 0.4rem 0.4rem 0;
 }
 
 .internshipEmployerStop p,
@@ -3714,7 +3792,7 @@ textarea {
 
 .internshipEmployerStop h3 {
   font-family: var(--font-smash);
-  font-size: clamp(1.85rem, 3vw, 2.35rem);
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
   line-height: 0.95;
   letter-spacing: -0.05em;
   color: #102844;
@@ -3729,7 +3807,7 @@ textarea {
 
 .internshipEmployerStop span {
   color: rgba(16, 40, 68, 0.7);
-  line-height: 1.75;
+  line-height: 1.45;
 }
 
 .internshipCaseStudyStack,
@@ -3839,6 +3917,23 @@ textarea {
   line-height: 1.75;
 }
 
+.internshipVisualMedia {
+  overflow: hidden;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 16px;
+  background: rgba(234, 240, 245, 0.8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.92);
+}
+
+.internshipVisualMedia img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 19rem;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .internshipCaseBody {
   grid-area: body;
   display: grid;
@@ -3891,14 +3986,14 @@ textarea {
 
 .internshipReflectionColumns {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.4rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 .internshipReflectionColumns section {
   display: grid;
   gap: 0.55rem;
-  padding: 1rem;
+  padding: 1.05rem 1.1rem;
   border: 1px solid rgba(16, 40, 68, 0.08);
   border-radius: 18px;
   background: rgba(245, 247, 250, 0.9);
@@ -3991,6 +4086,50 @@ textarea {
   min-height: 0;
   padding: 1.15rem 1.4rem 1.4rem;
   overflow: auto;
+}
+
+.internshipProjectJumpBar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(230, 0, 18, 0.04) 0 14%, transparent 14% 100%),
+    linear-gradient(180deg, rgba(250, 252, 255, 0.98), rgba(241, 246, 250, 0.96));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    0 12px 22px rgba(18, 49, 77, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.internshipProjectJumpButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(16, 40, 68, 0.12);
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 245, 249, 0.96));
+  color: #102844;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 18px rgba(18, 49, 77, 0.07);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.internshipProjectJumpButton:hover {
+  transform: translateY(-2px);
+  border-color: rgba(16, 40, 68, 0.24);
+  box-shadow: 0 14px 22px rgba(18, 49, 77, 0.1);
 }
 
 .timelineGrid,
@@ -4260,6 +4399,41 @@ textarea {
   text-shadow: none;
 }
 
+.blogMenuPage {
+  max-width: 980px;
+  min-height: calc(100vh - 9.5rem);
+  align-content: center;
+}
+
+.blogMenuLegacy {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.blogMenuLegacy h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 3.4rem);
+  line-height: 0.95;
+}
+
+.blogMenuLegacy > p {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: rgba(16, 40, 68, 0.72);
+}
+
+.blogMenuButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+
 .blogListPage {
   max-width: 980px;
 }
@@ -4402,12 +4576,8 @@ textarea {
     grid-template-columns: 1fr;
   }
 
-  .internshipContextCards {
-    grid-template-columns: 1fr;
-  }
-
-  .internshipContextCard.wide {
-    grid-column: auto;
+  .internshipAtAGlance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .internshipEmployerFlowContext::before {
@@ -4458,6 +4628,10 @@ textarea {
   .internshipFactRow {
     grid-template-columns: 1fr;
     gap: 0.5rem;
+  }
+
+  .internshipAtAGlance {
+    grid-template-columns: 1fr;
   }
 
   .internshipSectionModalBody {
@@ -4821,6 +4995,7 @@ textarea {
   .projectDetailPanel,
   .projectDetailMissing,
   .internshipMasthead,
+  .internshipExitCallout,
   .internshipBand,
   .blogListShell,
   .blogEntryArticle,
@@ -4834,7 +5009,7 @@ textarea {
   .dashboardSkillsShell {
     width: auto;
     margin-left: 0;
-    padding: 0.6rem 0 1.2rem;
+    padding: 0.95rem 0 1.2rem;
     border-top: 0;
   }
 
@@ -4869,6 +5044,10 @@ textarea {
   .internshipBand {
     gap: 1.25rem;
     padding-top: 1.35rem;
+  }
+
+  .internshipExitCallout {
+    padding: 1.35rem 1.4rem;
   }
 
   .internshipChannelGrid {
@@ -5125,6 +5304,7 @@ textarea {
   .projectDetailPanel,
   .projectDetailMissing,
   .internshipMasthead,
+  .internshipExitCallout,
   .internshipBand,
   .internshipSectionModal,
   .blogListShell,
@@ -5138,7 +5318,19 @@ textarea {
   }
 
   .dashboardSkillsShell {
+    padding-top: 0.95rem;
     padding-bottom: 1rem;
+  }
+
+  .internshipExitCallout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.3rem 1.2rem 1.35rem;
+  }
+
+  .internshipExitCalloutButton {
+    width: 100%;
+    min-width: 0;
   }
 
   .aboutSplitText h2,

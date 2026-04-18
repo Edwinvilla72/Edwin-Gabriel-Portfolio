@@ -248,7 +248,6 @@ const WiiMenu: React.FC = () => {
   const timeRef = useRef(0);
   const currentFrontModelRef = useRef<THREE.Mesh | null>(null);
   const hoverModelRef = useRef<THREE.Mesh | null>(null);
-  const channelHoverSoundRef = useRef<HTMLAudioElement | null>(null);
 
   const carouselItems = useMemo(() => MENU_ITEMS.filter((item) => !item.mode), []);
   const activeItem = carouselItems[activeIndex % carouselItems.length] ?? carouselItems[0];
@@ -283,18 +282,6 @@ const WiiMenu: React.FC = () => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
-  useEffect(() => {
-    const hoverSound = new Audio("/assets/sounds/hover.wav");
-    hoverSound.volume = 0.6;
-    channelHoverSoundRef.current = hoverSound;
-
-    return () => {
-      hoverSound.pause();
-      hoverSound.currentTime = 0;
-      channelHoverSoundRef.current = null;
-    };
-  }, []);
-
   const handleSelection = (item: MenuItem) => {
     if (item.mode) {
       setMode(item.mode);
@@ -306,14 +293,7 @@ const WiiMenu: React.FC = () => {
     }
   };
 
-  const playChannelHoverSound = () => {
-    const sound = channelHoverSoundRef.current;
-    if (!sound) {
-      return;
-    }
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
-  };
+  const playChannelHoverSound = () => {};
 
   const rotateCarousel = (direction: number) => {
     const total = carouselItems.length;
@@ -366,13 +346,6 @@ const WiiMenu: React.FC = () => {
     directionalLight.position.set(5, 10, 7.5);
     scene.add(directionalLight);
 
-    const hoverSound = new Audio("/assets/sounds/3DS-ui6.wav");
-    const buttonSound = new Audio("/assets/sounds/+-click.wav");
-    const homeMusic = new Audio("/assets/sounds/wiiMenu.wav");
-    homeMusic.loop = true;
-    homeMusic.volume = 0.5;
-    homeMusic.play().catch(() => {});
-    const selectSounds = carouselItems.map(() => new Audio("/assets/sounds/select-sound5.mp3"));
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const meshes: THREE.Mesh[] = carouselItems.map((item, index) => {
       const mesh = new THREE.Mesh(
@@ -380,7 +353,6 @@ const WiiMenu: React.FC = () => {
         new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide })
       );
       mesh.userData.item = item;
-      mesh.userData.sound = selectSounds[index];
       mesh.userData.baseRotationY = Math.random() * Math.PI * 2;
       mesh.userData.targetRotationY = null;
       mesh.userData.targetScale = new THREE.Vector3(1, 1, 1);
@@ -422,11 +394,6 @@ const WiiMenu: React.FC = () => {
       raycaster.setFromCamera(pointer, camera);
       const hit = raycaster.intersectObjects(meshes)[0]?.object as THREE.Mesh | undefined;
 
-      if (hit && hoverModelRef.current !== hit) {
-        hoverSound.currentTime = 0;
-        hoverSound.play().catch(() => {});
-      }
-
       hoverModelRef.current = hit ?? null;
       renderer.domElement.style.cursor = hit ? "pointer" : "default";
       meshes.forEach((mesh) => {
@@ -460,13 +427,9 @@ const WiiMenu: React.FC = () => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowLeft") {
-        buttonSound.currentTime = 0;
-        buttonSound.play().catch(() => {});
         rotateCarousel(1);
       }
       if (event.key === "ArrowRight") {
-        buttonSound.currentTime = 0;
-        buttonSound.play().catch(() => {});
         rotateCarousel(-1);
       }
       if (event.key === "Enter" || event.key === " ") {
@@ -512,7 +475,6 @@ const WiiMenu: React.FC = () => {
 
         if (index === 0 && currentFrontModelRef.current !== mesh) {
           currentFrontModelRef.current = mesh;
-          (mesh.userData.sound as HTMLAudioElement | undefined)?.play().catch(() => {});
         }
       });
 
@@ -545,8 +507,6 @@ const WiiMenu: React.FC = () => {
       geometry.dispose();
       renderer.dispose();
       scene.clear();
-      homeMusic.pause();
-      homeMusic.currentTime = 0;
 
       if (mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
