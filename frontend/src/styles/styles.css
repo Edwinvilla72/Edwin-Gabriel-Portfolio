@@ -3509,6 +3509,46 @@ textarea {
   max-width: 15rem;
 }
 
+.internshipExitCallout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid rgba(16, 40, 68, 0.12);
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(230, 0, 18, 0.04) 0 14%, transparent 14% 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(241, 246, 250, 0.96));
+  box-shadow: 0 18px 34px rgba(18, 49, 77, 0.08);
+}
+
+.internshipExitCalloutCopy {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 44rem;
+}
+
+.internshipExitCalloutCopy h2 {
+  margin: 0;
+  font-family: var(--font-smash);
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  color: #102844;
+}
+
+.internshipExitCalloutCopy p:last-child {
+  margin: 0;
+  color: rgba(16, 40, 68, 0.72);
+  line-height: 1.75;
+}
+
+.internshipExitCalloutButton {
+  flex: 0 0 auto;
+  min-width: 12.5rem;
+}
+
 .internshipBand {
   position: relative;
   display: grid;
@@ -4359,6 +4399,41 @@ textarea {
   text-shadow: none;
 }
 
+.blogMenuPage {
+  max-width: 980px;
+  min-height: calc(100vh - 9.5rem);
+  align-content: center;
+}
+
+.blogMenuLegacy {
+  display: grid;
+  justify-items: center;
+  gap: 0.9rem;
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.blogMenuLegacy h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 3.4rem);
+  line-height: 0.95;
+}
+
+.blogMenuLegacy > p {
+  margin: 0;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: rgba(16, 40, 68, 0.72);
+}
+
+.blogMenuButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.4rem;
+}
+
 .blogListPage {
   max-width: 980px;
 }
@@ -4920,6 +4995,7 @@ textarea {
   .projectDetailPanel,
   .projectDetailMissing,
   .internshipMasthead,
+  .internshipExitCallout,
   .internshipBand,
   .blogListShell,
   .blogEntryArticle,
@@ -4968,6 +5044,10 @@ textarea {
   .internshipBand {
     gap: 1.25rem;
     padding-top: 1.35rem;
+  }
+
+  .internshipExitCallout {
+    padding: 1.35rem 1.4rem;
   }
 
   .internshipChannelGrid {
@@ -5224,6 +5304,7 @@ textarea {
   .projectDetailPanel,
   .projectDetailMissing,
   .internshipMasthead,
+  .internshipExitCallout,
   .internshipBand,
   .internshipSectionModal,
   .blogListShell,
@@ -5239,6 +5320,17 @@ textarea {
   .dashboardSkillsShell {
     padding-top: 0.95rem;
     padding-bottom: 1rem;
+  }
+
+  .internshipExitCallout {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.3rem 1.2rem 1.35rem;
+  }
+
+  .internshipExitCalloutButton {
+    width: 100%;
+    min-width: 0;
   }
 
   .aboutSplitText h2,

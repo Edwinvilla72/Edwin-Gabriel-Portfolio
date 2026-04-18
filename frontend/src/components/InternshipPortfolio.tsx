@@ -513,6 +513,25 @@ const InternshipPortfolio: React.FC = () => {
           </div>
         </section>
 
+        <section className="internshipExitCallout">
+          <div className="internshipExitCalloutCopy">
+            <p>
+              For more information about me, my professional experiences, or my projects,
+              please take a look at the rest of my website!
+            </p>
+          </div>
+
+          <motion.button
+            type="button"
+            className="pageBackButton internshipExitCalloutButton"
+            onClick={() => navigate("/")}
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.985 }}
+          >
+            Go to Main Menu
+          </motion.button>
+        </section>
+
 
         <AnimatePresence>
           {activeSection ? (

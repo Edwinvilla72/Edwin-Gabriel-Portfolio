@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import './App.css';
@@ -46,6 +46,16 @@ function ProjectModalRedirect() {
   return <Navigate to={slug ? `/projects?project=${slug}` : "/projects"} replace />;
 }
 
+function ScrollToTop() {
+  const location = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.pathname, location.search]);
+
+  return null;
+}
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -91,6 +101,7 @@ function AppShell() {
 
   return (
     <>
+      <ScrollToTop />
       <ChannelNavbar />
       <AnimatedRoutes />
       {hideFooter ? null : <Footer />}
