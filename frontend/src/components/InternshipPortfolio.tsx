@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 
@@ -32,11 +33,27 @@ type PortfolioProject = {
   futureValue: string;
 };
 
+type PortfolioSectionId = "part-a" | "part-b" | "part-c";
+
+type PortfolioSection = {
+  id: PortfolioSectionId;
+  label: string;
+  title: string;
+  lead: string;
+  cardTitle: string;
+  cardSummary: string;
+};
+
+const modalTransition = {
+  duration: 0.24,
+  ease: [0.22, 1, 0.36, 1]
+} as const;
+
 const partADetails: DetailRow[] = [
   { label: "Student", value: "Edwin Gabriel Villanueva" },
   {
     label: "Employers",
-    value: "Command Post Technologies and Entertainment Technology Partners"
+    value: "Command Post Technologies / Entertainment Technology Partners"
   },
   {
     label: "Supervisors",
@@ -181,10 +198,192 @@ const finalChecklist = [
   "Redact or remove any confidential company information before final upload."
 ];
 
-const internshipHighlights = ["CPT -> ETP", "3 featured projects", "AI to full stack"];
+const portfolioSections: PortfolioSection[] = [
+  {
+    id: "part-a",
+    label: "Part A",
+    title: "Course context",
+    lead: "The course setup, employer timeline, and approved transition that frame the rest of the portfolio.",
+    cardTitle: "Context",
+    cardSummary: "Course setup and employer path."
+  },
+  {
+    id: "part-b",
+    label: "Part B",
+    title: "Projects and applied academic knowledge",
+    lead: "Three representative projects showing how coursework translated into simulation work, product decisions, and full stack delivery.",
+    cardTitle: "Projects",
+    cardSummary: "Featured work and applied coursework."
+  },
+  {
+    id: "part-c",
+    label: "Part C",
+    title: "Reflection and learnings",
+    lead: "The main lessons from each project, what I would refine next time, and how the work informs what I want to build going forward.",
+    cardTitle: "Reflection",
+    cardSummary: "Key learnings and next-step thinking."
+  }
+];
+
+const renderPortfolioSection = (sectionId: PortfolioSectionId) => {
+  if (sectionId === "part-a") {
+    return (
+      <div className="internshipContextLayout">
+        <div className="internshipContextCards">
+          {partADetails.map((detail) => (
+            <article
+              key={detail.label}
+              className={`internshipContextCard ${
+                detail.label === "Internship course period" || detail.label === "Supervisors"
+                  ? "wide"
+                  : ""
+              }`}
+            >
+              <span>{detail.label}</span>
+              <div>
+                <strong>{detail.value}</strong>
+                {detail.note ? <p>{detail.note}</p> : null}
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="internshipContextTimelineShell">
+          <div className="internshipEmployerFlow internshipEmployerFlowContext">
+          {employerTimeline.map((item) => (
+            <article key={item.company} className="internshipEmployerStop">
+              <p>{item.dates}</p>
+              <h3>{item.company}</h3>
+              <strong>{item.role}</strong>
+              <span>{item.summary}</span>
+            </article>
+          ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (sectionId === "part-b") {
+    return (
+      <div className="internshipCaseStudyStack">
+        {portfolioProjects.map((project, index) => (
+          <article
+            key={project.title}
+            className={`internshipCaseStudy ${index % 2 === 1 ? "reverse" : ""}`}
+          >
+            <div className="internshipCaseHeader">
+              <p className="wiiEyebrow">{project.timeline}</p>
+              <h3>{project.title}</h3>
+              <div className="internshipCaseMeta">
+                <span>{project.employer}</span>
+                <span>{project.role}</span>
+              </div>
+              <p className="internshipCaseSummary">{project.summary}</p>
+            </div>
+
+            <div className="internshipVisualStrip">
+              <span>Visual Documentation</span>
+              <p>{project.visualNote}</p>
+            </div>
+
+            <div className="internshipCaseBody">
+              <section>
+                <h4>Why this project</h4>
+                <p>{project.rationale}</p>
+              </section>
+              <section>
+                <h4>Background / purpose</h4>
+                <p>{project.background}</p>
+              </section>
+              <section>
+                <h4>What I worked on</h4>
+                <ul className="pageList">
+                  {project.work.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+              <section>
+                <h4>Academic knowledge applied</h4>
+                <ul className="pageList">
+                  {project.academics.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+              <section>
+                <h4>Results</h4>
+                <ul className="pageList">
+                  {project.results.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            </div>
+          </article>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="internshipReflectionStream">
+      {portfolioProjects.map((project) => (
+        <article key={`${project.title}-reflection`} className="internshipReflectionEntry">
+          <p className="wiiEyebrow">{project.title}</p>
+          <div className="internshipReflectionColumns">
+            <section>
+              <h4>What I learned</h4>
+              <p>{project.learning}</p>
+            </section>
+            <section>
+              <h4>If I did it again</h4>
+              <p>{project.doDifferently}</p>
+            </section>
+            <section>
+              <h4>How it helps me going forward</h4>
+              <p>{project.futureValue}</p>
+            </section>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+};
+
+// const internshipHighlights = ["CPT -> ETP", "3 featured projects", "AI to full stack"];
 
 const InternshipPortfolio: React.FC = () => {
   const navigate = useNavigate();
+  const [activeSectionId, setActiveSectionId] = useState<PortfolioSectionId | null>(null);
+
+  const activeSection = useMemo(
+    () => portfolioSections.find((section) => section.id === activeSectionId) ?? null,
+    [activeSectionId]
+  );
+
+  useEffect(() => {
+    if (!activeSection) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveSectionId(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeSection]);
 
   return (
     <div className="portfolioPageShell internshipPortfolioShell">
@@ -196,155 +395,40 @@ const InternshipPortfolio: React.FC = () => {
 
         <section className="internshipMasthead">
           <div className="internshipMastheadCopy">
-            <p className="wiiEyebrow">Internship Portfolio</p>
-            <h1>Internship portfolio project.</h1>
+            <p className="wiiEyebrow">Spring 2026 - ISD4947</p>
+            <h1>Portfolio Project</h1>
             <p className="internshipMastheadLead">
               A record of my internship work across Command Post Technologies and Entertainment
               Technology Partners, covering AI systems, product design decisions, and full stack
               engineering work completed during the course period.
             </p>
           </div>
-
-          <div className="internshipMastheadMeta" aria-label="Internship highlights">
-            {internshipHighlights.map((item) => (
-              <span key={item}>{item}</span>
-            ))}
-          </div>
         </section>
 
-        <section className="internshipBand">
+        <section className="internshipChannelSection">
           <div className="internshipBandLabel">
-            <p className="wiiEyebrow">Part A</p>
-            <h2>Internship details</h2>
+            <p className="wiiEyebrow">Portfolio Sections</p>
+            <h2>Open a section</h2>
             <p className="internshipBandLead">
-              The course context, employers, and transition path that frame the rest of the
-              portfolio.
+              Parts A through C now open as channel-style buttons so the page stays lighter until a
+              section is selected.
             </p>
           </div>
 
-          <div className="internshipFacts">
-            {partADetails.map((detail) => (
-              <div key={detail.label} className="internshipFactRow">
-                <span>{detail.label}</span>
-                <div>
-                  <strong>{detail.value}</strong>
-                  {detail.note ? <p>{detail.note}</p> : null}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="internshipEmployerFlow">
-            {employerTimeline.map((item) => (
-              <article key={item.company} className="internshipEmployerStop">
-                <p>{item.dates}</p>
-                <h3>{item.company}</h3>
-                <strong>{item.role}</strong>
-                <span>{item.summary}</span>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="internshipBand">
-          <div className="internshipBandLabel">
-            <p className="wiiEyebrow">Part B</p>
-            <h2>Projects and applied academic knowledge</h2>
-            <p className="internshipBandLead">
-              Three representative projects showing how coursework translated into production work,
-              simulation thinking, and user-facing product execution.
-            </p>
-          </div>
-
-          <div className="internshipCaseStudyStack">
-            {portfolioProjects.map((project, index) => (
-              <article
-                key={project.title}
-                className={`internshipCaseStudy ${index % 2 === 1 ? "reverse" : ""}`}
+          <div className="channelGrid internshipChannelGrid" aria-label="Internship portfolio sections">
+            {portfolioSections.map((section) => (
+              <motion.button
+                key={section.id}
+                type="button"
+                className="channelCard internshipChannelButton"
+                onClick={() => setActiveSectionId(section.id)}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.985 }}
               >
-                <div className="internshipCaseHeader">
-                  <p className="wiiEyebrow">{project.timeline}</p>
-                  <h3>{project.title}</h3>
-                  <div className="internshipCaseMeta">
-                    <span>{project.employer}</span>
-                    <span>{project.role}</span>
-                  </div>
-                  <p className="internshipCaseSummary">{project.summary}</p>
-                </div>
-
-                <div className="internshipVisualStrip">
-                  <span>Visual Documentation</span>
-                  <p>{project.visualNote}</p>
-                </div>
-
-                <div className="internshipCaseBody">
-                  <section>
-                    <h4>Why this project</h4>
-                    <p>{project.rationale}</p>
-                  </section>
-                  <section>
-                    <h4>Background / purpose</h4>
-                    <p>{project.background}</p>
-                  </section>
-                  <section>
-                    <h4>What I worked on</h4>
-                    <ul className="pageList">
-                      {project.work.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-                  <section>
-                    <h4>Academic knowledge applied</h4>
-                    <ul className="pageList">
-                      {project.academics.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-                  <section>
-                    <h4>Results</h4>
-                    <ul className="pageList">
-                      {project.results.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="internshipBand">
-          <div className="internshipBandLabel">
-            <p className="wiiEyebrow">Part C</p>
-            <h2>Reflection and learnings</h2>
-            <p className="internshipBandLead">
-              The main lessons from each project, what I would refine next time, and how the work
-              shapes what I want to build going forward.
-            </p>
-          </div>
-
-          <div className="internshipReflectionStream">
-            {portfolioProjects.map((project) => (
-              <article key={`${project.title}-reflection`} className="internshipReflectionEntry">
-                <p className="wiiEyebrow">{project.title}</p>
-                <div className="internshipReflectionColumns">
-                  <section>
-                    <h4>What I learned</h4>
-                    <p>{project.learning}</p>
-                  </section>
-                  <section>
-                    <h4>If I did it again</h4>
-                    <p>{project.doDifferently}</p>
-                  </section>
-                  <section>
-                    <h4>How it helps me going forward</h4>
-                    <p>{project.futureValue}</p>
-                  </section>
-                </div>
-              </article>
+                <p>{section.label}</p>
+                <h3>{section.cardTitle}</h3>
+                <span>{section.cardSummary}</span>
+              </motion.button>
             ))}
           </div>
         </section>
@@ -364,6 +448,55 @@ const InternshipPortfolio: React.FC = () => {
             ))}
           </ul>
         </section>
+
+        <AnimatePresence>
+          {activeSection ? (
+            <>
+              <motion.button
+                type="button"
+                className="projectModalBackdrop"
+                aria-label="Close section details"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={modalTransition}
+                onClick={() => setActiveSectionId(null)}
+              />
+
+              <motion.section
+                className="projectModalShell internshipSectionModalShell"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="internship-section-modal-title"
+                initial={{ opacity: 0, y: 18, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 12, scale: 0.985 }}
+                transition={modalTransition}
+              >
+                <div className="internshipSectionModal">
+                  <header className="internshipSectionModalHeader">
+                    <div className="internshipSectionModalTitleGroup">
+                      <p className="wiiEyebrow">{activeSection.label}</p>
+                      <h2 id="internship-section-modal-title">{activeSection.title}</h2>
+                      <p className="internshipSectionModalLead">{activeSection.lead}</p>
+                    </div>
+                    <button
+                      type="button"
+                      className="projectModalCloseButton"
+                      onClick={() => setActiveSectionId(null)}
+                    >
+                      Close
+                    </button>
+                  </header>
+
+                  <div className="internshipSectionModalBody">
+                    {renderPortfolioSection(activeSection.id)}
+                  </div>
+                </div>
+              </motion.section>
+            </>
+          ) : null}
+        </AnimatePresence>
       </main>
     </div>
   );

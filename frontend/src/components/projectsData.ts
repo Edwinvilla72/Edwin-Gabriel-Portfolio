@@ -13,6 +13,7 @@ import shade_dashboard from "../../assets/images/Projects/SHADE_Dashboard.jpg";
 import oltre_dashboard from "../../assets/images/Projects/Oltre-Foundry.jpg"
 // knw images
 import knw_logo from "../../assets/images/Projects/knw_logo.png"
+import knw_eventReport from "../../assets/images/Projects/knw_event-report.png"
 
 export type ProjectCategory = "academic" | "personal" | "professional";
 export type ProjectVisual = "abstract" | "image";
@@ -130,6 +131,7 @@ export const projects: ProjectEntry[] = [
     stack: ["TypeScript", "AWS", "Dashboards"],
     gallery: [
       { src: knw_logo, alt: "knw. Logo" },
+      { src: knw_eventReport, alt: "knw event report page." },
     ],
     projectLinks: [
       {
