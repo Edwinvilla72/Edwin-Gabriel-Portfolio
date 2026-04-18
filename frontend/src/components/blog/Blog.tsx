@@ -1,17 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Blog() {
   const navigate = useNavigate();
-
-  const hoverSoundRef = useRef<HTMLAudioElement>(null);
-
-  const playHoverSound = () => {
-    if (hoverSoundRef.current) {
-      hoverSoundRef.current.currentTime = 0;
-      hoverSoundRef.current.play().catch(() => {});
-    }
-  };
 
   return (
 
@@ -41,9 +32,6 @@ function Blog() {
       <p style={{ fontSize: "1.3rem", margin: 0 }}>
         Please select the blog you would like to explore...
       </p>
-
-      <audio ref={hoverSoundRef} src="/assets/sounds/hover.wav" preload="auto" />
-
       <div
         style={{
           display: "flex",
@@ -57,7 +45,6 @@ function Blog() {
         <button
           className="wii-btn"
           onClick={() => navigate("/blog/professional")}
-          onMouseEnter={playHoverSound}
         >
           <img
             src="/Images/Buttons/MenuButton1.png"
@@ -70,7 +57,6 @@ function Blog() {
         <button
           className="wii-btn"
           onClick={() => navigate("/blog/personal")}
-          onMouseEnter={playHoverSound}
         >
           <img
             src="/Images/Buttons/MenuButton1.png"
