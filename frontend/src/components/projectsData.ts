@@ -220,7 +220,7 @@ export const projects: ProjectEntry[] = [
     ]
   },
   {
-    slug: "wii-portfolio",
+    slug: "updated-personal-portfolio",
     name: "My Portfolio Website",
     category: "personal",
     visual: "image",
