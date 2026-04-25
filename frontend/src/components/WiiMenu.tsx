@@ -187,14 +187,14 @@ const featuredProjects: DashboardProject[] = [
     githubUrl: intelligentBrowserAgentsRepo,
     accent: "#E60012"
   },
-  {
-    name: "My Portfolio Website",
-    type: "Personal",
-    summary: "My personal portfolio, showcasing myself and my experiences. This could make for a great recursion joke....",
-    route: "/projects?project=wii-portfolio",
-    githubUrl: portfolioRepo,
-    accent: "#E60012"
-  },
+  // {
+  //   name: "My Portfolio Website",
+  //   type: "Personal",
+  //   summary: "My personal portfolio, showcasing myself and my experiences. This could make for a great recursion joke....",
+  //   route: "/projects?project=wii-portfolio",
+  //   githubUrl: portfolioRepo,
+  //   accent: "#E60012"
+  // },
   {
     name: "knw.",
     type: "Professional",
