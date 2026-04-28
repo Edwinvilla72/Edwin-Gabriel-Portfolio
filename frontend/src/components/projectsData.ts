@@ -244,5 +244,6 @@ export const projects: ProjectEntry[] = [
   }
 ];
 
+// slug headers for projects
 export const getProjectBySlug = (slug: string) =>
   projects.find((project) => project.slug === slug);
