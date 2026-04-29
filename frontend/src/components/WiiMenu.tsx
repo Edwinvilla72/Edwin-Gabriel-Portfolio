@@ -6,7 +6,7 @@ import meCasual from "../../assets/images/Me/Casual.jpeg";
 import edwinSmashUi from "../../assets/images/Me/Edwin_Smash_ui.png";
 
 // -- skills --  
-// languages
+// languages 
 import c_logo from "../../assets/images/Skills/languages/C_Logo.png";
 import python_logo from "../../assets/images/Skills/languages/Python_Logo.png";
 import ts_logo from "../../assets/images/Skills/languages/Typescript_Logo.png";
