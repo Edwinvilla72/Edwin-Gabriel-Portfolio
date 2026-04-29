@@ -5,7 +5,7 @@ import "../styles/styles.css";
 import meCasual from "../../assets/images/Me/Casual.jpeg";
 import edwinSmashUi from "../../assets/images/Me/Edwin_Smash_ui.png";
 
-// -- skills --
+// -- skills -- 
 // languages
 import c_logo from "../../assets/images/Skills/languages/C_Logo.png";
 import python_logo from "../../assets/images/Skills/languages/Python_Logo.png";
@@ -293,7 +293,7 @@ const WiiMenu: React.FC = () => {
     }
   };
 
-  const playChannelHoverSound = () => {};
+  const playChannelHoverSound = () => { };
 
   const rotateCarousel = (direction: number) => {
     const total = carouselItems.length;
@@ -606,7 +606,7 @@ const WiiMenu: React.FC = () => {
                   <h1>Edwin Gabriel Villanueva</h1>
                   <p className="channelHeroCopy">
                     I am a full-stack developer based in Orlando, Florida. My focus is on backend developement, intuitive user experiences, and
-                    agentic AI systems. 
+                    agentic AI systems.
                   </p>
 
                   <div className="dashboardHeroActions">
@@ -706,7 +706,7 @@ const WiiMenu: React.FC = () => {
               <div className="channelHero">
                 {/* <h2>Open a channel.</h2> */}
                 <p className="channelHeroTitle">
-                  Have a look around! 
+                  Have a look around!
                 </p>
               </div>
 
