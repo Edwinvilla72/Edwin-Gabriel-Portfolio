@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
+import resumePdf from "../../assets/files/Edwin-Gabriel_Resume.pdf";
 import meCasual from "../../assets/images/Me/Casual.jpeg";
 import edwinSmashUi from "../../assets/images/Me/Edwin_Smash_ui.png";
 
@@ -616,6 +617,9 @@ const WiiMenu: React.FC = () => {
                     <button type="button" onClick={() => scrollToSection(contactSectionRef)}>
                       Contact
                     </button>
+                    <a href={resumePdf} download="Edwin-Gabriel_Resume.pdf">
+                      Download resume
+                    </a>
                     <p>
                       (Fun fact: Somehwere on this website is a hidden 3D prototype of what I plan for this site to become - have fun looking for it!)
                     </p>
@@ -884,6 +888,9 @@ const WiiMenu: React.FC = () => {
                 <button type="button" onClick={() => navigate("/contact")}>
                   Open full contact page
                 </button>
+                <a className="dashboardResumeButton" href={resumePdf} download="Edwin-Gabriel_Resume.pdf">
+                  Download resume
+                </a>
               </div>
             </section>
 

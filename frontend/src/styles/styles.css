@@ -496,10 +496,12 @@ textarea {
 .landingNavLinks button,
 .landingNavActions button,
 .dashboardHeroActions button,
+.dashboardHeroActions a,
 .dashboardSectionRouteButton,
 .dashboardProjectActions button,
 .dashboardProjectActions a,
-.dashboardContactCard button {
+.dashboardContactCard button,
+.dashboardContactCard .dashboardResumeButton {
   border: 0;
   cursor: pointer;
 }
@@ -539,10 +541,12 @@ textarea {
 .landingNavLinks button:hover,
 .landingNavActions button:hover,
 .dashboardHeroActions button:hover,
+.dashboardHeroActions a:hover,
 .dashboardSectionRouteButton:hover,
 .dashboardProjectActions button:hover,
 .dashboardProjectActions a:hover,
-.dashboardContactCard button:hover {
+.dashboardContactCard button:hover,
+.dashboardContactCard .dashboardResumeButton:hover {
   transform: translateY(-1px);
 }
 
@@ -618,14 +622,20 @@ textarea {
 }
 
 .dashboardHeroActions button,
+.dashboardHeroActions a,
 .dashboardSectionRouteButton,
 .dashboardProjectActions button,
-.dashboardContactCard button {
+.dashboardContactCard button,
+.dashboardContactCard .dashboardResumeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.9rem 1.15rem;
   border-radius: 999px;
   background: var(--nintendo-red);
   color: #fff;
   box-shadow: 0 14px 28px rgba(182, 14, 29, 0.18);
+  text-decoration: none;
 }
 
 .dashboardHeroActions button:last-child {
