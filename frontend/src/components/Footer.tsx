@@ -43,7 +43,6 @@ const Footer: React.FC = () => {
 
         <div className="siteFooterColumn">
           <p className="siteFooterHeading">Elsewhere</p>
-          <Link to="/internship-portfolio">Internship Portfolio</Link>
           <Link to="/projects">Featured Work</Link>
           <Link to="/contact">Work Together</Link>
         </div>

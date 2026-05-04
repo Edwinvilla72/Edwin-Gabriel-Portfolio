@@ -16,10 +16,10 @@ export const personalEntries: BlogEntry[] = [
     excerpt:
       "Where my motivation started, why Nintendo stayed central to my goals, and how that direction still shapes my decisions.",
     content: [
-      "Since this is the first entry, I'll introduce myself informally.",
+      "Since this is my first entry, I'll take this opportunity introduce myself.",
       "I'm Edwin Gabriel Villanueva. I'm 22 years old, I grew up in Port Saint Lucie, and I've wanted to work with computers for as long as I can remember. From early on, Nintendo has left a huge impact on the way I think and view technology. I've especially been inspired by Satoru Iwata and his attitude/problem solving in projects like Earthbound.",
       "Around 2015, when I was about 11, that feeling sharpened. After the April 1, 2015 Nintendo Direct, I remember coming across Nintendo's careers page and wondering if it could ever actually be possible to work on programming with the company one day.",
-      "That question stayed with me for years. It has since been my motivation for entering the field of software engineering and picking up languages like C.",
+      "That question stayed with me for years. It has since been my motivation for entering the field of computer science/software engineering and picking up languages like C.",
       "Now in 2026, with graduation close and real software experience behind me, that goal feels much more concrete than it did when I was a kid staring at that careers page."
     ]
   },

@@ -68,6 +68,13 @@ type SkillItem = {
   imageAlt?: string;
 };
 
+type SkillGroup = {
+  title: string;
+  items: SkillItem[];
+};
+
+type SkillsView = "motion" | "list";
+
 // todo: play hover.wav for any menu item card that is hovered over
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -89,16 +96,6 @@ const MENU_ITEMS: MenuItem[] = [
       "A tighter snapshot of the portfolio pieces that best represent how I solve problems and ship work.",
     accent: "#95ffbf",
     route: "/projects"
-  },
-  {
-    id: "internship-portfolio",
-    title: "Internship",
-    eyebrow: "Portfolio Project",
-    subtitle: "Rubric-aligned internship documentation, project evidence, and reflection.",
-    description:
-      "A dedicated final portfolio project page organized around internship details, project work, and learnings.",
-    accent: "#7cc7ff",
-    route: "/internship-portfolio"
   },
   {
     id: "blog",
@@ -178,6 +175,12 @@ const skillLanes: SkillItem[][] = [
   ]
 ];
 
+const skillGroups: SkillGroup[] = [
+  { title: "Languages", items: skillLanes[0] },
+  { title: "Frameworks", items: skillLanes[1] },
+  { title: "Tools", items: skillLanes[2] }
+];
+
 const featuredProjects: DashboardProject[] = [
   {
     name: "Intelligent Browser Agents",
@@ -234,6 +237,7 @@ const WiiMenu: React.FC = () => {
   const [smashDamage, setSmashDamage] = useState(0);
   const [smashEasterEggOpen, setSmashEasterEggOpen] = useState(false);
   const [smashHitCount, setSmashHitCount] = useState(0);
+  const [skillsView, setSkillsView] = useState<SkillsView>("motion");
   const activeIndexRef = useRef(0);
   const channelSectionRef = useRef<HTMLElement | null>(null);
   const aboutSectionRef = useRef<HTMLElement | null>(null);
@@ -366,7 +370,7 @@ const WiiMenu: React.FC = () => {
     const raycaster = new THREE.Raycaster();
     const pointer = new THREE.Vector2();
 
-    const updatePointer = (event: MouseEvent) => {
+    const updatePointer = (event: MouseEvent | PointerEvent) => {
       const rect = renderer.domElement.getBoundingClientRect();
       const isInside =
         event.clientX >= rect.left &&
@@ -381,7 +385,7 @@ const WiiMenu: React.FC = () => {
       return true;
     };
 
-    const handlePointerMove = (event: MouseEvent) => {
+    const handlePointerMove = (event: MouseEvent | PointerEvent) => {
       if (!updatePointer(event)) {
         hoverModelRef.current = null;
         renderer.domElement.style.cursor = "default";
@@ -411,7 +415,7 @@ const WiiMenu: React.FC = () => {
       });
     };
 
-    const handleClick = (event: MouseEvent) => {
+    const handleClick = (event: MouseEvent | PointerEvent) => {
       if (!updatePointer(event)) {
         return;
       }
@@ -486,14 +490,15 @@ const WiiMenu: React.FC = () => {
 
     window.addEventListener("resize", onResize);
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("mousemove", handlePointerMove);
-    window.addEventListener("click", handleClick);
+    renderer.domElement.style.touchAction = "manipulation";
+    renderer.domElement.addEventListener("pointermove", handlePointerMove);
+    renderer.domElement.addEventListener("click", handleClick);
 
     return () => {
       window.removeEventListener("resize", onResize);
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("mousemove", handlePointerMove);
-      window.removeEventListener("click", handleClick);
+      renderer.domElement.removeEventListener("pointermove", handlePointerMove);
+      renderer.domElement.removeEventListener("click", handleClick);
       renderer.domElement.style.cursor = "default";
 
       if (animationRef.current) {
@@ -617,7 +622,11 @@ const WiiMenu: React.FC = () => {
                     <button type="button" onClick={() => scrollToSection(contactSectionRef)}>
                       Contact
                     </button>
-                    <a href={resumePdf} download="Edwin-Gabriel_Resume.pdf">
+                    <a
+                      className="dashboardResumeButton dashboardResumeHeroButton"
+                      href={resumePdf}
+                      download="Edwin-Gabriel_Resume.pdf"
+                    >
                       Download resume
                     </a>
                     <p>
@@ -697,7 +706,7 @@ const WiiMenu: React.FC = () => {
                   </button>
 
                   <div className="dashboardHeroProfileMeta">
-                    <p className="dashboardHeroAsideLabel">At a glance</p>
+                    <p className="dashboardHeroAsideLabel">Overview</p>
                     <ul className="dashboardHeroFacts">
                       <li>Full Stack Software Developer at Entertainment Technology Partners</li>
                       <li>Computer Science student at UCF</li>
@@ -774,50 +783,95 @@ const WiiMenu: React.FC = () => {
             </section> */}
 
             <section className="dashboardSection interactiveLayer" ref={skillsSectionRef}>
-              <div className="dashboardSectionIntro">
-                {/* <p className="wiiEyebrow">Skills</p> */}
-                <h2>Skills</h2>
-                <p>
-                  Languages, tools, and frameworks that I have experience working with from my various experiences.
-                </p>
-              </div>
+              <div className="dashboardSectionHeaderRow dashboardSkillsHeader">
+                <div className="dashboardSectionIntro">
+                  {/* <p className="wiiEyebrow">Skills</p> */}
+                  <h2>Skills</h2>
+                  <p>
+                    Languages, tools, and frameworks that I have experience working with from my various experiences.
+                  </p>
+                </div>
 
-              <div className="dashboardSkillsShell">
-                <div className="aboutSkillsBelt dashboardSkillsBelt" aria-label="Skills conveyor belt">
-                  {skillLanes.map((lane, laneIndex) => (
-                    <div
-                      key={`dashboard-lane-${laneIndex}`}
-                      className={`aboutSkillsLane aboutSkillsLane${laneIndex + 1}`}
-                    >
-                      {[0, 1].map((copyIndex) => (
-                        <div
-                          key={`dashboard-lane-${laneIndex}-copy-${copyIndex}`}
-                          className="aboutSkillsTrack"
-                          aria-hidden={copyIndex === 1}
-                        >
-                          {[0, 1].map((laneRepeat) =>
-                            lane.map((item) => (
-                              <article
-                                key={`${laneIndex}-${copyIndex}-${laneRepeat}-${item.name}`}
-                                className="aboutSkillBadge dashboardSkillBadge"
-                              >
-                                {item.image ? (
-                                  <img
-                                    src={item.image}
-                                    alt={item.imageAlt ?? `${item.name} logo`}
-                                    className="aboutSkillBadgeImage"
-                                  />
-                                ) : null}
-                                <span>{item.name}</span>
-                              </article>
-                            ))
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+                <div className="dashboardSkillsViewToggle" aria-label="Skills display mode">
+                  <button
+                    type="button"
+                    className={skillsView === "motion" ? "active" : ""}
+                    onClick={() => setSkillsView("motion")}
+                    aria-pressed={skillsView === "motion"}
+                  >
+                    Motion
+                  </button>
+                  <button
+                    type="button"
+                    className={skillsView === "list" ? "active" : ""}
+                    onClick={() => setSkillsView("list")}
+                    aria-pressed={skillsView === "list"}
+                  >
+                    List
+                  </button>
                 </div>
               </div>
+
+              {skillsView === "motion" ? (
+                <div className="dashboardSkillsShell">
+                  <div className="aboutSkillsBelt dashboardSkillsBelt" aria-label="Skills conveyor belt">
+                    {skillLanes.map((lane, laneIndex) => (
+                      <div
+                        key={`dashboard-lane-${laneIndex}`}
+                        className={`aboutSkillsLane aboutSkillsLane${laneIndex + 1}`}
+                      >
+                        {[0, 1].map((copyIndex) => (
+                          <div
+                            key={`dashboard-lane-${laneIndex}-copy-${copyIndex}`}
+                            className="aboutSkillsTrack"
+                            aria-hidden={copyIndex === 1}
+                          >
+                            {[0, 1].map((laneRepeat) =>
+                              lane.map((item) => (
+                                <article
+                                  key={`${laneIndex}-${copyIndex}-${laneRepeat}-${item.name}`}
+                                  className="aboutSkillBadge dashboardSkillBadge"
+                                >
+                                  {item.image ? (
+                                    <img
+                                      src={item.image}
+                                      alt={item.imageAlt ?? `${item.name} logo`}
+                                      className="aboutSkillBadgeImage"
+                                    />
+                                  ) : null}
+                                  <span>{item.name}</span>
+                                </article>
+                              ))
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="dashboardSkillsList" aria-label="Skills list">
+                  {skillGroups.map((group) => (
+                    <section key={group.title} className="dashboardSkillsListGroup">
+                      <h3>{group.title}</h3>
+                      <div className="dashboardSkillsListItems">
+                        {group.items.map((item) => (
+                          <article key={item.name} className="dashboardSkillsListItem">
+                            {item.image ? (
+                              <img
+                                src={item.image}
+                                alt={item.imageAlt ?? `${item.name} logo`}
+                                className="dashboardSkillsListIcon"
+                              />
+                            ) : null}
+                            <span>{item.name}</span>
+                          </article>
+                        ))}
+                      </div>
+                    </section>
+                  ))}
+                </div>
+              )}
             </section>
 
             <section className="dashboardSection interactiveLayer" ref={projectsSectionRef}>
@@ -886,7 +940,7 @@ const WiiMenu: React.FC = () => {
                   </a>
                 </div>
                 <button type="button" onClick={() => navigate("/contact")}>
-                  Open full contact page
+                  Contact Me
                 </button>
                 <a className="dashboardResumeButton" href={resumePdf} download="Edwin-Gabriel_Resume.pdf">
                   Download resume
