@@ -698,6 +698,7 @@ const WiiMenu: React.FC = () => {
                     onClick={handleSmashDamage}
                     aria-label="Increase Smash-style damage meter"
                   >
+                    {/* Casual photo for dashboard (click to add to damage meter and unlock the prototype menu) */}
                     <img
                       src={meCasual}
                       alt="Portrait of Edwin Gabriel Villanueva"
