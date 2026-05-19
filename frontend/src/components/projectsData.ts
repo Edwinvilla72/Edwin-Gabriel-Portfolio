@@ -128,7 +128,7 @@ export const projects: ProjectEntry[] = [
     timeline: "2026 - Present",
     description:
       "Live-event analytics platform that turns audience attention and emotion signals into usable operator dashboards.",
-    stack: ["TypeScript", "AWS", "Dashboards"],
+    stack: ["TypeScript", "AWS", "Next.js", "React", "Tailwind"],
     gallery: [
       { src: knw_logo, alt: "knw. Logo" },
       { src: knw_eventReport, alt: "knw event report page." },
@@ -220,7 +220,7 @@ export const projects: ProjectEntry[] = [
     ]
   },
   {
-    slug: "wii-portfolio",
+    slug: "updated-personal-portfolio",
     name: "My Portfolio Website",
     category: "personal",
     visual: "image",
@@ -244,5 +244,6 @@ export const projects: ProjectEntry[] = [
   }
 ];
 
+// slug headers for projects
 export const getProjectBySlug = (slug: string) =>
   projects.find((project) => project.slug === slug);

@@ -1,7 +1,11 @@
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+
+// styling
 import './App.css';
+
+// pages
 import './styles/styles.css';
 import WiiMenuPage from './pages/WiiMenuPage'
 import AboutMePage from './pages/AboutMePage';
@@ -13,6 +17,8 @@ import ProfessionalBlogEntryPage from "./pages/ProfessionalBlogEntry";
 import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import InternshipPortfolioPage from "./pages/InternshipPortfolioPage";
+
+// other components 
 import Footer from "./components/Footer";
 import ChannelNavbar from "./components/ChannelNavbar";
 

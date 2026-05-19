@@ -4,7 +4,7 @@ import "../styles/styles.css";
 
 const emailAddress = "edwin.villa2@icloud.com";
 const githubUrl = "https://github.com/Edwinvilla72";
-const linkedinUrl = "https://www.linkedin.com/in/your-linkedin-here";
+const linkedinUrl = "https://www.linkedin.com/in/edwin-villanueva/";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -43,7 +43,6 @@ const Footer: React.FC = () => {
 
         <div className="siteFooterColumn">
           <p className="siteFooterHeading">Elsewhere</p>
-          <Link to="/internship-portfolio">Internship Portfolio</Link>
           <Link to="/projects">Featured Work</Link>
           <Link to="/contact">Work Together</Link>
         </div>

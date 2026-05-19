@@ -25,11 +25,6 @@ const channelLinks: ChannelLink[] = [
     match: (pathname) => pathname === "/projects" || Boolean(matchPath("/projects/:slug", pathname))
   },
   {
-    label: "Internship",
-    path: "/internship-portfolio",
-    match: (pathname) => pathname === "/internship-portfolio"
-  },
-  {
     label: "Blog",
     path: "/blog",
     match: (pathname) => pathname.startsWith("/blog")

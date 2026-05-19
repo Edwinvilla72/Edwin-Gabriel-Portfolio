@@ -496,10 +496,12 @@ textarea {
 .landingNavLinks button,
 .landingNavActions button,
 .dashboardHeroActions button,
+.dashboardHeroActions a,
 .dashboardSectionRouteButton,
 .dashboardProjectActions button,
 .dashboardProjectActions a,
-.dashboardContactCard button {
+.dashboardContactCard button,
+.dashboardContactCard .dashboardResumeButton {
   border: 0;
   cursor: pointer;
 }
@@ -539,10 +541,12 @@ textarea {
 .landingNavLinks button:hover,
 .landingNavActions button:hover,
 .dashboardHeroActions button:hover,
+.dashboardHeroActions a:hover,
 .dashboardSectionRouteButton:hover,
 .dashboardProjectActions button:hover,
 .dashboardProjectActions a:hover,
-.dashboardContactCard button:hover {
+.dashboardContactCard button:hover,
+.dashboardContactCard .dashboardResumeButton:hover {
   transform: translateY(-1px);
 }
 
@@ -618,14 +622,64 @@ textarea {
 }
 
 .dashboardHeroActions button,
+.dashboardHeroActions a,
 .dashboardSectionRouteButton,
 .dashboardProjectActions button,
-.dashboardContactCard button {
+.dashboardContactCard button,
+.dashboardContactCard .dashboardResumeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.9rem 1.15rem;
   border-radius: 999px;
   background: var(--nintendo-red);
   color: #fff;
   box-shadow: 0 14px 28px rgba(182, 14, 29, 0.18);
+  text-decoration: none;
+}
+
+.dashboardHeroActions .dashboardResumeButton,
+.dashboardContactCard .dashboardResumeButton {
+  position: relative;
+  isolation: isolate;
+  gap: 0.5rem;
+  padding-inline: 1.25rem 1.45rem;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    linear-gradient(135deg, var(--nintendo-red), #ffd400 48%, #111111) border-box;
+  border: 2px solid transparent;
+  color: var(--wii-text);
+  box-shadow:
+    0 14px 28px rgba(182, 14, 29, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  overflow: hidden;
+}
+
+.dashboardHeroActions .dashboardResumeButton::before,
+.dashboardContactCard .dashboardResumeButton::before {
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  background: var(--nintendo-red);
+  clip-path: polygon(50% 100%, 9% 57%, 34% 57%, 34% 0, 66% 0, 66% 57%, 91% 57%);
+}
+
+.dashboardHeroActions .dashboardResumeButton::after,
+.dashboardContactCard .dashboardResumeButton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(110deg, transparent 0 34%, rgba(255, 212, 0, 0.22) 44%, transparent 54% 100%);
+  transform: translateX(-100%);
+  transition: transform 260ms ease;
+}
+
+.dashboardHeroActions .dashboardResumeButton:hover::after,
+.dashboardContactCard .dashboardResumeButton:hover::after {
+  transform: translateX(100%);
 }
 
 .dashboardHeroActions button:last-child {
@@ -1250,6 +1304,39 @@ textarea {
   border-top: 1px solid var(--wii-border);
 }
 
+.dashboardSkillsHeader {
+  align-items: center;
+}
+
+.dashboardSkillsViewToggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 0.25rem;
+  padding: 0.28rem;
+  border: 1px solid var(--wii-border);
+  border-radius: 999px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(18, 24, 34, 0.06);
+}
+
+.dashboardSkillsViewToggle button {
+  min-width: 5rem;
+  padding: 0.62rem 0.95rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--wii-muted);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.dashboardSkillsViewToggle button.active {
+  background: var(--nintendo-red);
+  color: #ffffff;
+  box-shadow: 0 10px 20px rgba(182, 14, 29, 0.18);
+}
+
 .dashboardSkillsBelt {
   gap: 0.9rem;
 }
@@ -1260,6 +1347,57 @@ textarea {
   backdrop-filter: none;
   color: var(--wii-text);
   box-shadow: 0 10px 22px rgba(18, 24, 34, 0.06);
+}
+
+.dashboardSkillsList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.dashboardSkillsListGroup {
+  display: grid;
+  align-content: start;
+  gap: 0.95rem;
+  padding: 1.2rem;
+  border: 1px solid var(--wii-border);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: var(--wii-shadow);
+}
+
+.dashboardSkillsListGroup h3 {
+  margin: 0;
+  color: var(--nintendo-red);
+  font-family: var(--font-smash);
+  font-size: 1.15rem;
+  letter-spacing: 0;
+}
+
+.dashboardSkillsListItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.58rem;
+}
+
+.dashboardSkillsListItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.6rem;
+  padding: 0.45rem 0.62rem;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 999px;
+  background: #f8fafc;
+  color: var(--wii-text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.dashboardSkillsListIcon {
+  width: 1.35rem;
+  height: 1.35rem;
+  object-fit: contain;
 }
 
 .dashboardSkillCard {
@@ -4798,6 +4936,7 @@ textarea {
   .dashboardHeroBand,
   .dashboardAboutGrid,
   .dashboardSkillGrid,
+  .dashboardSkillsList,
   .dashboardProjectRow {
     grid-template-columns: 1fr;
   }
@@ -5079,12 +5218,18 @@ textarea {
   }
 
   .dashboardHeroActions button,
+  .dashboardHeroActions a,
   .dashboardProjectActions a,
   .dashboardProjectActions button,
   .contactPrimaryButton,
   .contactSecondaryButton {
+    flex: 1 1 100%;
     width: 100%;
     min-width: 0;
+  }
+
+  .dashboardHeroActions .dashboardResumeHeroButton {
+    max-width: none;
   }
 
   .dashboardHeroMain,
