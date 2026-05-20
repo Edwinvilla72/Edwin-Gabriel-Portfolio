@@ -5,6 +5,7 @@ import "./App.css";
 
 // Optional: import './index.css'; // if you have global CSS
 
+/* renders the site */
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
