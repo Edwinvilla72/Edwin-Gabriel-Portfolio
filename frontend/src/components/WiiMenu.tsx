@@ -264,12 +264,13 @@ const WiiMenu: React.FC = () => {
     section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // Adds damage to the smash-inspired HP HUD element 
   const handleSmashDamage = () => {
     setSmashHitCount((previous) => previous + 1);
     setSmashDamage((previous) => Math.min(previous + SMASH_DAMAGE_STEP, 999));
   };
 
-
+  // resets damage taken if user clicks on the reset button
   const handleSmashReset = () => {
     setSmashDamage(0);
     setSmashEasterEggOpen(false);
