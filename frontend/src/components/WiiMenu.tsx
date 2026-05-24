@@ -258,6 +258,7 @@ const WiiMenu: React.FC = () => {
   const activeItem = carouselItems[activeIndex % carouselItems.length] ?? carouselItems[0];
   const heroMenu = MENU_ITEMS.filter((item) => item.id !== "mode-3d");
 
+  // scrolls to relevant section of the website when user clicks on it
   const scrollToSection = (section: React.RefObject<HTMLElement | null>) => {
     setMenuOpen(false);
     section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -267,6 +268,7 @@ const WiiMenu: React.FC = () => {
     setSmashHitCount((previous) => previous + 1);
     setSmashDamage((previous) => Math.min(previous + SMASH_DAMAGE_STEP, 999));
   };
+
 
   const handleSmashReset = () => {
     setSmashDamage(0);
