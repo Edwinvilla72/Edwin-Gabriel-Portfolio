@@ -276,6 +276,7 @@ const WiiMenu: React.FC = () => {
     setSmashEasterEggOpen(false);
   };
 
+  // if the user meets easter egg pre-requisites, allow them to see the prototype version of the site at its current state
   const handlePrototypeUnlock = () => {
     setSmashEasterEggOpen((open) => !open);
   };
