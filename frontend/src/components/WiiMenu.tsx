@@ -75,7 +75,7 @@ type SkillGroup = {
 
 type SkillsView = "motion" | "list";
 
-// todo: play hover.wav for any menu item card that is hovered over
+
 const MENU_ITEMS: MenuItem[] = [
   {
     id: "about",
