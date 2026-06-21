@@ -3,8 +3,7 @@ import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
 import resumePdf from "../../assets/files/Edwin-Gabriel_Resume.pdf";
-import meCasual from "../../assets/images/Me/Casual.jpeg";
-import edwinSmashUi from "../../assets/images/Me/Edwin_Smash_ui.png";
+import headshot from "../../assets/images/Me/Headshot.jpeg";
 
 // -- skills --  
 // languages 
@@ -217,28 +216,14 @@ const featuredProjects: DashboardProject[] = [
   }
 ] as const;
 
-const SMASH_DAMAGE_STEP = 17;
-const SMASH_UNLOCK_THRESHOLD = 100;
-const SMASH_COLOR_CAP = 300;
-
-const getSmashDamageColor = (damage: number) => {
-  const clampedProgress = Math.min(Math.max(damage / SMASH_COLOR_CAP, 0), 1);
-  const redChannel = Math.round(255 - clampedProgress * 95);
-  const greenChannel = Math.round(255 * (1 - clampedProgress));
-  const blueChannel = Math.round(255 * (1 - clampedProgress));
-  return `rgb(${redChannel} ${greenChannel} ${blueChannel})`;
-};
-
 const WiiMenu: React.FC = () => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<MenuMode>("2d");
   const [activeIndex, setActiveIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [smashDamage, setSmashDamage] = useState(0);
-  const [smashEasterEggOpen, setSmashEasterEggOpen] = useState(false);
-  const [smashHitCount, setSmashHitCount] = useState(0);
   const [skillsView, setSkillsView] = useState<SkillsView>("motion");
   const activeIndexRef = useRef(0);
+  const homeIntroRef = useRef<HTMLDivElement | null>(null);
   const channelSectionRef = useRef<HTMLElement | null>(null);
   const aboutSectionRef = useRef<HTMLElement | null>(null);
   const skillsSectionRef = useRef<HTMLElement | null>(null);
@@ -264,32 +249,81 @@ const WiiMenu: React.FC = () => {
     section.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Adds damage to the smash-inspired HP HUD element 
-  const handleSmashDamage = () => {
-    setSmashHitCount((previous) => previous + 1);
-    setSmashDamage((previous) => Math.min(previous + SMASH_DAMAGE_STEP, 999));
-  };
-
-  // resets damage taken if user clicks on the reset button
-  const handleSmashReset = () => {
-    setSmashDamage(0);
-    setSmashEasterEggOpen(false);
-  };
-
-  // if the user meets easter egg pre-requisites, allow them to see the prototype version of the site at its current state
-  const handlePrototypeUnlock = () => {
-    setSmashEasterEggOpen((open) => !open);
-  };
-
-  const openPrototypeMode = () => {
-    setMenuOpen(false);
-    setMode("3d");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
+
+  useEffect(() => {
+    const intro = homeIntroRef.current;
+    if (!intro || mode !== "2d") {
+      return;
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frameId: number | undefined;
+
+    const updateScrollProgress = () => {
+      frameId = undefined;
+      const introTop = intro.offsetTop;
+      const travel = Math.max(intro.offsetHeight * 0.72, 1);
+      const progress = reduceMotion.matches
+        ? 0
+        : Math.min(Math.max((window.scrollY - introTop) / travel, 0), 1);
+
+      intro.style.setProperty("--home-scroll-progress", progress.toFixed(3));
+    };
+
+    const requestUpdate = () => {
+      if (frameId === undefined) {
+        frameId = window.requestAnimationFrame(updateScrollProgress);
+      }
+    };
+
+    updateScrollProgress();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    reduceMotion.addEventListener("change", requestUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      reduceMotion.removeEventListener("change", requestUpdate);
+      if (frameId !== undefined) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode !== "2d") {
+      return;
+    }
+
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>(".wiiMenuShell [data-scroll-reveal]")
+    );
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion || !("IntersectionObserver" in window)) {
+      targets.forEach((target) => target.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.14, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [mode, skillsView]);
 
   const handleSelection = (item: MenuItem) => {
     if (item.mode) {
@@ -610,125 +644,41 @@ const WiiMenu: React.FC = () => {
             </aside>
 
             <section className="channelHome interactiveLayer">
-              <div className="dashboardHeroBand">
-                <div className="dashboardHeroMain">
-                  <p className="wiiEyebrow">Hello, World! My name is</p>
+              <div className="homeIntro" ref={homeIntroRef}>
+                <div className="homeIntroCopy">
                   <h1>Edwin Gabriel Villanueva</h1>
-                  <p className="channelHeroCopy">
-                    I am a full-stack developer based in Orlando, Florida. My focus is on backend developement, intuitive user experiences, and
+                  <p>
+                    I am a full-stack developer based in Orlando, Florida. My focus is on backend development, intuitive user experiences, and
                     agentic AI systems.
                   </p>
 
-                  <div className="dashboardHeroActions">
+                  <div className="homeIntroActions">
                     <button type="button" onClick={() => scrollToSection(projectsSectionRef)}>
                       View projects
                     </button>
                     <button type="button" onClick={() => scrollToSection(contactSectionRef)}>
                       Contact
                     </button>
-                    <a
-                      className="dashboardResumeButton dashboardResumeHeroButton"
-                      href={resumePdf}
-                      download="Edwin-Gabriel_Resume.pdf"
-                    >
-                      Download resume
-                    </a>
-                    <p>
-                      (Fun fact: Somehwere on this website is a hidden 3D prototype of what I plan for this site to become - have fun looking for it!)
-                    </p>
-                  </div>
-
-                  <div className="dashboardSmashHud">
-                    {smashEasterEggOpen ? (
-                      <div className="dashboardSmashSecret">
-                        <p className="dashboardSmashSecretLabel">Prototype Unlocked</p>
-                        <p className="dashboardSmashSecretCopy">
-                          Huh... guess I didn't hide that very well :/
-                        </p>
-                        <button type="button" className="dashboardSmashSecretAction" onClick={openPrototypeMode}>
-                          Open prototype
-                        </button>
-                      </div>
-                    ) : null}
-
-                    <div className="dashboardSmashFooter">
-                      <div className="dashboardSmashHitZone">
-                        <div className="dashboardSmashHudPlate">
-                          <img
-                            src={edwinSmashUi}
-                            alt=""
-                            aria-hidden="true"
-                            className="dashboardSmashHudImage"
-                          />
-                          <div
-                            key={smashHitCount}
-                            className="dashboardSmashDamage"
-                            style={{ "--smash-damage-color": getSmashDamageColor(smashDamage) } as React.CSSProperties}
-                          >
-                            <span className="dashboardSmashDamageValue">{smashDamage}</span>
-                            <span className="dashboardSmashDamageSymbol">%</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="dashboardSmashControls">
-                        {smashDamage >= SMASH_UNLOCK_THRESHOLD ? (
-                          <button
-                            type="button"
-                            className="dashboardSmashUnlockButton"
-                            onClick={handlePrototypeUnlock}
-                          >
-                            {smashEasterEggOpen ? "Hide Easter Egg" : "Unlock Easter Egg"}
-                          </button>
-                        ) : null}
-
-                        <button
-                          type="button"
-                          className="dashboardSmashResetButton"
-                          onClick={handleSmashReset}
-                          disabled={smashDamage === 0 && !smashEasterEggOpen}
-                        >
-                          Reset
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
-                <aside className="dashboardHeroAside dashboardHeroProfileCard">
-                  <button
-                    type="button"
-                    className="dashboardHeroPhotoFrame dashboardHeroPhotoButton"
-                    onClick={handleSmashDamage}
-                    aria-label="Increase Smash-style damage meter"
-                  >
-                    {/* Casual photo for dashboard (click to add to damage meter and unlock the prototype menu) */}
-                    <img
-                      src={meCasual}
-                      alt="Portrait of Edwin Gabriel Villanueva"
-                      className="dashboardHeroPhoto"
-                    />
-                  </button>
-
-                  <div className="dashboardHeroProfileMeta">
-                    <p className="dashboardHeroAsideLabel">Overview</p>
-                    <ul className="dashboardHeroFacts">
-                      <li>Full Stack Software Developer at Entertainment Technology Partners</li>
-                      <li>Computer Science student at UCF</li>
-                      <li>Interested in backend systems, AI-enabled products, and user experiences</li>
-                    </ul>
-                  </div>
-                </aside>
+                <div className="homeIntroPortrait">
+                  <img src={headshot} alt="Portrait of Edwin Gabriel Villanueva" />
+                </div>
               </div>
 
-              <div className="channelHero">
+              <div className="channelHero scrollReveal scrollRevealUp" data-scroll-reveal>
                 {/* <h2>Open a channel.</h2> */}
                 <p className="channelHeroTitle">
                   Have a look around!
                 </p>
               </div>
 
-              <section className="channelGridWrap" ref={channelSectionRef}>
+              <section
+                className="channelGridWrap scrollReveal scrollRevealChannels"
+                ref={channelSectionRef}
+                data-scroll-reveal
+              >
                 <div className="channelGrid">
                   {heroMenu.map((item) => (
                     <button
@@ -787,7 +737,11 @@ const WiiMenu: React.FC = () => {
               </div>
             </section> */}
 
-            <section className="dashboardSection interactiveLayer" ref={skillsSectionRef}>
+            <section
+              className="dashboardSection dashboardSkillsSection interactiveLayer scrollReveal scrollRevealSkills"
+              ref={skillsSectionRef}
+              data-scroll-reveal
+            >
               <div className="dashboardSectionHeaderRow dashboardSkillsHeader">
                 <div className="dashboardSectionIntro">
                   {/* <p className="wiiEyebrow">Skills</p> */}
@@ -879,7 +833,11 @@ const WiiMenu: React.FC = () => {
               )}
             </section>
 
-            <section className="dashboardSection interactiveLayer" ref={projectsSectionRef}>
+            <section
+              className="dashboardSection interactiveLayer scrollReveal scrollRevealProjects"
+              ref={projectsSectionRef}
+              data-scroll-reveal
+            >
               <div className="dashboardSectionHeaderRow">
                 <div className="dashboardSectionIntro">
                   {/* <p className="wiiEyebrow">Featured Projects</p> */}
@@ -923,7 +881,11 @@ const WiiMenu: React.FC = () => {
               </div>
             </section>
 
-            <section className="dashboardSection dashboardContactSection interactiveLayer" ref={contactSectionRef}>
+            <section
+              className="dashboardSection dashboardContactSection interactiveLayer scrollReveal scrollRevealContact"
+              ref={contactSectionRef}
+              data-scroll-reveal
+            >
               <div className="dashboardSectionIntro">
                 {/* <p className="wiiEyebrow">Contact</p> */}
                 <h2>Let&apos;s connect!</h2>
