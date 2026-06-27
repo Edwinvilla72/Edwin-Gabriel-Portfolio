@@ -311,7 +311,7 @@ textarea {
   align-self: start;
   display: grid;
   gap: 2rem;
-  max-width: 1280px;
+  max-width: 1600px;
   width: 100%;
   margin: 0 auto;
   padding-top: calc(var(--app-nav-offset) - 0.55rem);
@@ -571,6 +571,113 @@ textarea {
   grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
   gap: 1rem;
   margin-top: -0.35rem;
+}
+
+.homeIntro {
+  --home-scroll-progress: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 56rem) minmax(18rem, 21rem);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(3rem, 6vw, 6rem);
+  min-height: calc(100svh - var(--app-nav-offset) + 0.55rem);
+  padding: clamp(4rem, 8vw, 6.5rem) 1.5rem;
+  border-bottom: 1px solid var(--wii-border);
+  background: transparent;
+  overflow: hidden;
+}
+
+.homeIntroCopy {
+  width: 100%;
+  text-align: left;
+  opacity: calc(1 - (var(--home-scroll-progress) * 0.72));
+  transform: translate3d(
+    calc(var(--home-scroll-progress) * -3.5rem),
+    calc(var(--home-scroll-progress) * -2rem),
+    0
+  );
+  will-change: opacity, transform;
+}
+
+.homeIntroCopy h1 {
+  max-width: 16ch;
+  margin: 0;
+  color: #142138;
+  font-family: var(--font-smash);
+  font-size: clamp(4.5rem, 5.9vw, 7rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.homeIntroCopy > p {
+  max-width: 47rem;
+  margin: 1.5rem 0 0;
+  color: var(--wii-muted);
+  font-size: clamp(1.15rem, 1.45vw, 1.4rem);
+  line-height: 1.7;
+}
+
+.homeIntroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.homeIntroActions button {
+  min-height: 3.55rem;
+  padding: 0.95rem 1.55rem;
+  border: 1px solid var(--nintendo-red);
+  border-radius: 999px;
+  background: var(--nintendo-red);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.homeIntroActions button:last-child {
+  border-color: var(--wii-border);
+  background: transparent;
+  color: var(--wii-text);
+}
+
+.homeIntroActions button:hover {
+  transform: translateY(-2px);
+}
+
+.homeIntroActions button:last-child:hover {
+  border-color: var(--nintendo-red);
+  color: var(--nintendo-red);
+}
+
+.homeIntroPortrait {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid var(--wii-border);
+  border-radius: 28px;
+  background: #eef0f2;
+  box-shadow: 0 18px 42px rgba(18, 24, 34, 0.1);
+  opacity: calc(1 - (var(--home-scroll-progress) * 0.72));
+  transform: translate3d(
+      calc(var(--home-scroll-progress) * 3.5rem),
+      calc(var(--home-scroll-progress) * -1rem),
+      0
+    )
+    scale(calc(1 - (var(--home-scroll-progress) * 0.06)));
+  will-change: opacity, transform;
+}
+
+.homeIntroPortrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 24%;
 }
 
 .dashboardHeroMain,
@@ -935,6 +1042,113 @@ textarea {
   text-align: center;
 }
 
+.scrollReveal {
+  opacity: 0;
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollRevealUp {
+  transform: translateY(3rem);
+}
+
+.scrollRevealChannels {
+  transform: translateY(4rem) scale(0.96);
+}
+
+.scrollRevealSkills {
+  opacity: 1;
+  transform: translateY(1.5rem);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollRevealProjects {
+  transform: translateY(4rem);
+}
+
+.scrollRevealContact {
+  transform: translateY(3rem) scale(0.97);
+}
+
+.scrollReveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.scrollReveal .dashboardSectionIntro h2::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 4px;
+  margin-top: 0.8rem;
+  border-radius: 999px;
+  background: var(--nintendo-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 700ms 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scrollReveal.is-visible .dashboardSectionIntro h2::after {
+  transform: scaleX(1);
+}
+
+.scrollRevealChannels .channelCard,
+.scrollRevealProjects .dashboardProjectCard {
+  opacity: 0;
+  transform: translateY(2.5rem);
+  transition:
+    opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 650ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.scrollRevealProjects .dashboardProjectCard:nth-child(1) {
+  transform: translate3d(-3rem, 2.5rem, 0) rotate(-1deg);
+}
+
+.scrollRevealProjects .dashboardProjectCard:nth-child(3) {
+  transform: translate3d(3rem, 2.5rem, 0) rotate(1deg);
+}
+
+.scrollRevealChannels.is-visible .channelCard,
+.scrollRevealProjects.is-visible .dashboardProjectCard {
+  opacity: 1;
+  transform: none;
+}
+
+.scrollRevealChannels.is-visible .channelCard:nth-child(2),
+.scrollRevealProjects.is-visible .dashboardProjectCard:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.scrollRevealChannels.is-visible .channelCard:nth-child(3),
+.scrollRevealProjects.is-visible .dashboardProjectCard:nth-child(3) {
+  transition-delay: 180ms;
+}
+
+.scrollRevealChannels.is-visible .channelCard:nth-child(4) {
+  transition-delay: 270ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .homeIntroCopy,
+  .homeIntroPortrait,
+  .channelHero,
+  .channelGridWrap,
+  .scrollReveal,
+  .scrollRevealChannels .channelCard,
+  .scrollRevealProjects .dashboardProjectCard,
+  .scrollReveal .dashboardSectionIntro h2::after {
+    animation: none;
+    clip-path: none;
+    opacity: 1;
+    transition: none;
+    transform: none;
+  }
+}
+
 .channelHero h2 {
   font-family: "shinGo", var(--font-display);
   font-size: clamp(2.8rem, 6vw, 5.1rem);
@@ -970,40 +1184,39 @@ textarea {
 
 .channelGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.8rem;
-  width: min(1160px, 100%);
-  padding: 1rem;
-  border-radius: 32px;
-  background: #ffffff;
-  border: 1px solid var(--wii-border);
-  box-shadow: var(--wii-shadow);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  width: min(1460px, 100%);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .channelCard {
   position: relative;
   display: flex;
-  min-height: 8.6rem;
+  min-height: 13rem;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 1rem 1.05rem;
+  padding: 1.55rem 1.6rem;
   text-align: left;
   border: 1px solid var(--wii-border);
-  border-radius: 16px;
+  border-radius: 24px;
   background:
     linear-gradient(90deg, var(--nintendo-red) 0 26%, #111111 26% 36%, transparent 36%) top left / 100% 0.4rem no-repeat,
     #ffffff;
-  box-shadow: none;
+  box-shadow: 0 14px 32px rgba(18, 24, 34, 0.07);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
 .channelCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
   border-color: var(--nintendo-red);
-  box-shadow: var(--wii-shadow);
+  box-shadow: 0 22px 42px rgba(18, 24, 34, 0.12);
 }
 
 .channelCard p,
@@ -1019,7 +1232,7 @@ textarea {
 .channelCard h3 {
   margin-top: 0.55rem;
   font-family: var(--font-smash);
-  font-size: 1.5rem;
+  font-size: 2rem;
   color: var(--wii-text);
 }
 
@@ -1027,7 +1240,7 @@ textarea {
   margin-top: 0.55rem;
   color: var(--wii-muted);
   line-height: 1.5;
-  font-size: 0.92rem;
+  font-size: 1rem;
 }
 
 .channelScrollHint {
@@ -1232,11 +1445,11 @@ textarea {
 
 .dashboardSection {
   display: grid;
-  gap: 1.4rem;
-  max-width: 1280px;
+  gap: 2rem;
+  max-width: 1560px;
   width: 100%;
   margin: 0 auto;
-  padding-bottom: 1rem;
+  padding: 4.5rem 1.5rem 2.5rem;
 }
 
 .channelHome + .dashboardSection,
@@ -1258,7 +1471,7 @@ textarea {
 }
 
 .dashboardSectionIntro h2 {
-  font-size: clamp(2rem, 3.4vw, 3.3rem);
+  font-size: clamp(3.1rem, 4.3vw, 4.8rem);
   line-height: 0.96;
 }
 
@@ -1269,6 +1482,11 @@ textarea {
   margin: 0;
   color: var(--wii-muted);
   line-height: 1.7;
+}
+
+.dashboardSectionIntro > p {
+  max-width: 52rem;
+  font-size: 1.16rem;
 }
 
 .dashboardAboutGrid {
@@ -1307,7 +1525,7 @@ textarea {
 .dashboardSkillsShell {
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  padding: 2rem 0 1.75rem;
+  padding: 3.25rem 0 3rem;
   border-top: 1px solid var(--wii-border);
 }
 
@@ -1354,6 +1572,9 @@ textarea {
   backdrop-filter: none;
   color: var(--wii-text);
   box-shadow: 0 10px 22px rgba(18, 24, 34, 0.06);
+  min-height: 4.8rem;
+  padding-inline: 1.35rem;
+  font-size: 1.08rem;
 }
 
 .dashboardSkillsList {
@@ -1448,7 +1669,8 @@ textarea {
   position: relative;
   display: grid;
   gap: 0.75rem;
-  padding: 1.45rem;
+  min-height: 20rem;
+  padding: 2.25rem;
   border-top: 5px solid var(--nintendo-red);
   overflow: hidden;
   background:
@@ -1466,6 +1688,10 @@ textarea {
   font-size: 0.78rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+.dashboardProjectCard h3 {
+  font-size: clamp(1.5rem, 2vw, 2rem);
 }
 
 .dashboardProjectActions {
@@ -1495,7 +1721,8 @@ textarea {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1.5rem;
+  min-height: 10rem;
+  padding: 2.25rem;
 }
 
 .dashboardContactCard a {
@@ -2154,6 +2381,239 @@ textarea {
 .projectsCataloguePage .pageBackButton,
 .projectDetailPage .pageBackButton {
   margin-left: 1.5rem;
+}
+
+.projectsDashboardBody {
+  gap: 1.75rem;
+  padding: 1.5rem;
+}
+
+.projectsDashboardHero {
+  margin-top: 0;
+}
+
+.projectsDashboardHeroMain {
+  min-height: 24rem;
+  padding-bottom: 2.5rem;
+  background: #ffffff;
+  clip-path: none;
+}
+
+.projectsDashboardHeroMain::after {
+  display: none;
+}
+
+.projectsDashboardLead {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--wii-muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.projectsDashboardHeroAside {
+  gap: 1rem;
+}
+
+.projectsDashboardStatCard,
+.projectsDashboardMiniStat {
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(18, 49, 77, 0.06);
+}
+
+.projectsDashboardStatCard {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1.2rem 1.25rem;
+}
+
+.projectsDashboardStatLabel,
+.projectsDashboardMiniStat span,
+.projectsDashboardSectionCount span {
+  color: rgba(16, 40, 68, 0.58);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.projectsDashboardStatCard strong,
+.projectsDashboardMiniStat strong,
+.projectsDashboardSectionCount strong {
+  color: #102844;
+  font-family: var(--font-smash);
+  line-height: 0.9;
+}
+
+.projectsDashboardStatCard strong {
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+}
+
+.projectsDashboardStatCard p {
+  margin: 0;
+  color: var(--wii-muted);
+  line-height: 1.6;
+}
+
+.projectsDashboardStatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.projectsDashboardMiniStat {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.projectsDashboardMiniStat strong,
+.projectsDashboardSectionCount strong {
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
+}
+
+.projectsDashboardStatFootnote {
+  color: var(--wii-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.projectsDashboardSection {
+  gap: 1.5rem;
+  margin-top: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.projectsDashboardGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.projectsDashboardGridFeatured {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.projectsDashboardSectionCount {
+  display: grid;
+  min-width: 8rem;
+  justify-items: center;
+  align-content: center;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(18, 49, 77, 0.06);
+}
+
+.projectsDashboardCard {
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  min-height: 0;
+  gap: 0;
+  overflow: hidden;
+  border-top-color: color-mix(in srgb, var(--project-accent, #62c3ff) 72%, var(--nintendo-red));
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(18, 49, 77, 0.08);
+}
+
+.projectsDashboardCardMedia {
+  aspect-ratio: 16 / 9;
+  margin: 0.8rem 0.8rem 0;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #f3f6f9;
+}
+
+.projectsDashboardCardContent {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.projectsDashboardCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.8rem;
+  align-items: center;
+}
+
+.projectsDashboardCardMeta p {
+  margin: 0;
+  color: color-mix(in srgb, var(--project-accent, #62c3ff) 72%, #102844);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.projectsDashboardCardMeta span {
+  color: rgba(16, 40, 68, 0.66);
+  font-size: 0.82rem;
+}
+
+.projectsDashboardCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.projectsDashboardCategoryPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.48rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  background: #f7f9fb;
+  color: #102844;
+  font-size: 0.8rem;
+}
+
+.projectsDashboardCard .catalogueCardAction {
+  justify-self: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1180px) {
+  .projectsDashboardGrid,
+  .projectsDashboardGridFeatured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .projectsDashboardBody {
+    padding: 1rem;
+  }
+
+  .projectsDashboardStatGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .projectsDashboardGrid,
+  .projectsDashboardGridFeatured {
+    grid-template-columns: 1fr;
+  }
+
+  .projectsDashboardCardFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .projectsDashboardSectionCount {
+    min-width: 0;
+    width: 100%;
+    justify-items: start;
+  }
 }
 
 .wiiSportsFooterTile {
@@ -3258,15 +3718,15 @@ textarea {
 }
 
 .aboutSkillsLane1 {
-  animation: skillsBeltLeft 30s linear infinite;
+  animation: skillsBeltLeft 48s linear infinite;
 }
 
 .aboutSkillsLane2 {
-  animation: skillsBeltRight 34s linear infinite;
+  animation: skillsBeltRight 54s linear infinite;
 }
 
 .aboutSkillsLane3 {
-  animation: skillsBeltLeft 38s linear infinite;
+  animation: skillsBeltLeft 60s linear infinite;
 }
 
 .aboutSkillsLane:hover {
@@ -4923,15 +5383,15 @@ textarea {
   }
 
   .aboutSkillsLane1 {
-    animation-duration: 24s;
+    animation-duration: 42s;
   }
 
   .aboutSkillsLane2 {
-    animation-duration: 27s;
+    animation-duration: 48s;
   }
 
   .aboutSkillsLane3 {
-    animation-duration: 30s;
+    animation-duration: 54s;
   }
 }
 
@@ -4946,6 +5406,13 @@ textarea {
   .dashboardSkillsList,
   .dashboardProjectRow {
     grid-template-columns: 1fr;
+  }
+
+  .homeIntro {
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    gap: 2.5rem;
+    min-height: calc(100svh - var(--app-nav-offset) + 0.55rem);
+    padding-block: 4rem;
   }
 
   .siteFooterInner {
@@ -5119,6 +5586,44 @@ textarea {
   .dashboardProjectCard,
   .dashboardContactCard {
     border-radius: 24px;
+  }
+
+  .homeIntro {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 2.25rem;
+    min-height: calc(100svh - var(--app-nav-offset) + 0.55rem);
+    padding: 4rem 1rem;
+  }
+
+  .homeIntroCopy {
+    text-align: center;
+  }
+
+  .homeIntroCopy h1 {
+    max-width: none;
+    margin-inline: auto;
+    font-size: clamp(2.8rem, 14vw, 4rem);
+  }
+
+  .homeIntroCopy > p {
+    margin-inline: auto;
+    margin-top: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .homeIntroActions {
+    justify-content: center;
+  }
+
+  .homeIntroPortrait {
+    width: min(13rem, 70vw);
+    border-radius: 24px;
+  }
+
+  .homeIntroCopy,
+  .homeIntroPortrait {
+    transform: translate3d(0, calc(var(--home-scroll-progress) * -1.5rem), 0);
   }
 
   .channelHome {

@@ -1,1 +1,6 @@
 .DS_Store
+node_modules/
+dist/
+frontend/node_modules/
+frontend/dist/
+all-files.txt
