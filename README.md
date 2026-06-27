@@ -1,4 +1,4 @@
-# Wii Portfolio
+# Edwin Gabriel Villanueva's Personal Portfolio
 
 This is my personal portfolio website.
 I wanted this site to feel a little bit more personal than a standard portfolio. It covers the usual things like my background, projects, writing, and contact info, but it does it through an interface that reflects my taste and the kind of experiences that made me care about technology in the first place.
@@ -41,8 +41,6 @@ npm run build
 ```
 
 ## Why I made it this way
-
-I did not want my portfolio to feel interchangeable.
 
 Nintendo has had a huge influence on the way I think about software, interface design, and the emotional side of technology. A lot of portfolios are clean and functional, which is fine, but I wanted mine to have a little more identity behind it. This project was my way of combining that influence with the work I’ve done so far in software engineering.
 
