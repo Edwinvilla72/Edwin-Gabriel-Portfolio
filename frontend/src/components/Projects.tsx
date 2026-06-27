@@ -121,38 +121,12 @@ const Projects: React.FC = () => {
 
         <section className="wiiSportsFrame">
           <section className="wiiSportsFrameBody projectsDashboardBody">
-            <section className="dashboardHeroBand projectsDashboardHero">
-              <article className="dashboardHeroMain projectsDashboardHeroMain">
-                <p className="wiiEyebrow">Project Dashboard</p>
-                <h1>Projects</h1>
-                <p className="projectsDashboardLead">
-                  Browse selected work by category and open any project for more detail.
-                </p>
-                <div className="dashboardHeroActions">
-                  <button type="button" onClick={() => openProject(featuredProjects[0]?.slug ?? projects[0].slug)}>
-                    Open project
-                  </button>
-                  <button type="button" onClick={() => navigate("/")}>
-                    Back to home
-                  </button>
-                </div>
-              </article>
-
-              <aside className="dashboardHeroAside projectsDashboardHeroAside">
-                <div className="projectsDashboardStatCard">
-                  <span className="projectsDashboardStatLabel">Total projects</span>
-                  <strong>{projects.length}</strong>
-                  <p>Professional, personal, and academic work.</p>
-                </div>
-                <div className="projectsDashboardStatGrid">
-                  {groupedProjects.map((group) => (
-                    <article key={group.category} className="projectsDashboardMiniStat">
-                      <span>{group.label}</span>
-                      <strong>{group.projects.length}</strong>
-                    </article>
-                  ))}
-                </div>
-              </aside>
+            <section className="projectsDashboardHeader">
+              <p className="wiiEyebrow">Projects</p>
+              <h1>Projects</h1>
+              <p className="projectsDashboardLead">
+                Browse selected work by category and open any project for more detail.
+              </p>
             </section>
 
             <section className="dashboardSection projectsDashboardSection" aria-label="Featured projects">

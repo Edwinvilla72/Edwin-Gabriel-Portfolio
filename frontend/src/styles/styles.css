@@ -2388,19 +2388,18 @@ textarea {
   padding: 1.5rem;
 }
 
-.projectsDashboardHero {
-  margin-top: 0;
+.projectsDashboardHeader {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.25rem 0 0.1rem;
 }
 
-.projectsDashboardHeroMain {
-  min-height: 24rem;
-  padding-bottom: 2.5rem;
-  background: #ffffff;
-  clip-path: none;
-}
-
-.projectsDashboardHeroMain::after {
-  display: none;
+.projectsDashboardHeader h1 {
+  margin: 0;
+  font-family: var(--font-smash);
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
 }
 
 .projectsDashboardLead {
@@ -2411,26 +2410,6 @@ textarea {
   line-height: 1.7;
 }
 
-.projectsDashboardHeroAside {
-  gap: 1rem;
-}
-
-.projectsDashboardStatCard,
-.projectsDashboardMiniStat {
-  border: 1px solid rgba(16, 40, 68, 0.1);
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 12px 24px rgba(18, 49, 77, 0.06);
-}
-
-.projectsDashboardStatCard {
-  display: grid;
-  gap: 0.4rem;
-  padding: 1.2rem 1.25rem;
-}
-
-.projectsDashboardStatLabel,
-.projectsDashboardMiniStat span,
 .projectsDashboardSectionCount span {
   color: rgba(16, 40, 68, 0.58);
   font-size: 0.76rem;
@@ -2438,45 +2417,13 @@ textarea {
   text-transform: uppercase;
 }
 
-.projectsDashboardStatCard strong,
-.projectsDashboardMiniStat strong,
 .projectsDashboardSectionCount strong {
   color: #102844;
   font-family: var(--font-smash);
   line-height: 0.9;
 }
-
-.projectsDashboardStatCard strong {
-  font-size: clamp(2.6rem, 4vw, 3.6rem);
-}
-
-.projectsDashboardStatCard p {
-  margin: 0;
-  color: var(--wii-muted);
-  line-height: 1.6;
-}
-
-.projectsDashboardStatGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.projectsDashboardMiniStat {
-  display: grid;
-  gap: 0.35rem;
-  padding: 1rem;
-}
-
-.projectsDashboardMiniStat strong,
 .projectsDashboardSectionCount strong {
   font-size: clamp(1.7rem, 2.3vw, 2.4rem);
-}
-
-.projectsDashboardStatFootnote {
-  color: var(--wii-muted);
-  font-size: 0.92rem;
-  line-height: 1.6;
 }
 
 .projectsDashboardSection {
@@ -2484,6 +2431,10 @@ textarea {
   margin-top: 0;
   padding: 0;
   max-width: none;
+}
+
+.projectsDashboardSection .dashboardSectionIntro h2 {
+  font-size: clamp(2rem, 3vw, 2.9rem);
 }
 
 .projectsDashboardGrid {
@@ -2591,10 +2542,6 @@ textarea {
 @media (max-width: 900px) {
   .projectsDashboardBody {
     padding: 1rem;
-  }
-
-  .projectsDashboardStatGrid {
-    grid-template-columns: 1fr;
   }
 }
 
