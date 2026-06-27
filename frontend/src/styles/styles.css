@@ -6,6 +6,13 @@
 }
 
 @font-face {
+  font-family: "nintendoSwitchUI";
+  src: url("/fonts/NINTENDOSWITCHUI.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "rodinLike";
   src: url("/fonts/AOTFShinGoProHeavy.otf") format("opentype");
   font-weight: 800;
@@ -13,8 +20,8 @@
 }
 
 :root {
-  --font-display: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
-  --font-body: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-display: "nintendoSwitchUI", "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-body: "nintendoSwitchUI", "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
   --font-smash: "rodinLike", "shinGo", "Avenir Next", sans-serif;
   --app-nav-height: 5.5rem;
   --app-nav-border-top: 6px;
@@ -4533,7 +4540,7 @@ textarea {
 
 .blogMenuLegacy .wii-btn span {
   color: #000000;
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--font-body);
   text-shadow: none;
 }
 
