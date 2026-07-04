@@ -6,6 +6,13 @@
 }
 
 @font-face {
+  font-family: "nintendoSwitchUI";
+  src: url("/fonts/NINTENDOSWITCHUI.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "rodinLike";
   src: url("/fonts/AOTFShinGoProHeavy.otf") format("opentype");
   font-weight: 800;
@@ -13,8 +20,8 @@
 }
 
 :root {
-  --font-display: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
-  --font-body: "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-display: "nintendoSwitchUI", "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-body: "nintendoSwitchUI", "Avenir Next", "Helvetica Neue", "Segoe UI", sans-serif;
   --font-smash: "rodinLike", "shinGo", "Avenir Next", sans-serif;
   --app-nav-height: 5.5rem;
   --app-nav-border-top: 6px;
@@ -2374,6 +2381,186 @@ textarea {
 .projectsCataloguePage .pageBackButton,
 .projectDetailPage .pageBackButton {
   margin-left: 1.5rem;
+}
+
+.projectsDashboardBody {
+  gap: 1.75rem;
+  padding: 1.5rem;
+}
+
+.projectsDashboardHeader {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.25rem 0 0.1rem;
+}
+
+.projectsDashboardHeader h1 {
+  margin: 0;
+  font-family: var(--font-smash);
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.projectsDashboardLead {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--wii-muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.projectsDashboardSectionCount span {
+  color: rgba(16, 40, 68, 0.58);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.projectsDashboardSectionCount strong {
+  color: #102844;
+  font-family: var(--font-smash);
+  line-height: 0.9;
+}
+.projectsDashboardSectionCount strong {
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
+}
+
+.projectsDashboardSection {
+  gap: 1.5rem;
+  margin-top: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.projectsDashboardSection .dashboardSectionIntro h2 {
+  font-size: clamp(2rem, 3vw, 2.9rem);
+}
+
+.projectsDashboardGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.projectsDashboardGridFeatured {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.projectsDashboardSectionCount {
+  display: grid;
+  min-width: 8rem;
+  justify-items: center;
+  align-content: center;
+  padding: 0.9rem 1.15rem;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 12px 24px rgba(18, 49, 77, 0.06);
+}
+
+.projectsDashboardCard {
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  appearance: none;
+  min-height: 0;
+  gap: 0;
+  overflow: hidden;
+  border-top-color: color-mix(in srgb, var(--project-accent, #62c3ff) 72%, var(--nintendo-red));
+  background: #ffffff;
+  box-shadow: 0 14px 28px rgba(18, 49, 77, 0.08);
+}
+
+.projectsDashboardCardMedia {
+  aspect-ratio: 16 / 9;
+  margin: 0.8rem 0.8rem 0;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #f3f6f9;
+}
+
+.projectsDashboardCardContent {
+  display: grid;
+  gap: 0.95rem;
+  padding: 1rem 1.1rem 1.1rem;
+}
+
+.projectsDashboardCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.8rem;
+  align-items: center;
+}
+
+.projectsDashboardCardMeta p {
+  margin: 0;
+  color: color-mix(in srgb, var(--project-accent, #62c3ff) 72%, #102844);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.projectsDashboardCardMeta span {
+  color: rgba(16, 40, 68, 0.66);
+  font-size: 0.82rem;
+}
+
+.projectsDashboardCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.projectsDashboardCategoryPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.48rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 40, 68, 0.1);
+  background: #f7f9fb;
+  color: #102844;
+  font-size: 0.8rem;
+}
+
+.projectsDashboardCard .catalogueCardAction {
+  justify-self: auto;
+  flex-shrink: 0;
+}
+
+@media (max-width: 1180px) {
+  .projectsDashboardGrid,
+  .projectsDashboardGridFeatured {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .projectsDashboardBody {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .projectsDashboardGrid,
+  .projectsDashboardGridFeatured {
+    grid-template-columns: 1fr;
+  }
+
+  .projectsDashboardCardFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .projectsDashboardSectionCount {
+    min-width: 0;
+    width: 100%;
+    justify-items: start;
+  }
 }
 
 .wiiSportsFooterTile {
@@ -4760,7 +4947,7 @@ textarea {
 
 .blogMenuLegacy .wii-btn span {
   color: #000000;
-  font-family: "Times New Roman", Times, serif;
+  font-family: var(--font-body);
   text-shadow: none;
 }
 
