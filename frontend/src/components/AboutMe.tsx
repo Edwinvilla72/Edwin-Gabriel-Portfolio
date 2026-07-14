@@ -28,6 +28,8 @@ type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
 
+
+// about row type
 type AboutRow = {
   id: string;
   image: string;
@@ -36,6 +38,7 @@ type AboutRow = {
   placeholder: string;
 };
 
+// school type
 type School = {
   id: SchoolId;
   label: string;
@@ -49,6 +52,7 @@ type School = {
   achievements: string;
 };
 
+// job type
 type Job = {
   id: JobId;
   label: string;
