@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  motion
+} from "framer-motion";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
@@ -73,6 +76,175 @@ type SkillGroup = {
 };
 
 type SkillsView = "motion" | "list";
+
+type DockIcon = "folder" | "search" | "tray" | "settings" | "command" | "compass";
+
+type DockItem = {
+  id: string;
+  label: string;
+  icon: DockIcon;
+  iconColor: string;
+  bubbleColor: string;
+  onActivate: () => void;
+};
+
+type MenuDockButtonProps = {
+  item: DockItem;
+  active: boolean;
+  onActiveChange: (id: string | null) => void;
+  onHover: () => void;
+};
+
+const DOCK_ICON_SIZE = 52;
+const DOCK_ACTIVE_SCALE = 1.22;
+const DOCK_ACTIVE_LIFT = -12;
+const DOCK_HIGHLIGHT = "#67e8d7";
+
+const DockGlyph = ({ icon }: { icon: DockIcon }) => {
+  switch (icon) {
+    case "folder":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "search":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="m21 21-4.34-4.34" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
+        </svg>
+      );
+    case "tray":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 22v-9"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M15.17 2.21a1.67 1.67 0 0 1 1.63 0L21 4.57a1.93 1.93 0 0 1 0 3.36L8.82 14.79a1.655 1.655 0 0 1-1.64 0L3 12.43a1.93 1.93 0 0 1 0-3.36z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M20 13v3.87a2.06 2.06 0 0 1-1.11 1.83l-6 3.08a1.93 1.93 0 0 1-1.78 0l-6-3.08A2.06 2.06 0 0 1 4 16.87V13"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 12.43a1.93 1.93 0 0 0 0-3.36L8.83 2.2a1.64 1.64 0 0 0-1.63 0L3 4.57a1.93 1.93 0 0 0 0 3.36l12.18 6.86a1.636 1.636 0 0 0 1.63 0z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "settings":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 17H5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M19 7h-9" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="17" cy="17" r="3" fill="none" stroke="currentColor" strokeWidth="2" />
+          <circle cx="7" cy="7" r="3" fill="none" stroke="currentColor" strokeWidth="2" />
+        </svg>
+      );
+    case "command":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case "compass":
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" strokeWidth="1.8" />
+          <path
+            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" />
+        </svg>
+      );
+  }
+};
+
+const MenuDockButton = ({ item, active, onActiveChange, onHover }: MenuDockButtonProps) => {
+  return (
+    <motion.button
+      type="button"
+      className="channelDockCard"
+      onMouseEnter={() => {
+        onHover();
+        onActiveChange(item.id);
+      }}
+      onFocus={() => {
+        onHover();
+        onActiveChange(item.id);
+      }}
+      onBlur={() => onActiveChange(null)}
+      onClick={item.onActivate}
+      aria-label={item.label}
+      title={item.label}
+      animate={{
+        scale: active ? DOCK_ACTIVE_SCALE : 1,
+        y: active ? DOCK_ACTIVE_LIFT : 0
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 320,
+        damping: 22,
+        mass: 0.35
+      }}
+      style={
+        {
+          "--dock-icon-color": item.iconColor,
+          "--dock-bubble-color": item.bubbleColor,
+          "--dock-highlight-color": DOCK_HIGHLIGHT,
+          width: `${DOCK_ICON_SIZE}px`,
+          minWidth: `${DOCK_ICON_SIZE}px`,
+          height: `${DOCK_ICON_SIZE}px`,
+          zIndex: active ? 2 : 1
+        } as React.CSSProperties
+      }
+    >
+      <motion.div className="channelDockCardInner">
+        <span className="channelDockGlyph">
+          <DockGlyph icon={item.icon} />
+        </span>
+      </motion.div>
+    </motion.button>
+  );
+};
 
 
 const MENU_ITEMS: MenuItem[] = [
@@ -222,6 +394,7 @@ const WiiMenu: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [skillsView, setSkillsView] = useState<SkillsView>("motion");
+  const [activeDockItemId, setActiveDockItemId] = useState<string | null>(null);
   const activeIndexRef = useRef(0);
   const homeIntroRef = useRef<HTMLDivElement | null>(null);
   const channelSectionRef = useRef<HTMLElement | null>(null);
@@ -337,6 +510,63 @@ const WiiMenu: React.FC = () => {
   };
 
   const playChannelHoverSound = () => { };
+
+  const dockItems: DockItem[] = [
+    {
+      id: "home",
+      label: "Home",
+      icon: "folder",
+      iconColor: "#2f76ff",
+      bubbleColor: "#e8f0ff",
+      onActivate: () => {
+        setMenuOpen(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+    {
+      id: "about",
+      label: "About",
+      icon: "search",
+      iconColor: "#fb8c00",
+      bubbleColor: "#fff1df",
+      onActivate: () => scrollToSection(aboutSectionRef)
+    },
+    {
+      id: "skills",
+      label: "Skills",
+      icon: "tray",
+      iconColor: "#00c7b1",
+      bubbleColor: "#e2fbff",
+      onActivate: () => scrollToSection(skillsSectionRef)
+    },
+    {
+      id: "projects",
+      label: "Projects",
+      icon: "settings",
+      iconColor: "#ff3b47",
+      bubbleColor: "#ffe7eb",
+      onActivate: () => scrollToSection(projectsSectionRef)
+    },
+    {
+      id: "contact",
+      label: "Contact",
+      icon: "command",
+      iconColor: "#f3c500",
+      bubbleColor: "#fff5d9",
+      onActivate: () => scrollToSection(contactSectionRef)
+    },
+    {
+      id: "prototype",
+      label: "Prototype",
+      icon: "compass",
+      iconColor: "#09b4ff",
+      bubbleColor: "#e0f6ff",
+      onActivate: () => {
+        setMenuOpen(false);
+        setMode("3d");
+      }
+    }
+  ];
 
   const rotateCarousel = (direction: number) => {
     const total = carouselItems.length;
@@ -961,6 +1191,23 @@ const WiiMenu: React.FC = () => {
             </div>
           </>
         )}
+
+        {mode === "2d" ? (
+          <motion.div
+            className="channelDock channelDockPersistent interactiveLayer"
+            onMouseLeave={() => setActiveDockItemId(null)}
+          >
+            {dockItems.map((item) => (
+              <MenuDockButton
+                key={item.id}
+                item={item}
+                active={activeDockItemId === item.id}
+                onActiveChange={setActiveDockItemId}
+                onHover={playChannelHoverSound}
+              />
+            ))}
+          </motion.div>
+        ) : null}
       </div>
     </div>
   );
