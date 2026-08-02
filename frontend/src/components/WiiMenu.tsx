@@ -1192,7 +1192,7 @@ const WiiMenu: React.FC = () => {
           </>
         )}
 
-        {mode === "2d" ? (
+        {/* {mode === "2d" ? (
           <motion.div
             className="channelDock channelDockPersistent interactiveLayer"
             onMouseLeave={() => setActiveDockItemId(null)}
@@ -1207,7 +1207,7 @@ const WiiMenu: React.FC = () => {
               />
             ))}
           </motion.div>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );
