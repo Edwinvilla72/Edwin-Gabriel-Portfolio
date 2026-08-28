@@ -3,7 +3,7 @@ import React from "react"
 
 
 const AboutPage = () => (
-
+  // About me component
   <div>
     <AboutMe />
   </div>
