@@ -3,9 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import "../styles/styles.css";
 
 
-// TODO: ADD WORK-RELATED BACKGROUND WITH OPAQUE BLACK HUE TO EXPERIENCE SECTION (change text to white)
-
-
 /* ===== images ===== */
 // my beautiful face (three times)
 import meHeadshot from "../../assets/images/Me/Headshot.jpeg";
