@@ -40,6 +40,7 @@ type PortfolioProject = {
 
 type PortfolioSectionId = "part-a" | "part-b" | "part-c";
 
+// visual elements of portfolio section
 type PortfolioSection = {
   id: PortfolioSectionId;
   label: string;
