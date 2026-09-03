@@ -21,6 +21,7 @@ import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
 import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 
+// sections of experience
 type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
