@@ -135,7 +135,7 @@ export const projects: ProjectEntry[] = [
     ],
     projectLinks: [
       {
-        href: "https://knw.net/en",
+        href: "https://knw.net",
         label: "Website"
       }
     ]
