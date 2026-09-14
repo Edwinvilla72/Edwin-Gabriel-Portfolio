@@ -78,6 +78,7 @@ type SkillGroup = {
 
 type SkillsView = "motion" | "list";
 
+// DOCK - inspired by MacOS dock for users to select apps quickly
 type DockIcon = "folder" | "search" | "tray" | "settings" | "command" | "compass";
 
 type DockItem = {
@@ -246,7 +247,7 @@ const MenuDockButton = ({ item, active, onActiveChange, onHover }: MenuDockButto
     </motion.button>
   );
 };
-
+// STILL IN DEVELOPMENT ^
 
 const MENU_ITEMS: MenuItem[] = [
   {
