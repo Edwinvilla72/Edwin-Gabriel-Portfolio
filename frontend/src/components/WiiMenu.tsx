@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 import "../styles/styles.css";
-import resumePdf from "../../assets/files/Edwin-Gabriel_Resume.pdf";
+import resumePdf from "../../assets/files/Edwin-Gabriel-Villanueva_Resume.pdf";
 import headshot from "../../assets/images/Me/Headshot.jpeg";
 
 // -- skills --  
