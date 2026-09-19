@@ -87,13 +87,11 @@ textarea {
 
 .wiiMenuBackdrop {
   background:
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.025) 0,
       rgba(0, 0, 0, 0.025) 1px,
       transparent 1px,
-      transparent 32px
-    );
+      transparent 32px);
   opacity: 1;
 }
 
@@ -592,11 +590,9 @@ textarea {
   width: 100%;
   text-align: left;
   opacity: calc(1 - (var(--home-scroll-progress) * 0.72));
-  transform: translate3d(
-    calc(var(--home-scroll-progress) * -3.5rem),
-    calc(var(--home-scroll-progress) * -2rem),
-    0
-  );
+  transform: translate3d(calc(var(--home-scroll-progress) * -3.5rem),
+      calc(var(--home-scroll-progress) * -2rem),
+      0);
   will-change: opacity, transform;
 }
 
@@ -611,7 +607,7 @@ textarea {
   letter-spacing: -0.055em;
 }
 
-.homeIntroCopy > p {
+.homeIntroCopy>p {
   max-width: 47rem;
   margin: 1.5rem 0 0;
   color: var(--wii-muted);
@@ -663,12 +659,9 @@ textarea {
   background: #eef0f2;
   box-shadow: 0 18px 42px rgba(18, 24, 34, 0.1);
   opacity: calc(1 - (var(--home-scroll-progress) * 0.72));
-  transform: translate3d(
-      calc(var(--home-scroll-progress) * 3.5rem),
+  transform: translate3d(calc(var(--home-scroll-progress) * 3.5rem),
       calc(var(--home-scroll-progress) * -1rem),
-      0
-    )
-    scale(calc(1 - (var(--home-scroll-progress) * 0.06)));
+      0) scale(calc(1 - (var(--home-scroll-progress) * 0.06)));
   will-change: opacity, transform;
 }
 
@@ -698,11 +691,9 @@ textarea {
   border-top: 6px solid var(--nintendo-red);
   background:
     linear-gradient(135deg, rgba(230, 0, 18, 0.05) 0 18%, transparent 18% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.02) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     #ffffff;
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
 }
@@ -1133,6 +1124,7 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .homeIntroCopy,
   .homeIntroPortrait,
   .channelHero,
@@ -1241,6 +1233,82 @@ textarea {
   color: var(--wii-muted);
   line-height: 1.5;
   font-size: 1rem;
+}
+
+.channelDock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.72rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+  padding: 0.55rem 0.78rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #d8d8dd;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: visible;
+  isolation: isolate;
+}
+
+.channelDockPersistent {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  z-index: 40;
+  transform: translateX(-50%);
+}
+
+.channelDock::-webkit-scrollbar {
+  display: none;
+}
+
+.channelDockCard {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--dock-bubble-color);
+  box-shadow: none;
+  cursor: pointer;
+  transform-origin: center bottom;
+  transition: box-shadow 160ms ease, border-color 160ms ease, filter 160ms ease;
+  border: 3px solid transparent;
+}
+
+.channelDockCard:hover,
+.channelDockCard:focus-visible {
+  border-color: var(--dock-highlight-color);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+  filter: saturate(1.02);
+  outline: none;
+}
+
+.channelDockCardInner {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.channelDockGlyph {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--dock-icon-color);
+}
+
+.channelDockGlyph svg {
+  width: 53%;
+  height: 53%;
 }
 
 .channelScrollHint {
@@ -1408,12 +1476,15 @@ textarea {
   0% {
     transform: scale(1);
   }
+
   35% {
     transform: scale(0.93) rotate(-2deg);
   }
+
   75% {
     transform: scale(1.03) rotate(1.5deg);
   }
+
   100% {
     transform: scale(1);
   }
@@ -1423,21 +1494,27 @@ textarea {
   0% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
+
   12% {
     transform: translate3d(-6px, -3px, 0) rotate(-5deg) scale(1.04);
   }
+
   28% {
     transform: translate3d(8px, 2px, 0) rotate(4deg) scale(1.07);
   }
+
   46% {
     transform: translate3d(-7px, 1px, 0) rotate(-3.5deg) scale(1.02);
   }
+
   64% {
     transform: translate3d(5px, -2px, 0) rotate(2.5deg) scale(1.05);
   }
+
   82% {
     transform: translate3d(-3px, 1px, 0) rotate(-1.5deg) scale(1.01);
   }
+
   100% {
     transform: translate3d(0, 0, 0) rotate(0deg);
   }
@@ -1452,8 +1529,8 @@ textarea {
   padding: 4.5rem 1.5rem 2.5rem;
 }
 
-.channelHome + .dashboardSection,
-.dashboardSection + .dashboardSection {
+.channelHome+.dashboardSection,
+.dashboardSection+.dashboardSection {
   margin-top: clamp(1.75rem, 4vw, 3.5rem);
 }
 
@@ -1484,7 +1561,7 @@ textarea {
   line-height: 1.7;
 }
 
-.dashboardSectionIntro > p {
+.dashboardSectionIntro>p {
   max-width: 52rem;
   font-size: 1.16rem;
 }
@@ -1503,11 +1580,9 @@ textarea {
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(38, 166, 221, 0.04) 0 24%, transparent 24% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.015) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     #ffffff;
 }
 
@@ -1674,11 +1749,9 @@ textarea {
   border-top: 5px solid var(--nintendo-red);
   overflow: hidden;
   background:
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.02) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     #ffffff;
 }
 
@@ -1865,13 +1938,11 @@ textarea {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       rgba(0, 0, 0, 0.025) 0,
       rgba(0, 0, 0, 0.025) 1px,
       transparent 1px,
-      transparent 36px
-    ),
+      transparent 36px),
     linear-gradient(180deg, #f5f5f7, #f5f5f7);
 }
 
@@ -2253,11 +2324,9 @@ textarea {
   border-radius: 2rem 2rem 7rem 2rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(225, 236, 245, 0.82)),
-    radial-gradient(
-      circle at top right,
+    radial-gradient(circle at top right,
       color-mix(in srgb, var(--project-accent, #62c3ff) 26%, white),
-      transparent 58%
-    );
+      transparent 58%);
   box-shadow:
     0 28px 70px rgba(18, 49, 77, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.92);
@@ -2277,11 +2346,9 @@ textarea {
 .projectSplitImage.abstract {
   background:
     linear-gradient(160deg, rgba(10, 26, 41, 0.94), rgba(23, 58, 87, 0.9)),
-    radial-gradient(
-      circle at top left,
+    radial-gradient(circle at top left,
       color-mix(in srgb, var(--project-accent, #62c3ff) 18%, white),
-      transparent 40%
-    );
+      transparent 40%);
 }
 
 .projectSplitImage img {
@@ -2422,6 +2489,7 @@ textarea {
   font-family: var(--font-smash);
   line-height: 0.9;
 }
+
 .projectsDashboardSectionCount strong {
   font-size: clamp(1.7rem, 2.3vw, 2.4rem);
 }
@@ -2533,6 +2601,7 @@ textarea {
 }
 
 @media (max-width: 1180px) {
+
   .projectsDashboardGrid,
   .projectsDashboardGridFeatured {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2546,6 +2615,7 @@ textarea {
 }
 
 @media (max-width: 700px) {
+
   .projectsDashboardGrid,
   .projectsDashboardGridFeatured {
     grid-template-columns: 1fr;
@@ -2603,11 +2673,9 @@ textarea {
   border-radius: 24px;
   background:
     linear-gradient(135deg, rgba(230, 0, 18, 0.05) 0 16%, transparent 16% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.014) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 245, 249, 0.96));
   box-shadow:
     0 16px 30px rgba(18, 49, 77, 0.08);
@@ -2673,16 +2741,12 @@ textarea {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(
-      circle at 24% 22%,
+    radial-gradient(circle at 24% 22%,
       color-mix(in srgb, var(--project-accent, #62c3ff) 35%, white),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 76% 72%,
+      transparent 28%),
+    radial-gradient(circle at 76% 72%,
       color-mix(in srgb, var(--project-accent, #62c3ff) 26%, white),
-      transparent 24%
-    ),
+      transparent 24%),
     linear-gradient(160deg, rgba(10, 26, 41, 0.94), rgba(23, 58, 87, 0.9));
 }
 
@@ -2810,11 +2874,9 @@ textarea {
   padding: 0.95rem 1rem 1rem;
   background:
     linear-gradient(135deg, color-mix(in srgb, var(--project-accent, #62c3ff) 12%, white) 0 16%, transparent 16% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.018) 0 8px,
-      transparent 8px 20px
-    );
+      transparent 8px 20px);
 }
 
 .catalogueCardMeta {
@@ -3111,11 +3173,9 @@ textarea {
   background:
     linear-gradient(90deg, var(--nintendo-red) 0 70%, #111111 70%) top left / 9rem 0.4rem no-repeat,
     linear-gradient(135deg, rgba(230, 0, 18, 0.06) 0 17%, transparent 17% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.02) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 245, 249, 0.96));
 }
 
@@ -3151,11 +3211,9 @@ textarea {
   overflow: hidden;
   background:
     linear-gradient(135deg, rgba(38, 166, 221, 0.05) 0 16%, transparent 16% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.018) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(240, 245, 249, 0.96));
 }
 
@@ -3221,6 +3279,7 @@ textarea {
 }
 
 @media (max-width: 900px) {
+
   .projectsCatalogueHero,
   .projectDetailHero,
   .projectDetailInfoGrid,
@@ -3339,11 +3398,9 @@ textarea {
   border-radius: 28px;
   background:
     linear-gradient(135deg, rgba(230, 0, 18, 0.04) 0 14%, transparent 14% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.012) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(236, 242, 247, 0.94));
   box-shadow:
     0 24px 42px rgba(18, 49, 77, 0.12);
@@ -3727,6 +3784,7 @@ textarea {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(calc(-50% - 0.5rem));
   }
@@ -3736,6 +3794,7 @@ textarea {
   from {
     transform: translateX(calc(-50% - 0.5rem));
   }
+
   to {
     transform: translateX(0);
   }
@@ -3941,13 +4000,11 @@ textarea {
   background:
     radial-gradient(circle at 10% 14%, rgba(230, 0, 18, 0.09), transparent 22%),
     radial-gradient(circle at 90% 8%, rgba(16, 40, 68, 0.08), transparent 24%),
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       rgba(17, 17, 17, 0.025) 0,
       rgba(17, 17, 17, 0.025) 1px,
       transparent 1px,
-      transparent 34px
-    ),
+      transparent 34px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
 }
 
@@ -3969,11 +4026,9 @@ textarea {
   background:
     linear-gradient(90deg, var(--nintendo-red) 0 74%, #111111 74%) top left / 10rem 0.4rem no-repeat,
     linear-gradient(135deg, rgba(230, 0, 18, 0.06) 0 16%, transparent 16% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.018) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(241, 246, 250, 0.96));
   box-shadow: 0 22px 42px rgba(18, 49, 77, 0.1);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
@@ -4264,13 +4319,13 @@ textarea {
   background: rgba(255, 255, 255, 0.72);
 }
 
-.internshipFactRow > span,
+.internshipFactRow>span,
 .internshipFactRow strong,
 .internshipFactRow p {
   margin: 0;
 }
 
-.internshipFactRow > span {
+.internshipFactRow>span {
   color: var(--nintendo-red);
   font-size: 0.78rem;
   font-weight: 700;
@@ -4443,11 +4498,9 @@ textarea {
   border-radius: 22px;
   background:
     linear-gradient(135deg, rgba(230, 0, 18, 0.06) 0 16%, transparent 16% 100%),
-    repeating-linear-gradient(
-      -35deg,
+    repeating-linear-gradient(-35deg,
       rgba(17, 17, 17, 0.018) 0 8px,
-      transparent 8px 20px
-    ),
+      transparent 8px 20px),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 246, 249, 0.95));
 }
 
@@ -4578,8 +4631,8 @@ textarea {
   padding-left: 1rem;
 }
 
-.internshipChecklist li + li,
-.internshipCaseBody .pageList li + li {
+.internshipChecklist li+li,
+.internshipCaseBody .pageList li+li {
   margin-top: 0.45rem;
 }
 
@@ -4796,7 +4849,7 @@ textarea {
 }
 
 .contactInlineLink:hover {
-  transform: translateX(2px);
+  transform: translatey(-2px);
   border-color: rgba(16, 40, 68, 0.55);
 }
 
@@ -4859,6 +4912,7 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.45rem;
   min-width: 10.5rem;
   padding: 0.9rem 1.35rem;
   border-radius: 999px;
@@ -4870,7 +4924,7 @@ textarea {
 
 .contactPrimaryButton {
   border: 0;
-  background: linear-gradient(135deg, #16304b 0%, #256392 100%);
+  background: #ff1010;
   color: #f5fcff;
   box-shadow: var(--wii-deep-shadow);
   cursor: pointer;
@@ -4971,7 +5025,7 @@ textarea {
   line-height: 0.95;
 }
 
-.blogMenuLegacy > p {
+.blogMenuLegacy>p {
   margin: 0;
   font-size: clamp(1.05rem, 2vw, 1.3rem);
   color: rgba(16, 40, 68, 0.72);
@@ -5087,6 +5141,7 @@ textarea {
 }
 
 @media (max-width: 1100px) {
+
   .aboutGrid,
   .aboutShowcaseGrid,
   .aboutSplitSection,
@@ -5100,7 +5155,7 @@ textarea {
   }
 
   .channelGrid {
-    grid-template-columns: 
+    grid-template-columns:
       repeat(2, minmax(0, 1fr));
   }
 
@@ -5553,7 +5608,7 @@ textarea {
     font-size: clamp(2.8rem, 14vw, 4rem);
   }
 
-  .homeIntroCopy > p {
+  .homeIntroCopy>p {
     margin-inline: auto;
     margin-top: 1.25rem;
     font-size: 1rem;
@@ -5627,6 +5682,10 @@ textarea {
 
   .channelCard {
     min-height: auto;
+  }
+
+  .channelDockPersistent {
+    bottom: 1rem;
   }
 
   .internshipPortfolioPage {

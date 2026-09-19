@@ -24,11 +24,11 @@ const channelLinks: ChannelLink[] = [
     path: "/projects",
     match: (pathname) => pathname === "/projects" || Boolean(matchPath("/projects/:slug", pathname))
   },
-  {
-    label: "Blog",
-    path: "/blog",
-    match: (pathname) => pathname.startsWith("/blog")
-  },
+  // {
+  //   label: "Blog",
+  //   path: "/blog",
+  //   match: (pathname) => pathname.startsWith("/blog")
+  // },
   {
     label: "Contact",
     path: "/contact",

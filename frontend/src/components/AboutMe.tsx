@@ -3,9 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import "../styles/styles.css";
 
 
-// TODO: ADD WORK-RELATED BACKGROUND WITH OPAQUE BLACK HUE TO EXPERIENCE SECTION (change text to white)
-
-
 /* ===== images ===== */
 // my beautiful face (three times)
 import meHeadshot from "../../assets/images/Me/Headshot.jpeg";
@@ -24,10 +21,13 @@ import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
 import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 
+// sections of experience
 type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
 
+
+// about row type
 type AboutRow = {
   id: string;
   image: string;
@@ -36,6 +36,7 @@ type AboutRow = {
   placeholder: string;
 };
 
+// school type
 type School = {
   id: SchoolId;
   label: string;
@@ -49,6 +50,7 @@ type School = {
   achievements: string;
 };
 
+// job type
 type Job = {
   id: JobId;
   label: string;

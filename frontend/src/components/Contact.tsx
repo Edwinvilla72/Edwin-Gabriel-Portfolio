@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+
 import "../styles/styles.css";
 
 const emailAddress = "edwin.villa2@icloud.com";
@@ -57,10 +60,9 @@ const Contact: React.FC = () => {
         <section className="contactMinimalLayout">
           <div className="contactMinimalIntro">
             <p className="wiiEyebrow">Contact</p>
-            <h1>Let&apos;s make it real.</h1>
+            <h1>Intrigued? Let me know!</h1>
             <p className="contactMinimalLead">
-              If you want to talk about software, internships, product ideas, or a build worth
-              obsessing over, send a note here and I&apos;ll see it directly.
+              Send me a message - I'd love to hear from you! :D
             </p>
             <a
               className="contactInlineLink"
@@ -76,7 +78,7 @@ const Contact: React.FC = () => {
               <input
                 type="text"
                 name="name"
-                placeholder="Your name"
+                // placeholder="Please enter your name here..."
                 value={formData.name}
                 onChange={handleChange}
                 autoComplete="name"
@@ -89,7 +91,7 @@ const Contact: React.FC = () => {
               <input
                 type="text"
                 name="subject"
-                placeholder="What are we talking about?"
+                // placeholder="Enter subject here..."
                 value={formData.subject}
                 onChange={handleChange}
                 required
@@ -100,7 +102,7 @@ const Contact: React.FC = () => {
               <span>Message</span>
               <textarea
                 name="message"
-                placeholder="Tell me a little about the project, role, or idea."
+                // placeholder="Enter message here..."
                 value={formData.message}
                 onChange={handleChange}
                 rows={5}
@@ -109,6 +111,8 @@ const Contact: React.FC = () => {
             </label>
 
             <div className="contactMinimalActions">
+
+              {/* <FontAwesomeIcon icon={faGithub} /> */}
               <button type="submit" className="contactPrimaryButton">
                 Send message
               </button>
@@ -118,13 +122,10 @@ const Contact: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub
+                <FontAwesomeIcon icon={faGithub} />
+                <span>GitHub</span>
               </a>
             </div>
-
-            <p className="contactFormHint">
-              Sending opens your default email app with the subject and message prefilled.
-            </p>
           </form>
         </section>
       </main>
