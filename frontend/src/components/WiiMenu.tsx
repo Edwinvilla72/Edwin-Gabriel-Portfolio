@@ -1141,7 +1141,7 @@ const WiiMenu: React.FC = () => {
                 <button type="button" onClick={() => navigate("/contact")}>
                   Contact Me
                 </button>
-                <a className="dashboardResumeButton" href={resumePdf} download="Edwin-Gabriel_Resume.pdf">
+                <a className="dashboardResumeButton" href={resumePdf} download="Edwin-Gabriel-Villanueva_Resume.pdf">
                   Download resume
                 </a>
               </div>
