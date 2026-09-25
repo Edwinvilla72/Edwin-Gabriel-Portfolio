@@ -15,7 +15,7 @@ import ucfBg from "../../assets/images/Education/ucf-bg.jpg";
 import irscLogo from "../../assets/images/Education/IRSC_transparent_logo.webp";
 import irscBg from "../../assets/images/Education/IRSC_BG.png";
 
-// Work Experience (in the field)
+// Work Experience (in the field - sorry, Walgreens)
 import cptLogo from "../../assets/images/Experience/CPTLogo.svg";
 import cpt_bg from "../../assets/images/Experience/cpt_bg.jpg";
 import etpLogo from "../../assets/images/Experience/EtpLogo1.png";
@@ -25,7 +25,6 @@ import etp_bg from "../../assets/images/Experience/etp-bg.jpg";
 type SectionId = "about" | "education" | "experience";
 type SchoolId = "ucf" | "irsc";
 type JobId = "cpt" | "etp";
-
 
 // about row type
 type AboutRow = {
