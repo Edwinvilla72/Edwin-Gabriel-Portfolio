@@ -45,6 +45,7 @@ import manager_logo from "../../assets/images/Skills/tools/manager.png";
 // menu mode (3D still in development)
 type MenuMode = "2d" | "3d";
 
+// menu items
 type MenuItem = {
   id: string;
   title: string;
