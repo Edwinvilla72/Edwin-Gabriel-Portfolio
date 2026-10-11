@@ -12,6 +12,7 @@ const modalTransition = {
 const featuredProjectSlugs = ["intelligent-browser-agents", "knw", "updated-personal-portfolio"];
 const categoryOrder: ProjectCategory[] = ["professional", "personal", "academic"];
 
+// projects component
 const Projects: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
