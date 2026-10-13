@@ -1,3 +1,4 @@
+// Edwin Villanueva
 import React, { useLayoutEffect } from "react";
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -18,7 +19,7 @@ import ProjectsPage from "./pages/ProjectsPage";
 import ContactPage from "./pages/ContactPage";
 import InternshipPortfolioPage from "./pages/InternshipPortfolioPage";
 
-// other components 
+// Navbar and Footer Components 
 import Footer from "./components/Footer";
 import ChannelNavbar from "./components/ChannelNavbar";
 
