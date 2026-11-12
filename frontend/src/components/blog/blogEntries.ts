@@ -39,15 +39,19 @@ export const personalEntries: BlogEntry[] = [
 
 export const professionalEntries: BlogEntry[] = [
   {
-    slug: "shipping-dashboard-improvements",
-    date: "February 11, 2026",
-    title: "Shipping Dashboard Improvements in Production",
+    slug: "implicit-state-machines",
+    date: "November 12, 2026",
+    title: "Implicit State Machines",
     excerpt:
-      "Implementing feature updates, validating behavior, and improving UX around analytics-heavy screens.",
+      "Undefined state machines = dangerous app behavior",
     content: [
-      "This sprint focused on cleaning up a dashboard flow with dense data and frequent state changes.",
-      "The goal was to reduce friction while preserving quick access to deeper metrics.",
-      "The final pass centered on predictable interactions and cleaner visual hierarchy."
+      "Implicit state machines are the root of some of the most dangerous and hard-to-spot bugs in all of software engineering. You would assume everything has been carefully defined and accounted for, but nowadays, you can never be too sure. But what even are implicit state machines? Why are they hard to find, and why can they be so dangerous?",
+      "To understand Implicit state machines, we need to understand what a state machine looks like in a full-stack application. ",
+      "An example of a state machine in a full stack application is a KNW event flow. You can’t stop an event until an event has been started. An event cannot be started until the correct configurations have been created for it, or the event has already existed before. But what if you tried to stop an event that has never existed? If nothing stops a user from sending an API call that is supposed to do this, technically (depending on how it was implemented), this action can be carried out, resulting in the app experiencing unexpected/undefined behaviors. ",
+      "Same for states that depend on status. If you’re on a disconnected status and click on something that requires connected without checking the connection again, the app may automatically determine that you are just not connected and ruin the user flow. ",
+      "This could become even more dangerous when bad actors attempt to abuse states that are not completely protected. If we try to access an account protected by 2FA, but never properly enforce the transition from unverified to verified, we risk an innocent user’s data being exposed to anyone capable of bypassing or manipulating that verification state. Attacks such as SQL injection could potentially exploit this vulnerability, depending on how authentication and state transitions are implemented.",
+      "If a developer is not mindful, implicit state machines can enable unintended behavior to be carried out. And, unfortunately, this is fairly common for apps which have been vibe-coded, as supported by the concept known as state machine divergence (https://arxiv.org/html/2511.00202v1). I would personally try to account for this by drawing out the system as a state machine and look for areas we have and have not explicitly defined in the code. If, instead, I were handed a completely vibe-coded app, one of the first things I would do is request thorough review for any possible implicit state machines so I can define the intended flow and implement those concretely. ",
+      "That's all for now, bye!"
     ]
   },
   {
